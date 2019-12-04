@@ -31,6 +31,9 @@
         <spring-cloud-alibaba.version>0.2.1.RELEASE</spring-cloud-alibaba.version>
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
         <springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
+        <mybatis-plus.version>3.2.0</mybatis-plus.version>
+        <mybatis-plus-generator.version>3.2.0</mybatis-plus-generator.version>
+        <velocity-engine-core.version>2.1</velocity-engine-core.version>
     </properties>
 
 
@@ -67,7 +70,32 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- swagger -->
 
+
+            <!-- mybatis-plus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatis-plus-generator.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${velocity-engine-core.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- mybatis-plus -->
 
         </dependencies>
     </dependencyManagement>
