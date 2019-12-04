@@ -6,10 +6,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-public class ShoppingNacosTestApplication {
+public class YssShoppingGatewayApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ShoppingNacosTestApplication.class, args);
+        SpringApplication.run(YssShoppingGatewayApplication.class, args);
     }
 
 }

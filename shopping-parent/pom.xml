@@ -12,7 +12,7 @@
 
 
     <modules>
-        <module>shopping-nacos-test</module>
+        <module>yss-shopping-gateway</module>
     </modules>
 
 

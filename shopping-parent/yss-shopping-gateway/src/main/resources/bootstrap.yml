@@ -1,0 +1,15 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: YSS-SHOPPING-GATEWAY
+  cloud:
+    nacos:
+      config:
+        server-addr: 120.24.59.39:8848
+        group: DEV
+        file-extension: yaml
+      discovery:
+        server-addr: ${spring.cloud.nacos.config.server-addr}
+
