@@ -4,18 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>com.yss.shopping</groupId>
-        <artifactId>shopping-parent</artifactId>
+        <artifactId>yss-shopping-user</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>yss-shopping-user</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>yss-shopping-user-web</module>
-        <module>yss-shopping-user-service</module>
-        <module>yss-shopping-user-dao</module>
-    </modules>
+    <artifactId>yss-shopping-user-dao</artifactId>
 
 
 </project>
