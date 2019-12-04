@@ -1,0 +1,10 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: example
+  cloud:
+    nacos:
+      config:
+        server-addr: 120.24.59.39:8848
