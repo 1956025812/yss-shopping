@@ -13,6 +13,7 @@
 
     <modules>
         <module>yss-shopping-gateway</module>
+        <module>yss-shopping-user</module>
     </modules>
 
 
