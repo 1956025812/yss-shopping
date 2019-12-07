@@ -12,4 +12,15 @@
     <artifactId>yss-shopping-user-service</artifactId>
 
 
+    <dependencies>
+
+        <dependency>
+            <groupId>com.yss.shopping</groupId>
+            <artifactId>yss-shopping-user-dao</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
+
+
 </project>
