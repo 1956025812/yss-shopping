@@ -5,6 +5,7 @@ spring:
   application:
     name: YSS-SHOPPING-USER
   cloud:
+    # nacos
     nacos:
       config:
         server-addr: 120.24.59.39:8848
@@ -12,4 +13,13 @@ spring:
         file-extension: yaml
       discovery:
         server-addr: ${spring.cloud.nacos.config.server-addr}
+  # 数据源
+  datasource:
+    name: datasource-yss-shopping-user
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/yss_shopping_user?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: 123456
+
 
