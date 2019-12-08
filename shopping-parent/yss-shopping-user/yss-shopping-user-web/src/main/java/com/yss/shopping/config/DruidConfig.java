@@ -31,7 +31,6 @@ public class DruidConfig {
         servletRegistrationBean.addInitParameter("loginPassword", "admin");//密码
         servletRegistrationBean.addInitParameter("resetEnable", "false");//是否可以重置数据源
         return servletRegistrationBean;
-
     }
 
     @Bean    //监控
