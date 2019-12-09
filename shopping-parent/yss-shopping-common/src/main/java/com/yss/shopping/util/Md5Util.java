@@ -1,5 +1,7 @@
 package com.yss.shopping.util;
 
+import org.springframework.util.StringUtils;
+
 import java.security.MessageDigest;
 
 /**
@@ -15,6 +17,9 @@ public class Md5Util {
      * @return
      */
     public static String toMD5(String message) {
+        if (StringUtils.isEmpty(message)) {
+            return null;
+        }
         String md5 = "";
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");

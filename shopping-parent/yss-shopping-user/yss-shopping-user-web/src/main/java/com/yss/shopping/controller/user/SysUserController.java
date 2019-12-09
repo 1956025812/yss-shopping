@@ -7,6 +7,7 @@ import com.yss.shopping.util.FastJsonUtil;
 import com.yss.shopping.vo.ResultVO;
 import com.yss.shopping.vo.user.SysUserOutVo;
 import com.yss.shopping.vo.user.SysUserSaveInVo;
+import com.yss.shopping.vo.user.SysUserUpdateInVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -49,7 +50,16 @@ public class SysUserController {
     public ResultVO<Void> saveSysUser(@RequestBody SysUserSaveInVo sysUserSaveInVo) {
         logger.info("新增用户对象，请求参数为：{}", FastJsonUtil.bean2Json(sysUserSaveInVo));
         SysUser sysUser = this.sysUserService.saveSysUser(sysUserSaveInVo.toSysUser(sysUserSaveInVo));
-        return ResultVO.getSuccess("新增用户成功");
+        return ResultVO.getSuccess("新增用户成功", new SysUserOutVo().toSysUserOutVo(sysUser));
+    }
+
+
+    @ApiOperation("修改用户对象")
+    @PostMapping("/update")
+    public ResultVO<Void> updateSysUser(@RequestBody SysUserUpdateInVo sysUserUpdateInVo) {
+        logger.info("修改用户对象，请求参数为：{}", FastJsonUtil.bean2Json(sysUserUpdateInVo));
+        this.sysUserService.updateSysUser(sysUserUpdateInVo.toSysUser(sysUserUpdateInVo));
+        return ResultVO.getSuccess("修改用户成功");
     }
 
 

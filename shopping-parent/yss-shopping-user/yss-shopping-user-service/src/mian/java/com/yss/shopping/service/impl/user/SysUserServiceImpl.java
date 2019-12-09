@@ -55,4 +55,28 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Assert.isTrue(saveFlag, "新增用户失败");
         return sysUser;
     }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void updateSysUser(SysUser sysUser) {
+        logger.info("修改用户信息，接收过来的请求参数为：{}", FastJsonUtil.bean2Json(sysUser));
+
+        // 校验用户是否存在
+        Long uid = sysUser.getId();
+        logger.info("根据用户ID查询用户信息，请求参数为：[uid:{}]", uid);
+        SysUser sysUserExist = this.getById(uid);
+        Assert.notNull(sysUserExist, "修改失败，用户对象不存在");
+
+        // 修改用户
+        SysUser sysUserUpdate = new SysUser();
+        sysUserUpdate.setId(uid);
+        sysUserUpdate.setNickname(sysUser.getNickname());
+        sysUserUpdate.setPassword(Md5Util.toMD5(sysUser.getPassword()));
+        sysUserUpdate.setEmail(sysUser.getEmail());
+        sysUserUpdate.setUpdateTime(LocalDateTime.now());
+        logger.info("修改用户，请求参数为：{}", FastJsonUtil.bean2Json(sysUserUpdate));
+        boolean updateFlag = this.updateById(sysUserUpdate);
+        Assert.isTrue(updateFlag, "修改用户失败");
+    }
 }
