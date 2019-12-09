@@ -1,6 +1,7 @@
 package com.yss.shopping.vo.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.yss.shopping.entity.user.SysUser;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 
 @Data
 @ApiModel("用户OutVo对象")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SysUserOutVo {
 
 	@ApiModelProperty("用户ID")
