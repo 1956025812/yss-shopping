@@ -12,10 +12,10 @@
     <artifactId>yss-shopping-user</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>yss-shopping-user-web</module>
-        <module>yss-shopping-user-service</module>
         <module>yss-shopping-user-dao</module>
+        <module>yss-shopping-user-service</module>
         <module>yss-shopping-user-api</module>
+        <module>yss-shopping-user-web</module>
     </modules>
 
 

@@ -38,6 +38,7 @@
         <mybatis-plus-boot-starter.version>3.3.0</mybatis-plus-boot-starter.version>
         <druid-spring-boot-starter.version>1.1.21</druid-spring-boot-starter.version>
         <lombok.version>1.18.10</lombok.version>
+        <fastjson.version>1.2.62</fastjson.version>
     </properties>
 
 
@@ -115,6 +116,16 @@
                 <version>${druid-spring-boot-starter.version}</version>
             </dependency>
             <!-- druid -->
+
+
+            <!-- fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+            <!-- fastjson -->
+
 
         </dependencies>
     </dependencyManagement>

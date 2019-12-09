@@ -14,12 +14,22 @@ import com.yss.shopping.entity.user.SysUser;
  */
 public interface SysUserService extends IService<SysUser> {
 
-	/**
-	 * 根据用户ID查询用户信息
-	 *
-	 * @param uid 用户ID
-	 * @return
-	 */
-	SysUser selectUserById(String uid);
+    /**
+     * 根据用户ID查询用户信息
+     *
+     * @param uid 用户ID
+     * @return
+     */
+    SysUser selectUserById(String uid);
+
+
+    /**
+     * 新增用户信息
+     *
+     * @param sysUser 用户对象
+     * @return 用户对象
+     */
+    SysUser saveSysUser(SysUser sysUser);
+
 
 }
