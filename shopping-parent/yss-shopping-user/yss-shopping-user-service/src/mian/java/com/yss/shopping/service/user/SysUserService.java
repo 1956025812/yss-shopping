@@ -39,4 +39,13 @@ public interface SysUserService extends IService<SysUser> {
      * @return 用户对象
      */
     void updateSysUser(SysUser sysUser);
+
+
+    /**
+     * 批量修改用户状态
+     *
+     * @param uidList    用户ID集合
+     * @param userStatus 用户状态: 0-删除，1-启用，2-禁用
+     */
+    void updateSysUserStatusBatch(Long[] uidList, Integer userStatus);
 }

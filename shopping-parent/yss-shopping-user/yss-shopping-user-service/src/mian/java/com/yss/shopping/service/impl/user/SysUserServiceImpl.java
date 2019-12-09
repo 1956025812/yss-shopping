@@ -6,6 +6,7 @@ import com.yss.shopping.entity.user.SysUser;
 import com.yss.shopping.mapper.user.SysUserMapper;
 import com.yss.shopping.service.user.SysUserService;
 import com.yss.shopping.util.FastJsonUtil;
+import com.yss.shopping.util.ListUtils;
 import com.yss.shopping.util.Md5Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -78,5 +81,25 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         logger.info("修改用户，请求参数为：{}", FastJsonUtil.bean2Json(sysUserUpdate));
         boolean updateFlag = this.updateById(sysUserUpdate);
         Assert.isTrue(updateFlag, "修改用户失败");
+    }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void updateSysUserStatusBatch(Long[] uidList, Integer userStatus) {
+        logger.info("批量修改用户状态, 请求参数为：[uidList:{}, userStatus:{}]", FastJsonUtil.bean2Json(uidList), userStatus);
+
+        List<SysUser> sysUserList = ListUtils.n(uidList).list(eachUid -> {
+            SysUser sysUser = new SysUser();
+            sysUser.setId(eachUid);
+            sysUser.setStatus(userStatus);
+            return sysUser;
+        }).to();
+
+        if (!CollectionUtils.isEmpty(sysUserList)) {
+            logger.info("批量修改用户状态，请求参数为：{}", FastJsonUtil.bean2Json(uidList), userStatus);
+            boolean updateFlag = this.updateBatchById(sysUserList);
+            Assert.isTrue(updateFlag, "批量修改用户状态失败");
+        }
     }
 }
