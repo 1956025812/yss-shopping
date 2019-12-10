@@ -37,7 +37,7 @@ public class SysUserController {
 
     @ApiOperation("根据用户ID查询用户信息")
     @GetMapping("/select/by/id")
-    public ResultVO<SysUserOutVo> selectSysUserById(@ApiParam(value = "用户ID", required = true) @RequestParam String uid) {
+    public ResultVO<SysUserOutVo> selectSysUserById(@ApiParam(value = "用户ID", required = true, example = "1") @RequestParam Long uid) {
         logger.info("根基用户ID查询用户信息, 请求参数为：[uid:{}]", uid);
         SysUser sysUser = this.sysUserService.selectUserById(uid);
         SysUserOutVo sysUserOutVo = new SysUserOutVo().toSysUserOutVo(sysUser);
@@ -63,11 +63,11 @@ public class SysUserController {
     }
 
 
-    @ApiOperation("批量修改用户状态 TODO")
+    @ApiOperation("批量修改用户状态")
     @PostMapping("/update/status/batch")
     public ResultVO<SysUserOutVo> updateSysUserStatusBatch(
             @ApiParam(value = "用户ID集合", required = true) @RequestParam Long[] uidList,
-            @ApiParam(value = "用户状态: 0-删除，1-启用，2-禁用", required = true) @RequestParam Integer userStatus) {
+            @ApiParam(value = "用户状态: 0-删除，1-启用，2-禁用", required = true, example = "1") @RequestParam Integer userStatus) {
         logger.info("批量修改用户状态, 请求参数为：[uidList:{}, userStatus:{}]", FastJsonUtil.bean2Json(uidList), userStatus);
         this.sysUserService.updateSysUserStatusBatch(uidList, userStatus);
         return ResultVO.getSuccess("批量修改用户状态成功");

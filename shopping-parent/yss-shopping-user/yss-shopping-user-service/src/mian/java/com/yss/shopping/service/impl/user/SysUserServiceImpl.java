@@ -38,7 +38,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 
     @Override
-    public SysUser selectUserById(String uid) {
+    public SysUser selectUserById(Long uid) {
         logger.info("根据用户ID查询用户信息，请求参数为：[uid:{}]", uid);
         SysUser sysUser = this.getById(uid);
         logger.info("查询到的用户信息为：{}", sysUser);

@@ -20,7 +20,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param uid 用户ID
      * @return
      */
-    SysUser selectUserById(String uid);
+    SysUser selectUserById(Long uid);
 
 
     /**
