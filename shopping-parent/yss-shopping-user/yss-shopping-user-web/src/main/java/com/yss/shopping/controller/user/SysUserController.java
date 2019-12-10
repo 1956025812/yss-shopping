@@ -54,7 +54,7 @@ public class SysUserController {
     }
 
 
-    @ApiOperation("修改用户对象 TODO")
+    @ApiOperation("修改用户对象")
     @PostMapping("/update")
     public ResultVO<Void> updateSysUser(@ApiParam(value = "修改用户InVo对象", required = true) @RequestBody SysUserUpdateInVo sysUserUpdateInVo) {
         logger.info("修改用户对象，请求参数为：{}", FastJsonUtil.bean2Json(sysUserUpdateInVo));
