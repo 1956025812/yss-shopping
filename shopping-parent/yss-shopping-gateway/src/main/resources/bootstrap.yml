@@ -4,10 +4,17 @@ server:
 spring:
   application:
     name: YSS-SHOPPING-GATEWAY
+  profiles:
+    active: DEV
+
+---
+spring:
+  profiles: DEV
   cloud:
     nacos:
       config:
         server-addr: 120.24.59.39:8848
+        namespace: 9bb35fce-fa22-455b-92b0-453640fe48d6
         group: DEV
         file-extension: yaml
       discovery:
