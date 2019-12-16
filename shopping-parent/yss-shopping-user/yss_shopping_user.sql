@@ -34,6 +34,13 @@ CREATE TABLE `sys_user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
+/*Data for the table `sys_user` */
+
+insert  into `sys_user`(`id`,`username`,`password`,`nickname`,`email`,`status`,`create_user`,`create_time`,`update_user`,`update_time`) values
+(1,'yss001','E10ADC3949BA59ABBE56E057F20F883E','猿叔叔001','yss@001.com',2,'system','2019-12-09 13:52:21','system','2019-12-09 10:26:52'),
+(2,'yss002','E10ADC3949BA59ABBE56E057F20F883E','猿叔叔002','yss@002.com',2,NULL,'2019-12-09 08:29:06',NULL,NULL),
+(3,'yss003','E10ADC3949BA59ABBE56E057F20F883E','猿叔叔003',NULL,1,NULL,'2019-12-09 10:42:03',NULL,NULL);
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
