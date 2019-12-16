@@ -14,7 +14,7 @@ spring:
     nacos:
       config:
         server-addr: 120.24.59.39:8848
-        namespace: 9bb35fce-fa22-455b-92b0-453640fe48d6
+        namespace: 9bb35fce-fa22-455b-92b0-453640fe48d6   # namespace为YSS-SHOPPING-DEV的ID
         group: DEV
         file-extension: yaml
       discovery:
