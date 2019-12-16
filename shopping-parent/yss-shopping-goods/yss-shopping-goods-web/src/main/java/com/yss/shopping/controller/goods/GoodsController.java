@@ -1,5 +1,6 @@
 package com.yss.shopping.controller.goods;
 
+import com.yss.shopping.api.vo.SysUserOutVo;
 import com.yss.shopping.entity.goods.Goods;
 import com.yss.shopping.service.goods.GoodsService;
 import com.yss.shopping.vo.ResultVO;
@@ -41,5 +42,13 @@ public class GoodsController {
         return ResultVO.getSuccess("查询商品信息成功", goodsOutVo);
     }
 
+
+    @ApiOperation("测试通过FEIGN调用用户服务: 根据用户ID查询用户信息")
+    @GetMapping("/select/by/id/feign")
+    public ResultVO<SysUserOutVo> testFeignSysUserApi(@ApiParam(value = "用户ID", required = true, example = "1") @RequestParam Long uid) {
+        logger.info("测试通过FEIGN调用用户服务: 根据用户ID查询商品信息, 请求参数为：[uid: {}]", uid);
+        SysUserOutVo sysUserOutVo = this.goodsService.testFeignSysUserApi(uid);
+        return ResultVO.getSuccess("调用用户信息", sysUserOutVo);
+    }
 
 }

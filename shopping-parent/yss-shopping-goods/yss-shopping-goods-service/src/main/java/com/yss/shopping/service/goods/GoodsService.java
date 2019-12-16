@@ -1,6 +1,7 @@
 package com.yss.shopping.service.goods;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yss.shopping.api.vo.SysUserOutVo;
 import com.yss.shopping.entity.goods.Goods;
 
 /**
@@ -21,4 +22,11 @@ public interface GoodsService extends IService<Goods> {
      * @return Goods
      */
     Goods selectGoodsById(Long gid);
+
+
+    /**
+     * @param uid
+     * @return
+     */
+    SysUserOutVo testFeignSysUserApi(Long uid);
 }
