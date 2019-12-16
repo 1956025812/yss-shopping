@@ -1,0 +1,24 @@
+server:
+  port: 8002
+
+spring:
+  application:
+    name: YSS-SHOPPING-GOODS
+  profiles:
+    active: DEV
+
+
+---
+spring:
+  profiles: DEV
+  cloud:
+    # nacos
+    nacos:
+      config:
+        server-addr: 120.24.59.39:8848
+        namespace: 9bb35fce-fa22-455b-92b0-453640fe48d6   # namespace为YSS-SHOPPING-DEV的ID
+        group: DEV
+        file-extension: yaml
+      discovery:
+        server-addr: ${spring.cloud.nacos.config.server-addr}
+

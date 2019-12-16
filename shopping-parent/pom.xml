@@ -12,9 +12,10 @@
 
 
     <modules>
+        <module>yss-shopping-common</module>
         <module>yss-shopping-gateway</module>
         <module>yss-shopping-user</module>
-        <module>yss-shopping-common</module>
+        <module>yss-shopping-goods</module>
     </modules>
 
 

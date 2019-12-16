@@ -1,6 +1,8 @@
-## nacos的YSS-SHOPPING-USER的配置信息
-## 	dataID: YSS-SHOPPING-USER.yaml   Group: DEV
+## namespace:  YSS-SHOPPING-DEV   9bb35fce-fa22-455b-92b0-453640fe48d6
+## GROUP:  DEV
+## DATAID: YSS-SHOPPING-USER.yaml
 
+## 配置如下
 
 spring:
   profiles: DEV
