@@ -19,10 +19,10 @@
 
 # 规划时间
 - 项目架构搭建
-    - springcloud-alibaba引入		
-    - nacos相关引入
-    - 用户服务的CRUD
-    - 商品服务使用FEIGN调用用户服务
+    - springcloud-alibaba引入[OK]	
+    - nacos相关引入[TODO: namespace有问题，都在public下]
+    - 用户服务的CRUD[OK]
+    - 商品服务使用FEIGN调用用户服务[OK]
     - 网关
     - common模块做统一异常处理和AOP日志
     - springboot-admin监控台
