@@ -7,18 +7,37 @@ spring:
   profiles:
     active: DEV
 
-
 ---
-spring:
-  profiles: DEV
-  cloud:
-    # nacos
-    nacos:
-      config:
-        server-addr: 120.24.59.39:8848
-        namespace: 9bb35fce-fa22-455b-92b0-453640fe48d6   # namespace为YSS-SHOPPING-DEV的ID
-        group: DEV
-        file-extension: yaml
-      discovery:
-        server-addr: ${spring.cloud.nacos.config.server-addr}
+nacos:
+  group: ${spring.application.name}
+  server-addr:
+    DEV: 120.24.59.39:8848
+    TEST: 120.24.59.39:8848
+    UAT:
+    PROD:
+  namespace:
+    DEV: bf9b1fc8-53fe-4c4b-8b9e-283a824dc385
+    TEST: 89c71e0b-8cdd-4809-b803-bf71f0fb94e3
+    UAT:
+    PROD:
 
+spring:
+  cloud:
+    nacos:
+      namespace: ${nacos.namespace.${spring.profiles.active}}
+      config:
+        enabled: true
+        server-addr: ${nacos.server-addr.${spring.profiles.active}}
+        namespace: ${spring.cloud.nacos.namespace}
+        prefix: ${spring.application.name}
+        file-extension: yaml
+        encode: UTF-8
+        #        group: ${spring.cloud.nacos.group}
+        #        timeout: 3000
+        ext-config:
+          - data-id: NACOS_DISCOVERY.yaml
+            group: BASE
+            refresh: true
+          - data-id: YSS-SHOPPING-USER.yaml
+            group: DEFAULT_GROUP
+            refresh: true

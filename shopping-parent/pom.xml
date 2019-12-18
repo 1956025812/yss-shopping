@@ -43,6 +43,9 @@
         <spring-cloud-starter-openfeign.version>2.2.0.RELEASE</spring-cloud-starter-openfeign.version>
         <spring-cloud-starter-netflix-ribbon.version>2.2.0.RELEASE</spring-cloud-starter-netflix-ribbon.version>
         <spring-cloud-starter-netflix-archaius.version>2.2.0.RELEASE</spring-cloud-starter-netflix-archaius.version>
+        <spring-cloud-starter-gateway.version>2.2.0.RELEASE</spring-cloud-starter-gateway.version>
+        <spring-boot-starter-webflux.version>2.2.0.RELEASE</spring-boot-starter-webflux.version>
+        <spring-boot-starter-actuator.version>2.2.0.RELEASE</spring-boot-starter-actuator.version>
     </properties>
 
 
@@ -148,6 +151,25 @@
                 <version>${spring-cloud-starter-netflix-archaius.version}</version>
             </dependency>
             <!-- feign -->
+
+
+            <!-- gateway -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-gateway</artifactId>
+                <version>${spring-cloud-starter-gateway.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-webflux</artifactId>
+                <version>${spring-boot-starter-webflux.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
+                <version>${spring-boot-starter-actuator.version}</version>
+            </dependency>
+            <!-- gateway -->
 
 
         </dependencies>

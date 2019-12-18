@@ -13,10 +13,12 @@
 
 
     <dependencies>
-        <dependency>
+
+        <!-- 网关中不要引入该jar包，会和网关冲突。Spring Cloud Gateway 是使用 netty+webflux实现，webflux与web是冲突的 -->
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -40,6 +42,14 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
+
+
+        <!-- gateway -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
+        <!-- gateway -->
 
     </dependencies>
 

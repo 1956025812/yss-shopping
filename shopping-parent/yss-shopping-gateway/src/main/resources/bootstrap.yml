@@ -1,22 +1,40 @@
-server:
-  port: 8000
-
 spring:
   application:
-    name: YSS-SHOPPING-GATEWAY
+    name: gateway
   profiles:
-    active: DEV
+    active: dev
 
 ---
+nacos:
+  group: ${spring.application.name}
+  server-addr:
+    dev: 120.24.59.39:8848
+    test: 120.24.59.39:8848
+    uat:
+    prod:
+  namespace:
+    dev: bf9b1fc8-53fe-4c4b-8b9e-283a824dc385
+    test: 89c71e0b-8cdd-4809-b803-bf71f0fb94e3
+    uat:
+    prod:
+
 spring:
-  profiles: DEV
   cloud:
     nacos:
+      namespace: ${nacos.namespace.${spring.profiles.active}}
       config:
-        server-addr: 120.24.59.39:8848
-        namespace: 9bb35fce-fa22-455b-92b0-453640fe48d6   # namespace为YSS-SHOPPING-DEV的ID
-        group: DEV
+        enabled: true
+        server-addr: ${nacos.server-addr.${spring.profiles.active}}
+        namespace: ${spring.cloud.nacos.namespace}
+        prefix: ${spring.application.name}
         file-extension: yaml
-      discovery:
-        server-addr: ${spring.cloud.nacos.config.server-addr}
-
+        encode: UTF-8
+        #        group: ${spring.cloud.nacos.group}
+        #        timeout: 3000
+        ext-config:
+          - data-id: discovery.yaml
+            group: base_public
+            refresh: true
+          - data-id: admin-client.yaml
+            group: base_public
+            refresh: true
