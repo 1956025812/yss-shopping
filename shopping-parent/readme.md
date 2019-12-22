@@ -20,14 +20,14 @@
 # 规划时间
 - 项目架构搭建
     - springcloud-alibaba引入[OK]	
-    - nacos相关引入[TODO: namespace有问题，都在public下]
+    - nacos相关引入[OK]
     - 用户服务的CRUD[OK]
     - 商品服务使用FEIGN调用用户服务[OK]
-    - 网关
-    - common模块做统一异常处理和AOP日志
+    - 网关[TODO网关的配置文件写在项目中没问题，但是放到nacos上就无法做到路由转发TODO]
     - springboot-admin监控台
+    - common模块做统一异常处理和AOP日志
     - jenkins打包部署
-    - docker打包部署（TODO）
+    - docker打包部署
      
 - 用户中心权限模块
 
