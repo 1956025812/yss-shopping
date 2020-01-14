@@ -7,6 +7,21 @@ spring:
   profiles:
     active: DEV
 
+  boot:
+    admin:
+      client:
+        url: http://localhost:7000
+
+# 打开客户端Actuator监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
 ---
 nacos:
   group: ${spring.application.name}
