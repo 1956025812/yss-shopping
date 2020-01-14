@@ -1,0 +1,49 @@
+server:
+  port: 7000
+
+spring:
+  application:
+    name: YSS-SHOPPING-BOOT-ADMIN
+  profiles:
+    active: DEV
+
+---
+nacos:
+  group: ${spring.application.name}
+  server-addr:
+    DEV: 120.24.59.39:8848
+    TEST: 120.24.59.39:8848
+    UAT:
+    PROD:
+  namespace:
+    DEV: bf9b1fc8-53fe-4c4b-8b9e-283a824dc385
+    TEST: 89c71e0b-8cdd-4809-b803-bf71f0fb94e3
+    UAT:
+    PROD:
+
+spring:
+  cloud:
+    nacos:
+      namespace: ${nacos.namespace.${spring.profiles.active}}
+      config:
+        enabled: true
+        server-addr: ${nacos.server-addr.${spring.profiles.active}}
+        namespace: ${spring.cloud.nacos.namespace}
+        prefix: ${spring.application.name}
+        file-extension: yaml
+        encode: UTF-8
+        ext-config:
+          - data-id: NACOS_DISCOVERY.yaml
+            group: BASE
+            refresh: true
+
+
+logging:
+  level:
+    ROOT: INFO
+    com.alibaba: INFO
+    org.springframework: INFO
+    org.springframework.cloud: INFO
+    org.springframework.cloud.gateway: DEBUG
+    com.alibaba.nacos.client: INFO
+    com.yss.shopping: DEBUG
