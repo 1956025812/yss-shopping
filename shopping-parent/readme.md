@@ -24,7 +24,7 @@
     - 用户服务的CRUD[OK]
     - 商品服务使用FEIGN调用用户服务[OK]
     - 网关[TODO网关的配置文件写在项目中没问题，但是放到nacos上就无法做到路由转发TODO]
-    - springboot-admin监控台
+    - springboot-admin监控台[OK]
     - common模块做统一异常处理和AOP日志
     - jenkins打包部署
     - docker打包部署
