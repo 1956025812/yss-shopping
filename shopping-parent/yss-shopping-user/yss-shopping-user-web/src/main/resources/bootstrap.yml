@@ -7,21 +7,6 @@ spring:
   profiles:
     active: DEV
 
-  boot:
-    admin:
-      client:
-        url: http://localhost:7000
-
-# 打开客户端Actuator监控
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    health:
-      show-details: always
-
 ---
 nacos:
   group: ${spring.application.name}
@@ -50,9 +35,15 @@ spring:
         #        group: ${spring.cloud.nacos.group}
         #        timeout: 3000
         ext-config:
+          - data-id: YSS-SHOPPING-USER.yaml
+            group: DEFAULT_GROUP
+            refresh: true
           - data-id: NACOS_DISCOVERY.yaml
             group: BASE
             refresh: true
-          - data-id: YSS-SHOPPING-USER.yaml
-            group: DEFAULT_GROUP
+          - data-id: SPRING_BOOT_ADMIN.yaml
+            group: BASE
+            refresh: true
+          - data-id: LOGGING_LEVEL.yaml
+            group: BASE
             refresh: true

@@ -21,6 +21,7 @@ nacos:
     UAT:
     PROD:
 
+
 spring:
   cloud:
     nacos:
@@ -38,11 +39,20 @@ spring:
           - data-id: NACOS_DISCOVERY.yaml
             group: BASE
             refresh: true
+          - data-id: SPRING_BOOT_ADMIN.yaml
+            group: BASE
+            refresh: true
+          - data-id: LOGGING_LEVEL.yaml
+            group: BASE
+            refresh: true
 #          - data-id: YSS-SHOPPING-GATEWAY.yaml
 #            group: BASE
 #            refresh: true
 
-    # 网关
+
+
+
+    # 网关  不知道为啥 放到NACOS中就不生效了
     gateway:
       enabled: true
       discovery:
@@ -60,13 +70,3 @@ spring:
                 regexp: '''/api/''+serviceId+''/(?<remaining>.*)'''
                 replacement: '''/${remaining}'''
 
-
-logging:
-  level:
-    ROOT: INFO
-    com.alibaba: INFO
-    org.springframework: INFO
-    org.springframework.cloud: INFO
-    org.springframework.cloud.gateway: DEBUG
-    com.alibaba.nacos.client: INFO
-    com.yss.shopping: DEBUG

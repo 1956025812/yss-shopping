@@ -35,9 +35,15 @@ spring:
         #        group: ${spring.cloud.nacos.group}
         #        timeout: 3000
         ext-config:
+          - data-id: YSS-SHOPPING-GOODS.yaml
+            group: DEFAULT_GROUP
+            refresh: true
           - data-id: NACOS_DISCOVERY.yaml
             group: BASE
             refresh: true
-          - data-id: YSS-SHOPPING-GOODS.yaml
-            group: DEFAULT_GROUP
+          - data-id: SPRING_BOOT_ADMIN.yaml
+            group: BASE
+            refresh: true
+          - data-id: LOGGING_LEVEL.yaml
+            group: BASE
             refresh: true

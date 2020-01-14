@@ -53,6 +53,14 @@
         </dependency>
         <!-- gateway -->
 
+
+        <!-- springbootadmin -->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+        </dependency>
+        <!-- springbootadmin -->
+
     </dependencies>
 
 

@@ -7,15 +7,6 @@ spring:
   profiles:
     active: DEV
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    health:
-      show-details: always
-
 ---
 nacos:
   group: ${spring.application.name}
@@ -45,14 +36,11 @@ spring:
           - data-id: NACOS_DISCOVERY.yaml
             group: BASE
             refresh: true
+          - data-id: SPRING_BOOT_ADMIN.yaml
+            group: BASE
+            refresh: true
+          - data-id: LOGGING_LEVEL.yaml
+            group: BASE
+            refresh: true
 
 
-logging:
-  level:
-    ROOT: INFO
-    com.alibaba: INFO
-    org.springframework: INFO
-    org.springframework.cloud: INFO
-    org.springframework.cloud.gateway: DEBUG
-    com.alibaba.nacos.client: INFO
-    com.yss.shopping: DEBUG
