@@ -97,7 +97,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }).to();
 
         if (!CollectionUtils.isEmpty(sysUserList)) {
-            logger.info("批量修改用户状态，请求参数为：{}", FastJsonUtil.bean2Json(uidList), userStatus);
+            logger.info("批量修改用户状态，请求参数为：[uidList:{}, userStatus:{}]", FastJsonUtil.bean2Json(uidList), userStatus);
             boolean updateFlag = this.updateBatchById(sysUserList);
             Assert.isTrue(updateFlag, "批量修改用户状态失败");
         }
