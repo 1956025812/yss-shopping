@@ -6,6 +6,7 @@ import com.yss.shopping.vo.ResultVO;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -40,12 +41,13 @@ public class LogAspect {
         HttpServletRequest request = attributes.getRequest();
 
         StringBuilder requestLog = new StringBuilder();
-        requestLog.append("操作信息：{").append(((MethodSignature) joinPoint.getSignature()).getMethod().getAnnotation(ApiOperation.class).value()).append("},\t")
+        Signature signature = joinPoint.getSignature();
+        requestLog.append("请求操作：{").append(((MethodSignature) signature).getMethod().getAnnotation(ApiOperation.class).value()).append("},\t")
                 .append("请求信息：").append("URL = {").append(request.getRequestURI()).append("},\t")
                 .append("请求方式 = {").append(request.getMethod()).append("},\t")
                 .append("请求IP = {").append(request.getRemoteAddr()).append("},\t")
-                .append("类方法 = {").append(joinPoint.getSignature().getDeclaringTypeName()).append(".")
-                .append(joinPoint.getSignature().getName()).append("},\t");
+                .append("类方法 = {").append(signature.getDeclaringTypeName()).append(".")
+                .append(signature.getName()).append("},\t");
 
         if (joinPoint.getArgs().length == 0) {
             requestLog.append("请求参数 = {} ");
@@ -63,4 +65,9 @@ public class LogAspect {
         log.info("请求结果：" + resultVO.getCode() + "\t" + resultVO.getMsg());
     }
 
+
+
+    // TODO 请求参数待处理
+    // ((MethodInvocationProceedingJoinPoint.MethodSignatureImpl) signature).getParameterNames()
+    // joinPoint.getArgs()
 }
