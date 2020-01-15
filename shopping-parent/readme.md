@@ -26,6 +26,7 @@
     - 网关[TODO网关的配置文件写在项目中没问题，但是放到nacos上就无法做到路由转发TODO]
     - springboot-admin监控台[OK]
     - common模块做统一异常处理和AOP日志[OK]
+    - 整合redis子模块，需要使用redis的工程直接引入该模块即可
     - jenkins打包部署
     - docker打包部署
      
