@@ -1,7 +1,6 @@
 package com.yss.shopping.aspect;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.alibaba.fastjson.JSONObject;
 import com.yss.shopping.vo.ResultVO;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +33,12 @@ public class LogAspect {
     }
 
 
+    /**
+     * 方法执行前
+     *
+     * @param joinPoint
+     * @throws Exception
+     */
     @Before("controllerMethod()")
     public void LogRequestInfo(JoinPoint joinPoint) throws Exception {
 
@@ -42,32 +47,41 @@ public class LogAspect {
 
         StringBuilder requestLog = new StringBuilder();
         Signature signature = joinPoint.getSignature();
-        requestLog.append("请求操作：{").append(((MethodSignature) signature).getMethod().getAnnotation(ApiOperation.class).value()).append("},\t")
+        requestLog.append(((MethodSignature) signature).getMethod().getAnnotation(ApiOperation.class).value()).append("\t")
                 .append("请求信息：").append("URL = {").append(request.getRequestURI()).append("},\t")
                 .append("请求方式 = {").append(request.getMethod()).append("},\t")
                 .append("请求IP = {").append(request.getRemoteAddr()).append("},\t")
                 .append("类方法 = {").append(signature.getDeclaringTypeName()).append(".")
                 .append(signature.getName()).append("},\t");
 
-        if (joinPoint.getArgs().length == 0) {
+        // 处理请求参数
+        String[] paramNames = ((MethodSignature) signature).getParameterNames();
+        Object[] paramValues = joinPoint.getArgs();
+        int paramLength = null == paramNames ? 0 : paramNames.length;
+        if (paramLength == 0) {
             requestLog.append("请求参数 = {} ");
         } else {
-            requestLog.append("请求参数 = ").append(new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL)
-                    .writeValueAsString(joinPoint.getArgs()[0]));
+            requestLog.append("请求参数 = [");
+            for (int i = 0; i < paramLength - 1; i++) {
+                requestLog.append(paramNames[i]).append("=").append(JSONObject.toJSONString(paramValues[i])).append(",");
+            }
+            requestLog.append(paramNames[paramLength - 1]).append("=").append(JSONObject.toJSONString(paramValues[paramLength - 1])).append("]");
         }
 
         log.info(requestLog.toString());
     }
 
 
+    /**
+     * 方法执行后
+     *
+     * @param resultVO
+     * @throws Exception
+     */
     @AfterReturning(returning = "resultVO", pointcut = "controllerMethod()")
     public void logResultVOInfo(ResultVO resultVO) throws Exception {
         log.info("请求结果：" + resultVO.getCode() + "\t" + resultVO.getMsg());
     }
 
 
-
-    // TODO 请求参数待处理
-    // ((MethodInvocationProceedingJoinPoint.MethodSignatureImpl) signature).getParameterNames()
-    // joinPoint.getArgs()
 }
