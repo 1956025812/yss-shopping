@@ -10,7 +10,20 @@ public interface SysUserConstant {
      */
     enum Status implements SysUserConstant {
 
-        DEL(0, "删除"), OPEN(1, "启用"), CLOSE(2, "禁用");
+        /**
+         * 0-刪除
+         */
+        DEL(0, "删除"),
+
+        /**
+         * 1-启用
+         */
+        OPEN(1, "启用"),
+
+        /**
+         * 2-禁用
+         */
+        CLOSE(2, "禁用");
 
         private Integer key;
         private String value;
