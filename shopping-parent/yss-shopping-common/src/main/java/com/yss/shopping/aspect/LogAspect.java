@@ -3,12 +3,14 @@ package com.yss.shopping.aspect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yss.shopping.vo.ResultVO;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -38,7 +40,8 @@ public class LogAspect {
         HttpServletRequest request = attributes.getRequest();
 
         StringBuilder requestLog = new StringBuilder();
-        requestLog.append("请求信息：").append("URL = {").append(request.getRequestURI()).append("},\t")
+        requestLog.append("操作信息：{").append(((MethodSignature) joinPoint.getSignature()).getMethod().getAnnotation(ApiOperation.class).value()).append("},\t")
+                .append("请求信息：").append("URL = {").append(request.getRequestURI()).append("},\t")
                 .append("请求方式 = {").append(request.getMethod()).append("},\t")
                 .append("请求IP = {").append(request.getRemoteAddr()).append("},\t")
                 .append("类方法 = {").append(joinPoint.getSignature().getDeclaringTypeName()).append(".")
