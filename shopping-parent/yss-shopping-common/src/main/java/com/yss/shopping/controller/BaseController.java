@@ -19,7 +19,7 @@ public class BaseController {
     @ExceptionHandler(value = Exception.class)
     public ResultVO globalExceptionHandle(Exception e) {
         logger.error("发生异常, 异常信息如下:", e);
-        return ResultVO.getFailed("非常抱歉,服务器异常,请联系客服人员。");
+        return ResultVO.getFailed(e.getMessage());
     }
 
 }
