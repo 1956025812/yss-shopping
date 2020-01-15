@@ -48,6 +48,7 @@
         <spring-boot-starter-webflux.version>2.2.0.RELEASE</spring-boot-starter-webflux.version>
         <spring-boot-starter-actuator.version>2.2.0.RELEASE</spring-boot-starter-actuator.version>
         <spring-boot-admin-dependencies.version>2.1.5</spring-boot-admin-dependencies.version>
+        <spring-boot-starter-aop.version>2.2.2.RELEASE</spring-boot-starter-aop.version>
     </properties>
 
 
@@ -184,6 +185,14 @@
             </dependency>
             <!-- springbootadmin -->
 
+
+            <!-- aop -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-aop</artifactId>
+                <version>${spring-boot-starter-aop.version}</version>
+            </dependency>
+            <!-- aop -->
 
 
         </dependencies>
