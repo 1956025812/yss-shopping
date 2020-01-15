@@ -20,7 +20,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param uid 用户ID
      * @return
      */
-    SysUser selectUserById(Long uid);
+    SysUser selectUserById(Long uid) throws Exception;
 
 
     /**
@@ -29,7 +29,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param sysUser 用户对象
      * @return 用户对象
      */
-    SysUser saveSysUser(SysUser sysUser);
+    SysUser saveSysUser(SysUser sysUser) throws Exception;
 
 
     /**
@@ -38,7 +38,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param sysUser 用户对象
      * @return 用户对象
      */
-    void updateSysUser(SysUser sysUser);
+    void updateSysUser(SysUser sysUser) throws Exception;
 
 
     /**
@@ -47,5 +47,5 @@ public interface SysUserService extends IService<SysUser> {
      * @param uidList    用户ID集合
      * @param userStatus 用户状态: 0-删除，1-启用，2-禁用
      */
-    void updateSysUserStatusBatch(Long[] uidList, Integer userStatus);
+    void updateSysUserStatusBatch(Long[] uidList, Integer userStatus) throws Exception;
 }

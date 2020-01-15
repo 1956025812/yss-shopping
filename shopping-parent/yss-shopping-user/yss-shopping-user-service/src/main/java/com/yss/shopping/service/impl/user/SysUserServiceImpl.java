@@ -38,7 +38,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 
     @Override
-    public SysUser selectUserById(Long uid) {
+    public SysUser selectUserById(Long uid) throws Exception {
         logger.info("根据用户ID查询用户信息，请求参数为：[uid:{}]", uid);
         SysUser sysUser = this.getById(uid);
         logger.info("查询到的用户信息为：{}", sysUser);
@@ -48,7 +48,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public SysUser saveSysUser(SysUser sysUser) {
+    public SysUser saveSysUser(SysUser sysUser) throws Exception {
         logger.info("新增用户信息，接收过来的请求参数为：{}", FastJsonUtil.bean2Json(sysUser));
         sysUser.setPassword(Md5Util.toMD5(sysUser.getPassword()));
         sysUser.setCreateTime(LocalDateTime.now());
@@ -62,7 +62,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void updateSysUser(SysUser sysUser) {
+    public void updateSysUser(SysUser sysUser) throws Exception {
         logger.info("修改用户信息，接收过来的请求参数为：{}", FastJsonUtil.bean2Json(sysUser));
 
         // 校验用户是否存在
@@ -86,7 +86,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void updateSysUserStatusBatch(Long[] uidList, Integer userStatus) {
+    public void updateSysUserStatusBatch(Long[] uidList, Integer userStatus) throws Exception {
         logger.info("批量修改用户状态, 请求参数为：[uidList:{}, userStatus:{}]", FastJsonUtil.bean2Json(uidList), userStatus);
 
         List<SysUser> sysUserList = ListUtils.n(uidList).list(eachUid -> {
