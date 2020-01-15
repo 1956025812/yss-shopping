@@ -8,8 +8,7 @@ import com.yss.shopping.service.user.SysUserService;
 import com.yss.shopping.util.FastJsonUtil;
 import com.yss.shopping.util.ListUtils;
 import com.yss.shopping.util.Md5Util;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,10 +27,8 @@ import java.util.List;
  * @since 2019-12-07
  */
 @Service
+@Slf4j
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
-
-    private final Logger logger = LoggerFactory.getLogger(SysUserServiceImpl.class);
-
 
     @Autowired
     private SysUserMapper sysUserMapper;
@@ -39,9 +36,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public SysUser selectUserById(Long uid) throws Exception {
-        logger.info("根据用户ID查询用户信息，请求参数为：[uid:{}]", uid);
+        log.info("根据用户ID查询用户信息，请求参数为：[uid:{}]", uid);
         SysUser sysUser = this.getById(uid);
-        logger.info("查询到的用户信息为：{}", sysUser);
+        log.info("查询到的用户信息为：{}", sysUser);
         return sysUser;
     }
 
@@ -49,11 +46,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Transactional(rollbackFor = Exception.class)
     @Override
     public SysUser saveSysUser(SysUser sysUser) throws Exception {
-        logger.info("新增用户信息，接收过来的请求参数为：{}", FastJsonUtil.bean2Json(sysUser));
+        log.info("新增用户信息，接收过来的请求参数为：{}", FastJsonUtil.bean2Json(sysUser));
         sysUser.setPassword(Md5Util.toMD5(sysUser.getPassword()));
         sysUser.setCreateTime(LocalDateTime.now());
         sysUser.setStatus(SysUserConstant.Status.OPEN.getKey());
-        logger.info("新增用户，请求参数为：{}", FastJsonUtil.bean2Json(sysUser));
+        log.info("新增用户，请求参数为：{}", FastJsonUtil.bean2Json(sysUser));
         boolean saveFlag = this.save(sysUser);
         Assert.isTrue(saveFlag, "新增用户失败");
         return sysUser;
@@ -63,11 +60,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateSysUser(SysUser sysUser) throws Exception {
-        logger.info("修改用户信息，接收过来的请求参数为：{}", FastJsonUtil.bean2Json(sysUser));
+        log.info("修改用户信息，接收过来的请求参数为：{}", FastJsonUtil.bean2Json(sysUser));
 
         // 校验用户是否存在
         Long uid = sysUser.getId();
-        logger.info("根据用户ID查询用户信息，请求参数为：[uid:{}]", uid);
+        log.info("根据用户ID查询用户信息，请求参数为：[uid:{}]", uid);
         SysUser sysUserExist = this.getById(uid);
         Assert.notNull(sysUserExist, "修改失败，用户对象不存在");
 
@@ -78,7 +75,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUserUpdate.setPassword(Md5Util.toMD5(sysUser.getPassword()));
         sysUserUpdate.setEmail(sysUser.getEmail());
         sysUserUpdate.setUpdateTime(LocalDateTime.now());
-        logger.info("修改用户，请求参数为：{}", FastJsonUtil.bean2Json(sysUserUpdate));
+        log.info("修改用户，请求参数为：{}", FastJsonUtil.bean2Json(sysUserUpdate));
         boolean updateFlag = this.updateById(sysUserUpdate);
         Assert.isTrue(updateFlag, "修改用户失败");
     }
@@ -87,7 +84,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateSysUserStatusBatch(Long[] uidList, Integer userStatus) throws Exception {
-        logger.info("批量修改用户状态, 请求参数为：[uidList:{}, userStatus:{}]", FastJsonUtil.bean2Json(uidList), userStatus);
+        log.info("批量修改用户状态, 请求参数为：[uidList:{}, userStatus:{}]", FastJsonUtil.bean2Json(uidList), userStatus);
 
         List<SysUser> sysUserList = ListUtils.n(uidList).list(eachUid -> {
             SysUser sysUser = new SysUser();
@@ -97,7 +94,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }).to();
 
         if (!CollectionUtils.isEmpty(sysUserList)) {
-            logger.info("批量修改用户状态，请求参数为：[uidList:{}, userStatus:{}]", FastJsonUtil.bean2Json(uidList), userStatus);
+            log.info("批量修改用户状态，请求参数为：[uidList:{}, userStatus:{}]", FastJsonUtil.bean2Json(uidList), userStatus);
             boolean updateFlag = this.updateBatchById(sysUserList);
             Assert.isTrue(updateFlag, "批量修改用户状态失败");
         }

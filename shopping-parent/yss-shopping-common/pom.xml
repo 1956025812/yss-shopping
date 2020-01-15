@@ -40,6 +40,14 @@
         </dependency>
         <!-- fastjson -->
 
+
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <!-- lombok -->
+
     </dependencies>
 
 </project>

@@ -7,8 +7,7 @@ import com.yss.shopping.vo.ResultVO;
 import com.yss.shopping.vo.goods.GoodsOutVo;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/goods")
+@Slf4j
 public class GoodsController {
-
-    private final Logger logger = LoggerFactory.getLogger(GoodsController.class);
 
     @Autowired
     private GoodsService goodsService;
@@ -36,7 +34,7 @@ public class GoodsController {
     @ApiOperation("根据商品ID查询商品信息")
     @GetMapping("/select/by/id")
     public ResultVO<GoodsOutVo> selectGoodsById(@ApiParam(value = "商品ID", required = true, example = "1") @RequestParam Long gid) {
-        logger.info("根据商品ID查询商品信息, 请求参数为：[gid:{}]", gid);
+        log.info("根据商品ID查询商品信息, 请求参数为：[gid:{}]", gid);
         Goods goods = this.goodsService.selectGoodsById(gid);
         GoodsOutVo goodsOutVo = new GoodsOutVo().toGoodsOutVo(goods);
         return ResultVO.getSuccess("查询商品信息成功", goodsOutVo);
@@ -46,7 +44,7 @@ public class GoodsController {
     @ApiOperation("测试通过FEIGN调用用户服务: 根据用户ID查询用户信息")
     @GetMapping("/select/by/id/feign")
     public ResultVO<SysUserOutVo> testFeignSysUserApi(@ApiParam(value = "用户ID", required = true, example = "1") @RequestParam Long uid) {
-        logger.info("测试通过FEIGN调用用户服务: 根据用户ID查询商品信息, 请求参数为：[uid: {}]", uid);
+        log.info("测试通过FEIGN调用用户服务: 根据用户ID查询商品信息, 请求参数为：[uid: {}]", uid);
         SysUserOutVo sysUserOutVo = this.goodsService.testFeignSysUserApi(uid);
         return ResultVO.getSuccess("调用用户信息", sysUserOutVo);
     }

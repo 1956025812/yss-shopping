@@ -67,15 +67,6 @@
         </dependency>
         <!-- druid -->
 
-
-        <!-- lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-        <!-- lombok -->
-
-
         <!-- swagger -->
         <dependency>
             <groupId>io.springfox</groupId>
