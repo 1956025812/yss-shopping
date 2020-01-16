@@ -62,8 +62,8 @@ public class SysUserController extends BaseController {
     @PostMapping("/update/status/batch")
     public ResultVO updateSysUserStatusBatch(
             @ApiParam(value = "用户ID集合", required = true) @RequestParam Long[] uidList,
-            @ApiParam(value = "用户状态: 0-删除，1-启用，2-禁用", required = true, example = "1") @RequestParam Integer userStatus) throws Exception {
-        this.sysUserService.updateSysUserStatusBatch(uidList, userStatus);
+            @ApiParam(value = "用户状态: 0-删除，1-启用，2-禁用", required = true, example = "1") @RequestParam Integer userState) throws Exception {
+        this.sysUserService.updateSysUserStatusBatch(uidList, userState);
         return ResultVO.getSuccess("批量修改用户状态成功");
     }
 

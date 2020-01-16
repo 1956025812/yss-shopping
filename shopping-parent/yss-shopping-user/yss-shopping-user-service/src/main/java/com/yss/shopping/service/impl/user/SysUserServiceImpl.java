@@ -51,11 +51,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         // 账号和邮箱不能重复
         this.assertUsernameNotExist(sysUser.getUsername());
-        this.assertEmailNotExist(sysUser.getEmail());
+        this.assertEmailNotExistExceptUser(sysUser.getEmail(), null);
 
         // 新增用户
-        sysUser.setPassword(Md5Util.toMD5(sysUser.getPassword()))
-                .setCreateTime(LocalDateTime.now())
+        sysUser.setPassword(Md5Util.toMD5(sysUser.getPassword())).setCreateTime(LocalDateTime.now())
                 .setState(SysUserConstant.State.OPEN.getKey());
         log.info("新增用户，请求参数为：{}", FastJsonUtil.bean2Json(sysUser));
         boolean saveFlag = this.save(sysUser);
@@ -74,17 +73,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         // 用户ID对应的记录必须存在
         this.assertUidExist(uid);
-        // 账号和邮箱不能重复
-        this.assertUsernameNotExist(sysUser.getUsername());
-        this.assertEmailNotExist(sysUser.getEmail());
+        // 邮箱不能重复
+        this.assertEmailNotExistExceptUser(sysUser.getEmail(), uid);
 
         // 修改用户
-        SysUser sysUserUpdate = new SysUser();
-        sysUserUpdate.setId(uid);
-        sysUserUpdate.setNickname(sysUser.getNickname());
-        sysUserUpdate.setPassword(Md5Util.toMD5(sysUser.getPassword()));
-        sysUserUpdate.setEmail(sysUser.getEmail());
-        sysUserUpdate.setUpdateTime(LocalDateTime.now());
+        SysUser sysUserUpdate = new SysUser().setId(uid).setNickname(sysUser.getNickname()).setPassword(Md5Util.toMD5(sysUser.getPassword()))
+                .setEmail(sysUser.getEmail()).setUpdateTime(LocalDateTime.now());
         log.info("修改用户，请求参数为：{}", FastJsonUtil.bean2Json(sysUserUpdate));
         boolean updateFlag = this.updateById(sysUserUpdate);
         Assert.isTrue(updateFlag, "修改用户失败");
@@ -93,18 +87,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void updateSysUserStatusBatch(Long[] uidList, Integer userStatus) throws Exception {
-        log.info("批量修改用户状态, 请求参数为：[uidList:{}, userStatus:{}]", FastJsonUtil.bean2Json(uidList), userStatus);
+    public void updateSysUserStatusBatch(Long[] uidList, Integer userState) throws Exception {
+        log.info("批量修改用户状态, 请求参数为：[uidList:{}, userStatus:{}]", FastJsonUtil.bean2Json(uidList), userState);
 
-        List<SysUser> sysUserList = ListUtils.n(uidList).list(eachUid -> {
-            SysUser sysUser = new SysUser();
-            sysUser.setId(eachUid);
-            sysUser.setState(userStatus);
-            return sysUser;
-        }).to();
-
+        List<SysUser> sysUserList = ListUtils.n(uidList).list(eachUid -> new SysUser().setId(eachUid).setState(userState)).to();
         if (!CollectionUtils.isEmpty(sysUserList)) {
-            log.info("批量修改用户状态，请求参数为：[uidList:{}, userStatus:{}]", FastJsonUtil.bean2Json(uidList), userStatus);
             boolean updateFlag = this.updateBatchById(sysUserList);
             Assert.isTrue(updateFlag, "批量修改用户状态失败");
         }
@@ -126,12 +113,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 
     /**
-     * 断言邮箱不存在，存在则抛出异常
+     * 断言邮箱不存在[忽略指定用户的邮箱]，否则抛出异常
      */
-    private void assertEmailNotExist(String email) {
+    private void assertEmailNotExistExceptUser(String email, Long uid) {
         log.info("查询邮箱为：{} 的用户数量", email);
         Assert.notNull(email, "email不能为空");
-        Integer count = this.sysUserMapper.selectCount(new QueryWrapper<>(new SysUser().setEmail(email)));
+
+        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>(new SysUser().setEmail(email));
+        if (null != uid) {
+            queryWrapper.ne(SysUserConstant.Column.ID.getKey(), uid);
+        }
+
+        Integer count = this.sysUserMapper.selectCount(queryWrapper);
         log.info("邮箱为：{} 的用户数量为：{}", email, count);
         Assert.isTrue(count == 0, "操作失败：邮箱已经存在，请重新输入");
     }
