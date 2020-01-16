@@ -36,7 +36,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 
     @Override
-    public SysUser selectUserById(Long uid) throws Exception {
+    public SysUser selectUserById(Long uid) {
         log.info("根据用户ID查询用户信息，请求参数为：[uid:{}]", uid);
         SysUser sysUser = this.getById(uid);
         log.info("查询到的用户信息为：{}", sysUser);
@@ -46,7 +46,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public SysUser saveSysUser(SysUser sysUser) throws Exception {
+    public SysUser saveSysUser(SysUser sysUser) {
         log.info("新增用户信息，接收过来的请求参数为：{}", FastJsonUtil.bean2Json(sysUser));
 
         // 账号和邮箱不能重复
@@ -66,7 +66,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void updateSysUser(SysUser sysUser) throws Exception {
+    public void updateSysUser(SysUser sysUser) {
         log.info("修改用户信息，接收过来的请求参数为：{}", FastJsonUtil.bean2Json(sysUser));
 
         Long uid = sysUser.getId();
@@ -87,7 +87,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void updateSysUserStatusBatch(Long[] uidList, Integer userState) throws Exception {
+    public void updateSysUserStatusBatch(Long[] uidList, Integer userState) {
         log.info("批量修改用户状态, 请求参数为：[uidList:{}, userStatus:{}]", FastJsonUtil.bean2Json(uidList), userState);
 
         List<SysUser> sysUserList = ListUtils.n(uidList).list(eachUid -> new SysUser().setId(eachUid).setState(userState)).to();
