@@ -33,11 +33,11 @@ public class SysUserSaveInVo {
     public SysUser toSysUser(SysUserSaveInVo sysUserSaveInVo) {
         SysUser sysUser = new SysUser();
         if (null != sysUserSaveInVo) {
-            sysUser.setUsername(sysUserSaveInVo.getUsername());
-            sysUser.setPassword(sysUserSaveInVo.getPassword());
-            sysUser.setNickname(sysUserSaveInVo.getNickname());
-            sysUser.setEmail(sysUserSaveInVo.getEmail());
-            sysUser.setHeadImgUrl(sysUserSaveInVo.getHeadImgUrl());
+            sysUser.setUsername(sysUserSaveInVo.getUsername())
+                    .setPassword(sysUserSaveInVo.getPassword())
+                    .setNickname(sysUserSaveInVo.getNickname())
+                    .setEmail(sysUserSaveInVo.getEmail())
+                    .setHeadImgUrl(sysUserSaveInVo.getHeadImgUrl());
         }
         return sysUser;
     }

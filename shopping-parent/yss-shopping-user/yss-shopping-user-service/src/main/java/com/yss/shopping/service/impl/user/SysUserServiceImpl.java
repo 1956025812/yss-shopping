@@ -1,5 +1,6 @@
 package com.yss.shopping.service.impl.user;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yss.shopping.constant.user.SysUserConstant;
 import com.yss.shopping.entity.user.SysUser;
@@ -47,12 +48,19 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public SysUser saveSysUser(SysUser sysUser) throws Exception {
         log.info("新增用户信息，接收过来的请求参数为：{}", FastJsonUtil.bean2Json(sysUser));
-        sysUser.setPassword(Md5Util.toMD5(sysUser.getPassword()));
-        sysUser.setCreateTime(LocalDateTime.now());
-        sysUser.setState(SysUserConstant.State.OPEN.getKey());
+
+        // 账号和邮箱不能重复
+        this.assertUsernameNotExist(sysUser.getUsername());
+        this.assertEmailNotExist(sysUser.getEmail());
+
+        // 新增用户
+        sysUser.setPassword(Md5Util.toMD5(sysUser.getPassword()))
+                .setCreateTime(LocalDateTime.now())
+                .setState(SysUserConstant.State.OPEN.getKey());
         log.info("新增用户，请求参数为：{}", FastJsonUtil.bean2Json(sysUser));
         boolean saveFlag = this.save(sysUser);
         Assert.isTrue(saveFlag, "新增用户失败");
+
         return sysUser;
     }
 
@@ -62,10 +70,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public void updateSysUser(SysUser sysUser) throws Exception {
         log.info("修改用户信息，接收过来的请求参数为：{}", FastJsonUtil.bean2Json(sysUser));
 
-        // 校验用户是否存在
         Long uid = sysUser.getId();
-        SysUser sysUserExist = this.selectUserById(uid);
-        Assert.notNull(sysUserExist, "修改失败，用户对象不存在");
+
+        // 用户ID对应的记录必须存在
+        this.assertUidExist(uid);
+        // 账号和邮箱不能重复
+        this.assertUsernameNotExist(sysUser.getUsername());
+        this.assertEmailNotExist(sysUser.getEmail());
 
         // 修改用户
         SysUser sysUserUpdate = new SysUser();
@@ -98,4 +109,43 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             Assert.isTrue(updateFlag, "批量修改用户状态失败");
         }
     }
+
+
+    /**
+     * 断言账号不存在, 如果存在则抛出异常
+     *
+     * @param username 账号
+     */
+    private void assertUsernameNotExist(String username) {
+        log.info("查询账号：{} 的用户数量", username);
+        Assert.notNull(username, "username不能为空");
+        Integer count = this.sysUserMapper.selectCount(new QueryWrapper<>(new SysUser().setUsername(username)));
+        log.info("账号为：{} 的用户数量为：{}", username, count);
+        Assert.isTrue(count == 0, "操作失败：账号已经存在，请重新输入");
+    }
+
+
+    /**
+     * 断言邮箱不存在，存在则抛出异常
+     */
+    private void assertEmailNotExist(String email) {
+        log.info("查询邮箱为：{} 的用户数量", email);
+        Assert.notNull(email, "email不能为空");
+        Integer count = this.sysUserMapper.selectCount(new QueryWrapper<>(new SysUser().setEmail(email)));
+        log.info("邮箱为：{} 的用户数量为：{}", email, count);
+        Assert.isTrue(count == 0, "操作失败：邮箱已经存在，请重新输入");
+    }
+
+
+    /**
+     * 断言用户ID存在，不存在则抛出异常
+     */
+    private void assertUidExist(Long uid) {
+        log.info("查询用户ID为：{} 的用户数量", uid);
+        Assert.notNull(uid, "uid不能为空");
+        Integer count = this.sysUserMapper.selectCount(new QueryWrapper<>(new SysUser().setId(uid)));
+        log.info("用户ID为：{} 的用户数量为：{}", uid, count);
+        Assert.isTrue(count > 0, "操作失败：用户不存在");
+    }
+
 }

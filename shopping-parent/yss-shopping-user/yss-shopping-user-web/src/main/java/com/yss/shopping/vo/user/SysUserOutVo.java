@@ -1,17 +1,17 @@
 package com.yss.shopping.vo.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.yss.shopping.entity.user.SysUser;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 
 @Data
 @ApiModel("用户OutVo对象")
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@Accessors(chain = true)
 public class SysUserOutVo {
 
     @ApiModelProperty("用户ID")
@@ -48,13 +48,13 @@ public class SysUserOutVo {
     public SysUserOutVo toSysUserOutVo(SysUser sysUser) {
         SysUserOutVo sysUserOutVo = new SysUserOutVo();
         if (null != sysUser) {
-            sysUserOutVo.setUid(sysUser.getId());
-            sysUserOutVo.setUsername(sysUser.getUsername());
-            sysUserOutVo.setNickname(sysUser.getNickname());
-            sysUserOutVo.setEmail(sysUser.getEmail());
-            sysUserOutVo.setHeadImgUrl(sysUser.getHeadImgUrl());
-            sysUserOutVo.setState(sysUser.getState());
-            sysUserOutVo.setCreateTime(sysUser.getCreateTime());
+            sysUserOutVo.setUid(sysUser.getId())
+                    .setUsername(sysUser.getUsername())
+                    .setNickname(sysUser.getNickname())
+                    .setEmail(sysUser.getEmail())
+                    .setHeadImgUrl(sysUser.getHeadImgUrl())
+                    .setState(sysUser.getState())
+                    .setCreateTime(sysUser.getCreateTime());
         }
         return sysUserOutVo;
     }

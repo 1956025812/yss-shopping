@@ -34,11 +34,11 @@ public class SysUserUpdateInVo {
     public SysUser toSysUser(SysUserUpdateInVo sysUserUpdateInVo) {
         SysUser sysUser = new SysUser();
         if (null != sysUserUpdateInVo) {
-            sysUser.setId(sysUserUpdateInVo.getUid());
-            sysUser.setPassword(sysUserUpdateInVo.getPassword());
-            sysUser.setNickname(sysUserUpdateInVo.getNickname());
-            sysUser.setEmail(sysUserUpdateInVo.getEmail());
-            sysUser.setHeadImgUrl(sysUserUpdateInVo.getHeadImgUrl());
+            sysUser.setId(sysUserUpdateInVo.getUid())
+                    .setPassword(sysUserUpdateInVo.getPassword())
+                    .setNickname(sysUserUpdateInVo.getNickname())
+                    .setEmail(sysUserUpdateInVo.getEmail())
+                    .setHeadImgUrl(sysUserUpdateInVo.getHeadImgUrl());
         }
         return sysUser;
     }
