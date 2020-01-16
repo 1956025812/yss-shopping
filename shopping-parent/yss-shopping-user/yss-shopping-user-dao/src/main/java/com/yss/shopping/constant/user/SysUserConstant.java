@@ -8,7 +8,7 @@ public interface SysUserConstant {
     /**
      * 用户状态：0-删除，1-启用，2-禁用
      */
-    enum Status implements SysUserConstant {
+    enum State implements SysUserConstant {
 
         /**
          * 0-刪除
@@ -28,7 +28,7 @@ public interface SysUserConstant {
         private Integer key;
         private String value;
 
-        Status(Integer key, String value) {
+        State(Integer key, String value) {
             this.key = key;
             this.value = value;
         }
@@ -40,7 +40,7 @@ public interface SysUserConstant {
          * @return value
          */
         public static String getValue(Integer key) {
-            for (Status e : Status.values()) {
+            for (State e : State.values()) {
                 if (e.key.equals(key)) {
                     return e.value;
                 }
@@ -55,7 +55,7 @@ public interface SysUserConstant {
          * @return 如果包含value, 则返回对应的key, 否则返回null
          */
         public static Integer containValue(String value) {
-            for (Status e : Status.values()) {
+            for (State e : State.values()) {
                 if (e.value.equals(value)) {
                     return e.key;
                 }

@@ -49,7 +49,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         log.info("新增用户信息，接收过来的请求参数为：{}", FastJsonUtil.bean2Json(sysUser));
         sysUser.setPassword(Md5Util.toMD5(sysUser.getPassword()));
         sysUser.setCreateTime(LocalDateTime.now());
-        sysUser.setStatus(SysUserConstant.Status.OPEN.getKey());
+        sysUser.setState(SysUserConstant.State.OPEN.getKey());
         log.info("新增用户，请求参数为：{}", FastJsonUtil.bean2Json(sysUser));
         boolean saveFlag = this.save(sysUser);
         Assert.isTrue(saveFlag, "新增用户失败");
@@ -64,8 +64,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         // 校验用户是否存在
         Long uid = sysUser.getId();
-        log.info("根据用户ID查询用户信息，请求参数为：[uid:{}]", uid);
-        SysUser sysUserExist = this.getById(uid);
+        SysUser sysUserExist = this.selectUserById(uid);
         Assert.notNull(sysUserExist, "修改失败，用户对象不存在");
 
         // 修改用户
@@ -89,7 +88,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         List<SysUser> sysUserList = ListUtils.n(uidList).list(eachUid -> {
             SysUser sysUser = new SysUser();
             sysUser.setId(eachUid);
-            sysUser.setStatus(userStatus);
+            sysUser.setState(userStatus);
             return sysUser;
         }).to();
 

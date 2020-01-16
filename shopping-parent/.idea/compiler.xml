@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="yss-shopping-goods-web" />
+        <module name="yss-shopping-boot-admin" />
+        <module name="yss-shopping-goods-dao" />
+        <module name="yss-shopping-user-api" />
+        <module name="yss-shopping-user-dao" />
+        <module name="yss-shopping-common" />
+        <module name="yss-shopping-gateway" />
+        <module name="yss-shopping-goods-api" />
+        <module name="yss-shopping-user-web" />
+        <module name="yss-shopping-goods-service" />
+        <module name="yss-shopping-user-service" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="shopping-parent" target="1.8" />
+      <module name="yss-shopping-boot-admin" target="1.8" />
+      <module name="yss-shopping-common" target="1.8" />
+      <module name="yss-shopping-gateway" target="1.8" />
+      <module name="yss-shopping-goods" target="1.8" />
+      <module name="yss-shopping-goods-api" target="1.8" />
+      <module name="yss-shopping-goods-dao" target="1.8" />
+      <module name="yss-shopping-goods-service" target="1.8" />
+      <module name="yss-shopping-goods-web" target="1.8" />
+      <module name="yss-shopping-user" target="1.8" />
+      <module name="yss-shopping-user-api" target="1.8" />
+      <module name="yss-shopping-user-dao" target="1.8" />
+      <module name="yss-shopping-user-service" target="1.8" />
+      <module name="yss-shopping-user-web" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="yss-shopping-boot-admin" options="-parameters" />
+      <module name="yss-shopping-common" options="-parameters" />
+      <module name="yss-shopping-gateway" options="-parameters" />
+      <module name="yss-shopping-goods-api" options="-parameters" />
+      <module name="yss-shopping-goods-dao" options="-parameters" />
+      <module name="yss-shopping-goods-service" options="-parameters" />
+      <module name="yss-shopping-goods-web" options="-parameters" />
+      <module name="yss-shopping-user-api" options="-parameters" />
+      <module name="yss-shopping-user-dao" options="-parameters" />
+      <module name="yss-shopping-user-service" options="-parameters" />
+      <module name="yss-shopping-user-web" options="-parameters" />
+    </option>
+  </component>
+</project>

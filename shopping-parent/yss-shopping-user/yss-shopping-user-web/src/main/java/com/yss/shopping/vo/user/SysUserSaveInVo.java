@@ -21,6 +21,9 @@ public class SysUserSaveInVo {
     @ApiModelProperty("邮箱")
     private String email;
 
+    @ApiModelProperty("头像路径")
+    private String headImgUrl;
+
     /**
      * SysUserSaveInVo转换为SysUser
      *
@@ -34,6 +37,7 @@ public class SysUserSaveInVo {
             sysUser.setPassword(sysUserSaveInVo.getPassword());
             sysUser.setNickname(sysUserSaveInVo.getNickname());
             sysUser.setEmail(sysUserSaveInVo.getEmail());
+            sysUser.setHeadImgUrl(sysUserSaveInVo.getHeadImgUrl());
         }
         return sysUser;
     }

@@ -47,7 +47,7 @@ public class LogAspect {
 
         StringBuilder requestLog = new StringBuilder();
         Signature signature = joinPoint.getSignature();
-        requestLog.append(((MethodSignature) signature).getMethod().getAnnotation(ApiOperation.class).value()).append("\t")
+        requestLog.append("操作：").append(((MethodSignature) signature).getMethod().getAnnotation(ApiOperation.class).value()).append("\t")
                 .append("请求信息：").append("URL = {").append(request.getRequestURI()).append("},\t")
                 .append("请求方式 = {").append(request.getMethod()).append("},\t")
                 .append("请求IP = {").append(request.getRemoteAddr()).append("},\t")

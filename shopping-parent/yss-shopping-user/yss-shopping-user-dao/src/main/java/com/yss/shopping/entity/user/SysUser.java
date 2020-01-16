@@ -2,11 +2,12 @@ package com.yss.shopping.entity.user;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -21,7 +22,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class SysUser implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 11550641637067612L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
@@ -34,13 +35,15 @@ public class SysUser implements Serializable {
 
     private String email;
 
-    private Integer status;
+    private String headImgUrl;
 
-    private String createUser;
+    private Integer state;
+
+    private String createInfo;
 
     private LocalDateTime createTime;
 
-    private String updateUser;
+    private String updateInfo;
 
     private LocalDateTime updateTime;
 

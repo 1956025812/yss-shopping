@@ -21,6 +21,10 @@ public class SysUserUpdateInVo {
     @ApiModelProperty("邮箱")
     private String email;
 
+    @ApiModelProperty("头像路径")
+    private String headImgUrl;
+
+
     /**
      * sysUserUpdateInVo转换为SysUser
      *
@@ -34,6 +38,7 @@ public class SysUserUpdateInVo {
             sysUser.setPassword(sysUserUpdateInVo.getPassword());
             sysUser.setNickname(sysUserUpdateInVo.getNickname());
             sysUser.setEmail(sysUserUpdateInVo.getEmail());
+            sysUser.setHeadImgUrl(sysUserUpdateInVo.getHeadImgUrl());
         }
         return sysUser;
     }
