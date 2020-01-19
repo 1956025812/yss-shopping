@@ -53,8 +53,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Page<SysUser> page = new Page<>(sysUserPageVO.getCurrentPage(), sysUserPageVO.getPageSize());
         Page<SysUser> sysUserPage = this.sysUserMapper.selectPage(page, sysUserQueryWrapper);
         List<SysUser> sysUserList = sysUserPage.getRecords();
-        List<SysUserOutVO> sysUserOutVOList = ListUtils.n(sysUserList).list(eachSysUser ->
-                new SysUserOutVO().toSysUserOutVO(eachSysUser)).to();
+        List<SysUserOutVO> sysUserOutVOList = ListUtils.n(sysUserList).list(eachSysUser -> new SysUserOutVO().toSysUserOutVO(eachSysUser)).to();
 
         PageVO<SysUserOutVO> pageVO = new PageVO<>(
                 sysUserPage.getCurrent(), sysUserPage.getSize(), sysUserPage.getTotal(),
