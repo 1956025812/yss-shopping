@@ -6,8 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel("系统用户修改InVo对象")
-public class SysUserUpdateInVo {
+@ApiModel("系统用户修改InVO对象")
+public class SysUserUpdateInVO {
 
     @ApiModelProperty("用户ID")
     private Long uid;
@@ -26,21 +26,22 @@ public class SysUserUpdateInVo {
 
 
     /**
-     * sysUserUpdateInVo转换为SysUser
+     * sysUserUpdateInVO转换为SysUser
      *
-     * @param sysUserUpdateInVo
+     * @param sysUserUpdateInVO
      * @return SysUser
      */
-    public SysUser toSysUser(SysUserUpdateInVo sysUserUpdateInVo) {
+    public SysUser toSysUser(SysUserUpdateInVO sysUserUpdateInVO) {
         SysUser sysUser = new SysUser();
-        if (null != sysUserUpdateInVo) {
-            sysUser.setId(sysUserUpdateInVo.getUid())
-                    .setPassword(sysUserUpdateInVo.getPassword())
-                    .setNickname(sysUserUpdateInVo.getNickname())
-                    .setEmail(sysUserUpdateInVo.getEmail())
-                    .setHeadImgUrl(sysUserUpdateInVo.getHeadImgUrl());
+        if (null != sysUserUpdateInVO) {
+            sysUser.setId(sysUserUpdateInVO.getUid())
+                    .setPassword(sysUserUpdateInVO.getPassword())
+                    .setNickname(sysUserUpdateInVO.getNickname())
+                    .setEmail(sysUserUpdateInVO.getEmail())
+                    .setHeadImgUrl(sysUserUpdateInVO.getHeadImgUrl());
         }
         return sysUser;
     }
+
 
 }

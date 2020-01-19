@@ -11,10 +11,10 @@ import lombok.experimental.Accessors;
 import java.time.LocalDateTime;
 
 @Data
-@ApiModel("用户OutVo对象")
+@ApiModel("用户OutVO对象")
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SysUserOutVo {
+public class SysUserOutVO {
 
     @ApiModelProperty("用户ID")
     private Long uid;
@@ -38,19 +38,20 @@ public class SysUserOutVo {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
-    public SysUserOutVo() {
+    public SysUserOutVO() {
     }
 
+
     /**
-     * SysUser对象转换为SysUserOutVo对象
+     * SysUser对象转换为SysUserOutVO对象
      *
      * @param sysUser
-     * @return SysUserOutVo
+     * @return SysUserOutVO
      */
-    public SysUserOutVo toSysUserOutVo(SysUser sysUser) {
-        SysUserOutVo sysUserOutVo = new SysUserOutVo();
+    public SysUserOutVO toSysUserOutVO(SysUser sysUser) {
+        SysUserOutVO sysUserOutVO = new SysUserOutVO();
         if (null != sysUser) {
-            sysUserOutVo.setUid(sysUser.getId())
+            sysUserOutVO.setUid(sysUser.getId())
                     .setUsername(sysUser.getUsername())
                     .setNickname(sysUser.getNickname())
                     .setEmail(sysUser.getEmail())
@@ -58,7 +59,8 @@ public class SysUserOutVo {
                     .setState(sysUser.getState())
                     .setCreateTime(sysUser.getCreateTime());
         }
-        return sysUserOutVo;
+        return sysUserOutVO;
     }
+
 
 }

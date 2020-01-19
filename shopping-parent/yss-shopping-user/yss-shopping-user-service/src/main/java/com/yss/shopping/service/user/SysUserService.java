@@ -3,6 +3,8 @@ package com.yss.shopping.service.user;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yss.shopping.entity.user.SysUser;
+import com.yss.shopping.vo.user.SysUserOutVO;
+import com.yss.shopping.vo.user.SysUserUpdateInVO;
 
 /**
  * <p>
@@ -18,27 +20,27 @@ public interface SysUserService extends IService<SysUser> {
      * 根据用户ID查询用户信息
      *
      * @param uid 用户ID
-     * @return
+     * @return SysUserOutVO
      */
-    SysUser selectUserById(Long uid);
+    SysUserOutVO selectSysUserOutVOById(Long uid);
 
 
     /**
      * 新增用户信息
      *
-     * @param sysUser 用户对象
-     * @return 用户对象
+     * @param sysUser 新增用户VO对象
+     * @return SysUserOutVO
      */
-    SysUser saveSysUser(SysUser sysUser);
+    SysUserOutVO saveSysUser(SysUser sysUser);
 
 
     /**
      * 修改用户信息
      *
-     * @param sysUser 用户对象
+     * @param sysUserUpdateInVO 修改用户VO对象
      * @return 用户对象
      */
-    void updateSysUser(SysUser sysUser);
+    void updateSysUser(SysUserUpdateInVO sysUserUpdateInVO);
 
 
     /**

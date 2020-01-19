@@ -6,8 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel("系统用户新增InVo对象")
-public class SysUserSaveInVo {
+@ApiModel("系统用户新增InVO对象")
+public class SysUserSaveInVO {
 
     @ApiModelProperty("用户账号")
     private String username;
@@ -24,22 +24,25 @@ public class SysUserSaveInVo {
     @ApiModelProperty("头像路径")
     private String headImgUrl;
 
+
     /**
-     * SysUserSaveInVo转换为SysUser
+     * SysUserSaveInVO转换为SysUser
      *
-     * @param sysUserSaveInVo
+     * @param sysUserSaveInVO
      * @return SysUser
      */
-    public SysUser toSysUser(SysUserSaveInVo sysUserSaveInVo) {
+    public SysUser toSysUser(SysUserSaveInVO sysUserSaveInVO) {
         SysUser sysUser = new SysUser();
-        if (null != sysUserSaveInVo) {
-            sysUser.setUsername(sysUserSaveInVo.getUsername())
-                    .setPassword(sysUserSaveInVo.getPassword())
-                    .setNickname(sysUserSaveInVo.getNickname())
-                    .setEmail(sysUserSaveInVo.getEmail())
-                    .setHeadImgUrl(sysUserSaveInVo.getHeadImgUrl());
+        if (null != sysUserSaveInVO) {
+            sysUser.setUsername(sysUserSaveInVO.getUsername())
+                    .setPassword(sysUserSaveInVO.getPassword())
+                    .setNickname(sysUserSaveInVO.getNickname())
+                    .setEmail(sysUserSaveInVO.getEmail())
+                    .setHeadImgUrl(sysUserSaveInVO.getHeadImgUrl());
         }
         return sysUser;
     }
+
+
 
 }

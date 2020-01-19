@@ -6,6 +6,8 @@ import com.yss.shopping.constant.user.SysUserConstant;
 import com.yss.shopping.entity.user.SysUser;
 import com.yss.shopping.mapper.user.SysUserMapper;
 import com.yss.shopping.service.user.SysUserService;
+import com.yss.shopping.vo.user.SysUserOutVO;
+import com.yss.shopping.vo.user.SysUserUpdateInVO;
 import com.yss.shopping.util.FastJsonUtil;
 import com.yss.shopping.util.ListUtils;
 import com.yss.shopping.util.Md5Util;
@@ -36,17 +38,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 
     @Override
-    public SysUser selectUserById(Long uid) {
+    public SysUserOutVO selectSysUserOutVOById(Long uid) {
         log.info("根据用户ID查询用户信息，请求参数为：[uid:{}]", uid);
         SysUser sysUser = this.getById(uid);
         log.info("查询到的用户信息为：{}", sysUser);
-        return sysUser;
+        return new SysUserOutVO().toSysUserOutVO(sysUser);
     }
 
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public SysUser saveSysUser(SysUser sysUser) {
+    public SysUserOutVO saveSysUser(SysUser sysUser) {
         log.info("新增用户信息，接收过来的请求参数为：{}", FastJsonUtil.bean2Json(sysUser));
 
         // 账号和邮箱不能重复
@@ -60,15 +62,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         boolean saveFlag = this.save(sysUser);
         Assert.isTrue(saveFlag, "新增用户失败");
 
-        return sysUser;
+        return new SysUserOutVO().toSysUserOutVO(sysUser);
     }
 
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void updateSysUser(SysUser sysUser) {
-        log.info("修改用户信息，接收过来的请求参数为：{}", FastJsonUtil.bean2Json(sysUser));
+    public void updateSysUser(SysUserUpdateInVO sysUserUpdateInVO) {
+        log.info("修改用户信息，接收过来的请求参数为：{}", FastJsonUtil.bean2Json(sysUserUpdateInVO));
 
+        SysUser sysUser = sysUserUpdateInVO.toSysUser(sysUserUpdateInVO);
         Long uid = sysUser.getId();
 
         // 用户ID对应的记录必须存在
