@@ -32,8 +32,8 @@
      
 - 用户中心权限模块
     - 用户、角色、菜单、用户角色、角色菜单表设计[OK]
-    - 用户表的CRUD
-    - 整合springvolidate，并自定义常用参数校验注解
+    - 用户表的CRUD[OK]
+    - 整合springvolidate，并自定义常用参数校验注解[OK]
 
 - 整合第三方插件
     - xxl-job
