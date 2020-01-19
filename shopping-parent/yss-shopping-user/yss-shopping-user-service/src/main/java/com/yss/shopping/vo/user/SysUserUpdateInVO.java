@@ -5,11 +5,14 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 @ApiModel("系统用户修改InVO对象")
 public class SysUserUpdateInVO {
 
     @ApiModelProperty("用户ID")
+    @NotNull(message = "用户ID字段uid不能为空")
     private Long uid;
 
     @ApiModelProperty("用户密码")

@@ -4,16 +4,20 @@ package com.yss.shopping.controller.user;
 import com.yss.shopping.common.vo.PageVO;
 import com.yss.shopping.controller.BaseController;
 import com.yss.shopping.service.user.SysUserService;
+import com.yss.shopping.vo.ResultVO;
 import com.yss.shopping.vo.user.SysUserOutVO;
 import com.yss.shopping.vo.user.SysUserPageVO;
 import com.yss.shopping.vo.user.SysUserSaveInVO;
 import com.yss.shopping.vo.user.SysUserUpdateInVO;
-import com.yss.shopping.vo.ResultVO;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -27,6 +31,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @RestController
 @RequestMapping("/sysuser")
 @Slf4j
+@Validated
 public class SysUserController extends BaseController {
 
     @Autowired
@@ -58,7 +63,7 @@ public class SysUserController extends BaseController {
 
     @ApiOperation("新增用户对象")
     @PostMapping("/save")
-    public ResultVO saveSysUser(@ApiParam(value = "新增用户InVO对象", required = true) @RequestBody SysUserSaveInVO sysUserSaveInVO) {
+    public ResultVO saveSysUser(@ApiParam(value = "新增用户InVO对象", required = true) @RequestBody @Valid SysUserSaveInVO sysUserSaveInVO) {
         SysUserOutVO sysUserOutVO = this.sysUserService.saveSysUser(sysUserSaveInVO.toSysUser(sysUserSaveInVO));
         return ResultVO.getSuccess("新增用户成功", sysUserOutVO);
     }
@@ -66,7 +71,7 @@ public class SysUserController extends BaseController {
 
     @ApiOperation("修改用户对象")
     @PostMapping("/update")
-    public ResultVO updateSysUser(@ApiParam(value = "修改用户InVO对象", required = true) @RequestBody SysUserUpdateInVO sysUserUpdateInVO) {
+    public ResultVO updateSysUser(@ApiParam(value = "修改用户InVO对象", required = true) @RequestBody @Valid SysUserUpdateInVO sysUserUpdateInVO) {
         this.sysUserService.updateSysUser(sysUserUpdateInVO);
         return ResultVO.getSuccess("修改用户成功");
     }

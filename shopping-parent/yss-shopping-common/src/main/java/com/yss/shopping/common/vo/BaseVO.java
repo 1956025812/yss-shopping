@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
@@ -20,9 +21,11 @@ import java.time.YearMonth;
 public class BaseVO {
 
     @ApiModelProperty("当前页码")
+    @NotNull(message = "当前页码字段currentPage不能为空")
     private Long currentPage;
 
     @ApiModelProperty("每页条数")
+    @NotNull(message = "每页条数字段pageSize不能为空")
     private Long pageSize;
 
     @ApiModelProperty("开始时间 格式：yyyy-MM-dd HH:mm:ss")
