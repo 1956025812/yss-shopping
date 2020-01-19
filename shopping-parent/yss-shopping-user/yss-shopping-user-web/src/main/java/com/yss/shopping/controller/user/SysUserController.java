@@ -9,6 +9,7 @@ import com.yss.shopping.vo.user.SysUserOutVO;
 import com.yss.shopping.vo.user.SysUserPageVO;
 import com.yss.shopping.vo.user.SysUserSaveInVO;
 import com.yss.shopping.vo.user.SysUserUpdateInVO;
+import com.yss.shopping.volidation.IntegerEnum;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -81,7 +81,8 @@ public class SysUserController extends BaseController {
     @PostMapping("/update/status/batch")
     public ResultVO updateSysUserStatusBatch(
             @ApiParam(value = "用户ID集合", required = true) @RequestParam Long[] uidList,
-            @ApiParam(value = "用户状态: 0-删除，1-启用，2-禁用", required = true, example = "1") @RequestParam Integer userState) {
+            @ApiParam(value = "用户状态: 0-删除，1-启用，2-禁用", required = true, example = "1")
+            @IntegerEnum(intValues = {0, 1, 2}, message = "用户状态的值只能为0/1/2") @RequestParam Integer userState) {
         this.sysUserService.updateSysUserStatusBatch(uidList, userState);
         return ResultVO.getSuccess("批量修改用户状态成功");
     }
