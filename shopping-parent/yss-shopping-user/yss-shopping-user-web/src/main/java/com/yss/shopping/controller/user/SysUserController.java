@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -55,7 +56,8 @@ public class SysUserController extends BaseController {
 
     @ApiOperation("根据用户ID查询用户信息")
     @GetMapping("/select/by/id")
-    public ResultVO selectSysUserOutVOById(@ApiParam(value = "用户ID", required = true, example = "1") @RequestParam Long uid) {
+    public ResultVO selectSysUserOutVOById(@ApiParam(value = "用户ID", required = true, example = "1")
+                                           @NotNull(message = "用户ID字段uid不能为空") @RequestParam Long uid) {
         SysUserOutVO sysUserOutVO = this.sysUserService.selectSysUserOutVOById(uid);
         return ResultVO.getSuccess("查询用户信息成功", sysUserOutVO);
     }
@@ -80,7 +82,8 @@ public class SysUserController extends BaseController {
     @ApiOperation("批量修改用户状态")
     @PostMapping("/update/status/batch")
     public ResultVO updateSysUserStatusBatch(
-            @ApiParam(value = "用户ID集合", required = true) @RequestParam Long[] uidList,
+            @ApiParam(value = "用户ID集合", required = true)
+            @NotNull(message = "用户ID集合字段uidList不能为空") @RequestParam Long[] uidList,
             @ApiParam(value = "用户状态: 0-删除，1-启用，2-禁用", required = true, example = "1")
             @IntegerEnum(intValues = {0, 1, 2}, message = "用户状态的值只能为0/1/2") @RequestParam Integer userState) {
         this.sysUserService.updateSysUserStatusBatch(uidList, userState);

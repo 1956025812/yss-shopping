@@ -8,12 +8,12 @@ import com.yss.shopping.constant.user.SysUserConstant;
 import com.yss.shopping.entity.user.SysUser;
 import com.yss.shopping.mapper.user.SysUserMapper;
 import com.yss.shopping.service.user.SysUserService;
-import com.yss.shopping.vo.user.SysUserOutVO;
-import com.yss.shopping.vo.user.SysUserPageVO;
-import com.yss.shopping.vo.user.SysUserUpdateInVO;
 import com.yss.shopping.util.FastJsonUtil;
 import com.yss.shopping.util.ListUtils;
 import com.yss.shopping.util.Md5Util;
+import com.yss.shopping.vo.user.SysUserOutVO;
+import com.yss.shopping.vo.user.SysUserPageVO;
+import com.yss.shopping.vo.user.SysUserUpdateInVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,7 +48,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUserQueryWrapper.like(!StringUtils.isEmpty(sysUserPageVO.getUsername()), SysUserConstant.Column.USERNAME.getKey(), sysUserPageVO.getUsername())
                 .like(!StringUtils.isEmpty(sysUserPageVO.getNickname()), SysUserConstant.Column.NICKNAME.getKey(), sysUserPageVO.getNickname())
                 .like(!StringUtils.isEmpty(sysUserPageVO.getEmail()), SysUserConstant.Column.EMAIL.getKey(), sysUserPageVO.getEmail())
-                .eq(null != sysUserPageVO.getState(), SysUserConstant.Column.STATE.getKey(), sysUserPageVO.getState());
+                .eq(null != sysUserPageVO.getState(), SysUserConstant.Column.STATE.getKey(), sysUserPageVO.getState())
+                .gt(SysUserConstant.Column.STATE.getKey(), SysUserConstant.State.DEL.getKey());
 
         Page<SysUser> page = new Page<>(sysUserPageVO.getCurrentPage(), sysUserPageVO.getPageSize());
         Page<SysUser> sysUserPage = this.sysUserMapper.selectPage(page, sysUserQueryWrapper);
@@ -136,7 +137,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private void assertUsernameNotExist(String username) {
         log.info("查询账号：{} 的用户数量", username);
         Assert.notNull(username, "username不能为空");
-        Integer count = this.sysUserMapper.selectCount(new QueryWrapper<>(new SysUser().setUsername(username)));
+        QueryWrapper<SysUser> emailNotExistWrapper = new QueryWrapper<>(new SysUser().setUsername(username))
+                .gt(SysUserConstant.Column.STATE.getKey(), SysUserConstant.State.DEL.getKey());
+        Integer count = this.sysUserMapper.selectCount(emailNotExistWrapper);
         log.info("账号为：{} 的用户数量为：{}", username, count);
         Assert.isTrue(count == 0, "操作失败：账号已经存在，请重新输入");
     }
@@ -150,7 +153,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Assert.notNull(email, "email不能为空");
 
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>(new SysUser().setEmail(email))
-                .ne(null != uid, SysUserConstant.Column.ID.getKey(), uid);
+                .ne(null != uid, SysUserConstant.Column.ID.getKey(), uid)
+                .gt(SysUserConstant.Column.STATE.getKey(), SysUserConstant.State.DEL.getKey());
 
         Integer count = this.sysUserMapper.selectCount(queryWrapper);
         log.info("邮箱为：{} 的用户数量为：{}", email, count);
