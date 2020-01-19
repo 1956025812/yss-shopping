@@ -13,7 +13,28 @@ public interface SysUserConstant {
         /**
          * id-主键ID
          */
-        ID("id", "主键ID");
+        ID("id", "主键ID"),
+
+        /**
+         * username-账号
+         */
+        USERNAME("username", "账号"),
+
+        /**
+         * nickname-昵称
+         */
+        NICKNAME("nickname", "昵称"),
+
+        /**
+         * email-邮箱
+         */
+        EMAIL("email", "邮箱"),
+
+        /**
+         * STATE-状态
+         */
+        STATE("STATE", "状态"),
+        ;
 
         private String key;
         private String value;

@@ -1,18 +1,19 @@
 package com.yss.shopping.controller.user;
 
 
+import com.yss.shopping.common.vo.PageVO;
 import com.yss.shopping.controller.BaseController;
 import com.yss.shopping.service.user.SysUserService;
 import com.yss.shopping.vo.user.SysUserOutVO;
+import com.yss.shopping.vo.user.SysUserPageVO;
 import com.yss.shopping.vo.user.SysUserSaveInVO;
 import com.yss.shopping.vo.user.SysUserUpdateInVO;
 import com.yss.shopping.vo.ResultVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * <p>
@@ -30,6 +31,21 @@ public class SysUserController extends BaseController {
 
     @Autowired
     private SysUserService sysUserService;
+
+    @ApiOperation("查询用户分页列表")
+    @GetMapping("/page")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", dataType = "Long", name = "currentPage", value = "当前页码", example = "1", required = true),
+            @ApiImplicitParam(paramType = "query", dataType = "Long", name = "pageSize", value = "每页记录数", example = "10", required = true),
+            @ApiImplicitParam(paramType = "query", dataType = "String", name = "username", value = "用户账号"),
+            @ApiImplicitParam(paramType = "query", dataType = "String", name = "nickname", value = "昵称"),
+            @ApiImplicitParam(paramType = "query", dataType = "String", name = "email", value = "邮箱"),
+            @ApiImplicitParam(paramType = "query", dataType = "Long", name = "state", value = "状态：0-删除，1-启用，2-禁用", example = "1")
+    })
+    public ResultVO selectSysUserPage(@ApiIgnore SysUserPageVO sysUserPageVO) {
+        PageVO<SysUserOutVO> sysUserOutVOPage = this.sysUserService.selectSysUserPage(sysUserPageVO);
+        return ResultVO.getSuccess("查询用户分页列表成功", sysUserOutVOPage);
+    }
 
 
     @ApiOperation("根据用户ID查询用户信息")

@@ -1,12 +1,15 @@
 package com.yss.shopping.service.impl.user;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yss.shopping.common.vo.PageVO;
 import com.yss.shopping.constant.user.SysUserConstant;
 import com.yss.shopping.entity.user.SysUser;
 import com.yss.shopping.mapper.user.SysUserMapper;
 import com.yss.shopping.service.user.SysUserService;
 import com.yss.shopping.vo.user.SysUserOutVO;
+import com.yss.shopping.vo.user.SysUserPageVO;
 import com.yss.shopping.vo.user.SysUserUpdateInVO;
 import com.yss.shopping.util.FastJsonUtil;
 import com.yss.shopping.util.ListUtils;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,6 +39,30 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Autowired
     private SysUserMapper sysUserMapper;
+
+
+    @Override
+    public PageVO<SysUserOutVO> selectSysUserPage(SysUserPageVO sysUserPageVO) {
+
+        QueryWrapper<SysUser> sysUserQueryWrapper = new QueryWrapper<>();
+        sysUserQueryWrapper.like(!StringUtils.isEmpty(sysUserPageVO.getUsername()), SysUserConstant.Column.USERNAME.getKey(), sysUserPageVO.getUsername())
+                .like(!StringUtils.isEmpty(sysUserPageVO.getNickname()), SysUserConstant.Column.NICKNAME.getKey(), sysUserPageVO.getNickname())
+                .like(!StringUtils.isEmpty(sysUserPageVO.getEmail()), SysUserConstant.Column.EMAIL.getKey(), sysUserPageVO.getEmail())
+                .eq(null != sysUserPageVO.getState(), SysUserConstant.Column.STATE.getKey(), sysUserPageVO.getState());
+
+        Page<SysUser> page = new Page<>(sysUserPageVO.getCurrentPage(), sysUserPageVO.getPageSize());
+        Page<SysUser> sysUserPage = this.sysUserMapper.selectPage(page, sysUserQueryWrapper);
+        List<SysUser> sysUserList = sysUserPage.getRecords();
+        List<SysUserOutVO> sysUserOutVOList = ListUtils.n(sysUserList).list(eachSysUser ->
+                new SysUserOutVO().toSysUserOutVO(eachSysUser)).to();
+
+        PageVO<SysUserOutVO> pageVO = new PageVO<>(
+                sysUserPage.getCurrent(), sysUserPage.getSize(), sysUserPage.getTotal(),
+                sysUserPage.getPages(), sysUserOutVOList
+        );
+
+        return pageVO;
+    }
 
 
     @Override
@@ -122,10 +150,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         log.info("查询邮箱为：{} 的用户数量", email);
         Assert.notNull(email, "email不能为空");
 
-        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>(new SysUser().setEmail(email));
-        if (null != uid) {
-            queryWrapper.ne(SysUserConstant.Column.ID.getKey(), uid);
-        }
+        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>(new SysUser().setEmail(email))
+                .ne(null != uid, SysUserConstant.Column.ID.getKey(), uid);
 
         Integer count = this.sysUserMapper.selectCount(queryWrapper);
         log.info("邮箱为：{} 的用户数量为：{}", email, count);

@@ -2,8 +2,10 @@ package com.yss.shopping.service.user;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yss.shopping.common.vo.PageVO;
 import com.yss.shopping.entity.user.SysUser;
 import com.yss.shopping.vo.user.SysUserOutVO;
+import com.yss.shopping.vo.user.SysUserPageVO;
 import com.yss.shopping.vo.user.SysUserUpdateInVO;
 
 /**
@@ -15,6 +17,16 @@ import com.yss.shopping.vo.user.SysUserUpdateInVO;
  * @since 2019-12-07
  */
 public interface SysUserService extends IService<SysUser> {
+
+
+    /**
+     * 查询用户分页列表
+     *
+     * @param sysUserPageVO
+     * @return 用户分页列表
+     */
+    PageVO<SysUserOutVO> selectSysUserPage(SysUserPageVO sysUserPageVO);
+
 
     /**
      * 根据用户ID查询用户信息
@@ -50,4 +62,6 @@ public interface SysUserService extends IService<SysUser> {
      * @param userState 用户状态: 0-删除，1-启用，2-禁用
      */
     void updateSysUserStatusBatch(Long[] uidList, Integer userState);
+
+
 }
