@@ -1,19 +1,30 @@
 package com.yss.shopping.controller.user;
 
 
+import com.yss.shopping.controller.BaseController;
+import io.swagger.annotations.Api;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author yss
  * @since 2020-01-20
  */
+@Api(tags = "系统角色CONTROLLER")
 @RestController
 @RequestMapping("/sysRole")
-public class SysRoleController {
+@Slf4j
+@Validated
+public class SysRoleController extends BaseController {
+
+
+
 
 }
