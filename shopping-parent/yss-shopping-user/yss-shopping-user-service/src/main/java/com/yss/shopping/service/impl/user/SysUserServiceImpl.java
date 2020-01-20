@@ -13,6 +13,7 @@ import com.yss.shopping.util.ListUtils;
 import com.yss.shopping.util.Md5Util;
 import com.yss.shopping.vo.user.SysUserOutVO;
 import com.yss.shopping.vo.user.SysUserPageVO;
+import com.yss.shopping.vo.user.SysUserSaveInVO;
 import com.yss.shopping.vo.user.SysUserUpdateInVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,8 +77,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public SysUserOutVO saveSysUser(SysUser sysUser) {
-        log.info("新增用户信息，接收过来的请求参数为：{}", FastJsonUtil.bean2Json(sysUser));
+    public SysUserOutVO saveSysUser(SysUserSaveInVO sysUserSaveInVO) {
+        log.info("新增用户信息，接收过来的请求参数为：{}", FastJsonUtil.bean2Json(sysUserSaveInVO));
+
+        SysUser sysUser = sysUserSaveInVO.toSysUser(sysUserSaveInVO);
 
         // 账号和邮箱不能重复
         this.assertUsernameNotExist(sysUser.getUsername());

@@ -6,6 +6,7 @@ import com.yss.shopping.common.vo.PageVO;
 import com.yss.shopping.entity.user.SysUser;
 import com.yss.shopping.vo.user.SysUserOutVO;
 import com.yss.shopping.vo.user.SysUserPageVO;
+import com.yss.shopping.vo.user.SysUserSaveInVO;
 import com.yss.shopping.vo.user.SysUserUpdateInVO;
 
 /**
@@ -40,10 +41,10 @@ public interface SysUserService extends IService<SysUser> {
     /**
      * 新增用户信息
      *
-     * @param sysUser 新增用户VO对象
+     * @param sysUserSaveInVO 新增用户VO对象
      * @return SysUserOutVO
      */
-    SysUserOutVO saveSysUser(SysUser sysUser);
+    SysUserOutVO saveSysUser(SysUserSaveInVO sysUserSaveInVO);
 
 
     /**

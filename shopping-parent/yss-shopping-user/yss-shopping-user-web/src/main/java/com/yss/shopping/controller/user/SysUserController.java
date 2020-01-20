@@ -66,7 +66,7 @@ public class SysUserController extends BaseController {
     @ApiOperation("新增用户对象")
     @PostMapping("/save")
     public ResultVO saveSysUser(@ApiParam(value = "新增用户InVO对象", required = true) @RequestBody @Valid SysUserSaveInVO sysUserSaveInVO) {
-        SysUserOutVO sysUserOutVO = this.sysUserService.saveSysUser(sysUserSaveInVO.toSysUser(sysUserSaveInVO));
+        SysUserOutVO sysUserOutVO = this.sysUserService.saveSysUser(sysUserSaveInVO);
         return ResultVO.getSuccess("新增用户成功", sysUserOutVO);
     }
 
