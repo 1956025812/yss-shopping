@@ -65,4 +65,12 @@ public interface SysUserService extends IService<SysUser> {
     void updateSysUserStatusBatch(Long[] uidList, Integer userState);
 
 
+    /**
+     * 用户登录
+     *
+     * @param username 账号
+     * @param password 密码
+     * @return SysUserOutVO
+     */
+    SysUserOutVO login(String username, String password);
 }

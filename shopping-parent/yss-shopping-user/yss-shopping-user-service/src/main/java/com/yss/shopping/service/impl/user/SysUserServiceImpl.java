@@ -132,6 +132,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
 
+    @Override
+    public SysUserOutVO login(String username, String password) {
+        QueryWrapper<SysUser> sysUserQueryWrapper = new QueryWrapper<>(new SysUser().setUsername(username).setPassword(Md5Util.toMD5(password)));
+        SysUser sysUser = this.sysUserMapper.selectOne(sysUserQueryWrapper);
+        Assert.notNull(sysUser, "登录失败，用户名或密码错误,请重新输入");
+        return new SysUserOutVO().toSysUserOutVO(sysUser);
+    }
+
     /**
      * 断言账号不存在, 如果存在则抛出异常
      *

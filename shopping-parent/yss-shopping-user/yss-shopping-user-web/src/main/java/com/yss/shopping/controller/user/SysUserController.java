@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -88,6 +89,16 @@ public class SysUserController extends BaseController {
             @IntegerEnum(intValues = {0, 1, 2}, message = "用户状态的值只能为0/1/2") @RequestParam Integer userState) {
         this.sysUserService.updateSysUserStatusBatch(uidList, userState);
         return ResultVO.getSuccess("批量修改用户状态成功");
+    }
+
+
+    @ApiOperation("登录")
+    @GetMapping("/login")
+    public ResultVO login(
+            @ApiParam(value = "账号", required = true) @NotEmpty(message = "用户账号username字段不能为空") @RequestParam String username,
+            @ApiParam(value = "密码", required = true) @NotEmpty(message = "密码password字段不能为空") @RequestParam String password) {
+        SysUserOutVO sysUserOutVO = this.sysUserService.login(username, password);
+        return ResultVO.getSuccess("登录成功", sysUserOutVO);
     }
 
 
