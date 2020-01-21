@@ -1,4 +1,4 @@
-package com.yss.shopping.common.vo;
+package com.yss.shopping.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;

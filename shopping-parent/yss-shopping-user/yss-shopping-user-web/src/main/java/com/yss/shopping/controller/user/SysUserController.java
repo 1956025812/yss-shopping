@@ -1,7 +1,7 @@
 package com.yss.shopping.controller.user;
 
 
-import com.yss.shopping.common.vo.PageVO;
+import com.yss.shopping.vo.PageVO;
 import com.yss.shopping.controller.BaseController;
 import com.yss.shopping.service.user.SysUserService;
 import com.yss.shopping.vo.ResultVO;
@@ -93,8 +93,8 @@ public class SysUserController extends BaseController {
 
 
     @ApiOperation("登录")
-    @GetMapping("/login")
-    public ResultVO login(
+    @GetMapping("/denglu")
+    public ResultVO denglu(
             @ApiParam(value = "账号", required = true) @NotEmpty(message = "用户账号username字段不能为空") @RequestParam String username,
             @ApiParam(value = "密码", required = true) @NotEmpty(message = "密码password字段不能为空") @RequestParam String password) {
         SysUserOutVO sysUserOutVO = this.sysUserService.login(username, password);

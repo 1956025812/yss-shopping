@@ -1,7 +1,7 @@
 package com.yss.shopping.vo.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.yss.shopping.common.vo.BaseVO;
+import com.yss.shopping.vo.BaseVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

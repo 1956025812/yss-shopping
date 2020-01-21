@@ -2,7 +2,7 @@ package com.yss.shopping.service.user;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.yss.shopping.common.vo.PageVO;
+import com.yss.shopping.vo.PageVO;
 import com.yss.shopping.entity.user.SysUser;
 import com.yss.shopping.vo.user.SysUserOutVO;
 import com.yss.shopping.vo.user.SysUserPageVO;
