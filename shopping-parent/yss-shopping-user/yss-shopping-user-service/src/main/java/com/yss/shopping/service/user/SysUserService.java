@@ -72,5 +72,5 @@ public interface SysUserService extends IService<SysUser> {
      * @param password 密码
      * @return SysUserOutVO
      */
-    SysUserOutVO login(String username, String password);
+    SysUserOutVO login(String username, String password) throws Exception;
 }

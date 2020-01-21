@@ -96,7 +96,7 @@ public class SysUserController extends BaseController {
     @GetMapping("/denglu")
     public ResultVO denglu(
             @ApiParam(value = "账号", required = true) @NotEmpty(message = "用户账号username字段不能为空") @RequestParam String username,
-            @ApiParam(value = "密码", required = true) @NotEmpty(message = "密码password字段不能为空") @RequestParam String password) {
+            @ApiParam(value = "密码", required = true) @NotEmpty(message = "密码password字段不能为空") @RequestParam String password) throws Exception {
         SysUserOutVO sysUserOutVO = this.sysUserService.login(username, password);
         return ResultVO.getSuccess("登录成功", sysUserOutVO);
     }

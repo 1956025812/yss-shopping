@@ -3,7 +3,6 @@ package com.yss.shopping.service.impl.user;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.yss.shopping.vo.PageVO;
 import com.yss.shopping.constant.user.SysUserConstant;
 import com.yss.shopping.entity.user.SysUser;
 import com.yss.shopping.mapper.user.SysUserMapper;
@@ -11,6 +10,7 @@ import com.yss.shopping.service.user.SysUserService;
 import com.yss.shopping.util.FastJsonUtil;
 import com.yss.shopping.util.ListUtils;
 import com.yss.shopping.util.Md5Util;
+import com.yss.shopping.vo.PageVO;
 import com.yss.shopping.vo.user.SysUserOutVO;
 import com.yss.shopping.vo.user.SysUserPageVO;
 import com.yss.shopping.vo.user.SysUserSaveInVO;
@@ -133,7 +133,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 
     @Override
-    public SysUserOutVO login(String username, String password) {
+    public SysUserOutVO login(String username, String password) throws Exception {
         QueryWrapper<SysUser> sysUserQueryWrapper = new QueryWrapper<>(new SysUser().setUsername(username).setPassword(Md5Util.toMD5(password)));
         SysUser sysUser = this.sysUserMapper.selectOne(sysUserQueryWrapper);
         Assert.notNull(sysUser, "登录失败，用户名或密码错误,请重新输入");
