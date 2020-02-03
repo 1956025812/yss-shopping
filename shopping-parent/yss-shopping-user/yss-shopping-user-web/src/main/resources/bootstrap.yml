@@ -35,6 +35,9 @@ spring:
         #        group: ${spring.cloud.nacos.group}
         #        timeout: 3000
         ext-config:
+          - data-id: REDIS_USER.yaml
+            group: DEFAULT_GROUP
+            refresh: true
           - data-id: YSS-SHOPPING-USER.yaml
             group: DEFAULT_GROUP
             refresh: true

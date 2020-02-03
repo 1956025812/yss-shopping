@@ -86,7 +86,6 @@
         <!-- springbootadmin -->
 
 
-
         <dependency>
             <groupId>com.yss.shopping</groupId>
             <artifactId>yss-shopping-user-service</artifactId>

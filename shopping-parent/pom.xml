@@ -49,6 +49,8 @@
         <spring-boot-starter-actuator.version>2.2.0.RELEASE</spring-boot-starter-actuator.version>
         <spring-boot-admin-dependencies.version>2.1.5</spring-boot-admin-dependencies.version>
         <spring-boot-starter-aop.version>2.2.2.RELEASE</spring-boot-starter-aop.version>
+        <spring-boot-starter-data-redis-version>2.2.4.RELEASE</spring-boot-starter-data-redis-version>
+        <commons-lang3.version>3.9</commons-lang3.version>
     </properties>
 
 
@@ -193,6 +195,24 @@
                 <version>${spring-boot-starter-aop.version}</version>
             </dependency>
             <!-- aop -->
+
+            <!-- redis -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${spring-boot-starter-data-redis-version}</version>
+            </dependency>
+            <!-- redis -->
+
+
+            <!-- common-lang3 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+            <!-- common-lang3 -->
+
 
 
         </dependencies>
