@@ -30,10 +30,11 @@
     - jenkins打包部署
     - docker打包部署
      
-- 用户中心权限模块
+- USER用户工程
     - 用户、角色、菜单、用户角色、角色菜单表设计[OK]
     - 用户表的CRUD[OK]
     - 整合springvolidate，并自定义常用参数校验注解[OK]
+    - 整合redis[OK]
 
 - 整合第三方插件
     - xxl-job
