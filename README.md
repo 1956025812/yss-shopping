@@ -26,15 +26,18 @@
     - 网关[TODO网关的配置文件写在项目中没问题，但是放到nacos上就无法做到路由转发TODO]
     - springboot-admin监控台[OK]
     - common模块做统一异常处理和AOP日志[OK]
-    - 整合redis子模块，需要使用redis的工程直接引入该模块即可
+    - 封装redis工具类[OK]
+    - 整合调度工程yss-shopping-schedule成功，注意：要下载服务端，我的git上的xxl-job项目，这个抽出来共用[OK]
     - jenkins打包部署
     - docker打包部署
      
-- 用户中心权限模块
-
+- USER用户工程
+    - 用户、角色、菜单、用户角色、角色菜单表设计[OK]
+    - 用户表的CRUD[OK]
+    - 整合springvolidate，并自定义常用参数校验注解[OK]
+    - 整合redis[OK]
 
 - 整合第三方插件
-    - xxl-job
     - sharding-jdbc
 
  
