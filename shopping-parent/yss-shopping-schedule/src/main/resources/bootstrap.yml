@@ -8,6 +8,7 @@ spring:
   profiles:
     active: DEV
 
+### TODO 等xxl-job-admin 部署好的时候就放到NACOS上 address改为对应的IP
 xxl:
   job:
     admin:
