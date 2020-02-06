@@ -27,6 +27,7 @@
     - springboot-admin监控台[OK]
     - common模块做统一异常处理和AOP日志[OK]
     - 封装redis工具类[OK]
+    - 整合调度工程yss-shopping-schedule成功，注意：要下载服务端，我的git上的xxl-job项目，这个抽出来共用[OK]
     - jenkins打包部署
     - docker打包部署
      
@@ -37,7 +38,7 @@
     - 整合redis[OK]
 
 - 整合第三方插件
-    - xxl-job
+
     - sharding-jdbc
 
  
