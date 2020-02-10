@@ -23,7 +23,13 @@ public interface SysMenuConstant {
         /**
          * state-状态：0-删除，1-启用，2-禁用
          */
-        STATE("state", "状态：0-删除，1-启用，2-禁用");
+        STATE("state", "状态：0-删除，1-启用，2-禁用"),
+
+        /**
+         * parent_id-父菜单ID
+         */
+        PARENT_ID("parent_id", "父菜单ID"),
+        ;
 
         private String key;
         private String value;

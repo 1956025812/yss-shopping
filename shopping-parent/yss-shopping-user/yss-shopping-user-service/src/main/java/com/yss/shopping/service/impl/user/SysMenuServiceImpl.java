@@ -7,8 +7,9 @@ import com.yss.shopping.constant.user.SysMenuConstant;
 import com.yss.shopping.entity.user.SysMenu;
 import com.yss.shopping.mapper.user.SysMenuMapper;
 import com.yss.shopping.service.user.SysMenuService;
+import com.yss.shopping.util.FastJsonUtil;
 import com.yss.shopping.util.ListUtils;
-import com.yss.shopping.vo.CodeAndNameVO;
+import com.yss.shopping.vo.user.SysMenuDetailOutVO;
 import com.yss.shopping.vo.user.SysMenuOutVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +34,12 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     private SysMenuMapper sysMenuMapper;
 
     @Override
-    public List<SysMenuOutVO> selectSysMenuList(Integer type) {
+    public List<SysMenuOutVO> selectSysMenuList(Integer type, Long parmentId) {
         log.info("查询菜单的代码和名称列表，参数为：[type={}]", type);
 
         QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>();
         sysMenuQueryWrapper.eq(null != type, SysMenuConstant.Column.MENU_TYPE.getKey(), type)
+                .eq(null != parmentId, SysMenuConstant.Column.PARENT_ID.getKey(), parmentId)
                 .eq(SysMenuConstant.Column.STATE.getKey(), SysMenuConstant.State.OPEN.getKey());
         List<SysMenu> sysMenuList = this.sysMenuMapper.selectList(sysMenuQueryWrapper);
         log.info("查询到的菜单数量为：{}", CollectionUtils.isEmpty(sysMenuList) ? 0 : sysMenuList.size());
@@ -50,4 +52,15 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
 
+    @Override
+    public SysMenuDetailOutVO selectSysMenuDetail(Long mid) {
+        log.info("根据菜单ID： {} 查询菜单信息", mid);
+
+        SysMenu sysMenuDetail = this.sysMenuMapper.selectById(mid);
+        log.info("查询到的菜单详情为：{}", FastJsonUtil.bean2Json(sysMenuDetail));
+
+        SysMenuDetailOutVO sysMenuDetailOutVO = new SysMenuDetailOutVO().toSysMenuDetailOutVO(sysMenuDetail);
+
+        return sysMenuDetailOutVO;
+    }
 }
