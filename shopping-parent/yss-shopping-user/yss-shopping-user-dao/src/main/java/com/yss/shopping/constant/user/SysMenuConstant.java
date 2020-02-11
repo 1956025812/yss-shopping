@@ -6,6 +6,12 @@ package com.yss.shopping.constant.user;
 public interface SysMenuConstant {
 
     /**
+     * 默认的父级顶级ID-0
+     */
+    Integer PARENT_ID_DEFAULT_TOP = 0;
+
+
+    /**
      * 系统菜单表字段
      */
     enum Column implements SysMenuConstant {
@@ -162,5 +168,78 @@ public interface SysMenuConstant {
             this.value = value;
         }
     }
+
+
+    /**
+     * 菜单类型：1-页面，2-按钮
+     */
+    enum MenuType implements SysMenuConstant {
+
+        /**
+         * 1-页面
+         */
+        PAGE(1, "页面"),
+
+        /**
+         * 2-按钮
+         */
+        BUTTON(2, "按钮"),
+        ;
+
+        private Integer key;
+        private String value;
+
+        MenuType(Integer key, String value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        /**
+         * 根据整型索引得到对应的名称
+         *
+         * @param key
+         * @return value
+         */
+        public static String getValue(Integer key) {
+            for (MenuType e : MenuType.values()) {
+                if (e.key.equals(key)) {
+                    return e.value;
+                }
+            }
+            return null;
+        }
+
+        /**
+         * 判断是否包含value
+         *
+         * @param value
+         * @return 如果包含value, 则返回对应的key, 否则返回null
+         */
+        public static Integer containValue(String value) {
+            for (MenuType e : MenuType.values()) {
+                if (e.value.equals(value)) {
+                    return e.key;
+                }
+            }
+            return null;
+        }
+
+        public Integer getKey() {
+            return key;
+        }
+
+        public void setKey(Integer key) {
+            this.key = key;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+    }
+
 
 }

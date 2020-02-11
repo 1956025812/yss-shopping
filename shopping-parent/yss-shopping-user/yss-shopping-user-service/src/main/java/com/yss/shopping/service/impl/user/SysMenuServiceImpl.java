@@ -56,10 +56,17 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public SysMenuDetailOutVO selectSysMenuDetail(Long mid) {
         log.info("根据菜单ID： {} 查询菜单信息", mid);
 
-        SysMenu sysMenuDetail = this.sysMenuMapper.selectById(mid);
-        log.info("查询到的菜单详情为：{}", FastJsonUtil.bean2Json(sysMenuDetail));
+        SysMenu sysMenu = this.sysMenuMapper.selectById(mid);
+        log.info("查询到的菜单为：{}", FastJsonUtil.bean2Json(sysMenu));
 
-        SysMenuDetailOutVO sysMenuDetailOutVO = new SysMenuDetailOutVO().toSysMenuDetailOutVO(sysMenuDetail);
+        // 处理父级菜单名称
+        String parentSysMenuName = null;
+        if (null != sysMenu && !SysMenuConstant.PARENT_ID_DEFAULT_TOP.equals(sysMenu.getParentId())) {
+            SysMenu parentSysMenu = this.sysMenuMapper.selectById(sysMenu.getParentId());
+            parentSysMenuName = null != parentSysMenu ? parentSysMenu.getMenuName() : null;
+        }
+
+        SysMenuDetailOutVO sysMenuDetailOutVO = new SysMenuDetailOutVO().toSysMenuDetailOutVO(sysMenu, parentSysMenuName);
 
         return sysMenuDetailOutVO;
     }

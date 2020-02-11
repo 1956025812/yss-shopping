@@ -7,7 +7,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
 
@@ -55,6 +54,9 @@ public class SysMenuDetailOutVO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
 
+    @ApiModelProperty("父级菜单")
+    private String parmentMenuName;
+
     public SysMenuDetailOutVO() {
     }
 
@@ -65,10 +67,16 @@ public class SysMenuDetailOutVO {
      * @param sysMenu
      * @return SysMenuDetailOutVO
      */
-    public SysMenuDetailOutVO toSysMenuDetailOutVO(SysMenu sysMenu) {
+    public SysMenuDetailOutVO toSysMenuDetailOutVO(SysMenu sysMenu, String parmentMenuName) {
         SysMenuDetailOutVO sysMenuDetailOutVO = new SysMenuDetailOutVO();
         if (null != sysMenu) {
-            BeanUtils.copyProperties(sysMenu, sysMenuDetailOutVO);
+            sysMenuDetailOutVO.setMid(sysMenu.getId()).setMenuType(sysMenu.getMenuType())
+                    .setMenuCode(sysMenu.getMenuCode()).setMenuName(sysMenu.getMenuName())
+                    .setParentId(sysMenu.getParentId()).setLevel(sysMenu.getLevel())
+                    .setState(sysMenu.getState()).setRemark(sysMenu.getRemark())
+                    .setCreateInfo(sysMenu.getCreateInfo()).setCreateTime(sysMenu.getCreateTime())
+                    .setUpdateInfo(sysMenu.getUpdateInfo()).setUpdateTime(sysMenu.getUpdateTime())
+                    .setParmentMenuName(parmentMenuName);
         }
         return sysMenuDetailOutVO;
     }
