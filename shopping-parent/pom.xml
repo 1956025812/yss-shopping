@@ -32,8 +32,10 @@
         <java.version>1.8</java.version>
         <spring-cloud-dependencies.version>Greenwich.SR3</spring-cloud-dependencies.version>
         <spring-cloud-alibaba-dependencies.version>2.1.1.RELEASE</spring-cloud-alibaba-dependencies.version>
-        <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
         <springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
+        <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
+        <swagger-annotations.version>1.5.21</swagger-annotations.version>
+        <swagger-models.version>1.5.21</swagger-models.version>
         <mybatis-plus.version>3.2.0</mybatis-plus.version>
         <mybatis-plus-generator.version>3.2.0</mybatis-plus-generator.version>
         <velocity-engine-core.version>2.1</velocity-engine-core.version>
@@ -85,13 +87,34 @@
             <!-- swagger -->
             <dependency>
                 <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
+                <artifactId>springfox-swagger-ui</artifactId>
                 <version>${springfox-swagger-ui.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
+                <artifactId>springfox-swagger2</artifactId>
                 <version>${springfox-swagger-ui.version}</version>
+                <!-- 解决进入swagger页面报类型转换错误，排除2.9.2中的引用，手动增加1.5.21版本 -->
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.swagger</groupId>
+                        <artifactId>swagger-annotations</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.swagger</groupId>
+                        <artifactId>swagger-models</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger-annotations.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-models</artifactId>
+                <version>${swagger-models.version}</version>
             </dependency>
             <!-- swagger -->
 
