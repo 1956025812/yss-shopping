@@ -45,9 +45,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         log.info("查询到的菜单数量为：{}", CollectionUtils.isEmpty(sysMenuList) ? 0 : sysMenuList.size());
 
         List<SysMenuOutVO> sysMenuOutVOList = ListUtils.n(sysMenuList).list(eachSysMenu -> {
-            // 处理父菜单名称
-            String parentMenuName = this.selectMenuNameById(eachSysMenu.getParentId());
-            return new SysMenuOutVO().toSysMenuOutVO(eachSysMenu, parentMenuName);
+            return new SysMenuOutVO().toSysMenuOutVO(eachSysMenu, null);
         }).to();
 
         return sysMenuOutVOList;
