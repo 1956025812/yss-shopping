@@ -25,6 +25,9 @@ public class SysMenuOutVO {
     @ApiModelProperty("菜单名称")
     private String menuName;
 
+    @ApiModelProperty("菜单URL")
+    private String menuUrl;
+
     @ApiModelProperty("父菜单ID，顶级为0")
     private Long parentId;
 
@@ -49,8 +52,8 @@ public class SysMenuOutVO {
         if (null != sysMenu) {
             sysMenuOutVO.setMid(sysMenu.getId()).setMenuType(sysMenu.getMenuType())
                     .setMenuCode(sysMenu.getMenuCode()).setMenuName(sysMenu.getMenuName())
-                    .setParentId(sysMenu.getParentId()).setLevel(sysMenu.getLevel())
-                    .setState(sysMenu.getState());
+                    .setMenuUrl(sysMenu.getMenuUrl()).setParentId(sysMenu.getParentId()).
+                    setLevel(sysMenu.getLevel()).setState(sysMenu.getState());
         }
         return sysMenuOutVO;
     }

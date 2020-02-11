@@ -60,13 +60,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         log.info("查询到的菜单为：{}", FastJsonUtil.bean2Json(sysMenu));
 
         // 处理父级菜单名称
-        String parentSysMenuName = null;
+        String parentMenuName = null;
         if (null != sysMenu && !SysMenuConstant.PARENT_ID_DEFAULT_TOP.equals(sysMenu.getParentId())) {
             SysMenu parentSysMenu = this.sysMenuMapper.selectById(sysMenu.getParentId());
-            parentSysMenuName = null != parentSysMenu ? parentSysMenu.getMenuName() : null;
+            parentMenuName = null != parentSysMenu ? parentSysMenu.getMenuName() : null;
         }
 
-        SysMenuDetailOutVO sysMenuDetailOutVO = new SysMenuDetailOutVO().toSysMenuDetailOutVO(sysMenu, parentSysMenuName);
+        SysMenuDetailOutVO sysMenuDetailOutVO = new SysMenuDetailOutVO().toSysMenuDetailOutVO(sysMenu, parentMenuName);
 
         return sysMenuDetailOutVO;
     }

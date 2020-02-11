@@ -28,6 +28,9 @@ public class SysMenuDetailOutVO {
     @ApiModelProperty("菜单名称")
     private String menuName;
 
+    @ApiModelProperty("菜单URL")
+    private String menuUrl;
+
     @ApiModelProperty("父菜单ID，顶级为0")
     private Long parentId;
 
@@ -55,7 +58,7 @@ public class SysMenuDetailOutVO {
     private LocalDateTime updateTime;
 
     @ApiModelProperty("父级菜单")
-    private String parmentMenuName;
+    private String parentMenuName;
 
     public SysMenuDetailOutVO() {
     }
@@ -72,11 +75,11 @@ public class SysMenuDetailOutVO {
         if (null != sysMenu) {
             sysMenuDetailOutVO.setMid(sysMenu.getId()).setMenuType(sysMenu.getMenuType())
                     .setMenuCode(sysMenu.getMenuCode()).setMenuName(sysMenu.getMenuName())
-                    .setParentId(sysMenu.getParentId()).setLevel(sysMenu.getLevel())
-                    .setState(sysMenu.getState()).setRemark(sysMenu.getRemark())
-                    .setCreateInfo(sysMenu.getCreateInfo()).setCreateTime(sysMenu.getCreateTime())
-                    .setUpdateInfo(sysMenu.getUpdateInfo()).setUpdateTime(sysMenu.getUpdateTime())
-                    .setParmentMenuName(parmentMenuName);
+                    .setMenuUrl(sysMenu.getMenuUrl()).setParentId(sysMenu.getParentId())
+                    .setLevel(sysMenu.getLevel()).setState(sysMenu.getState())
+                    .setRemark(sysMenu.getRemark()).setCreateInfo(sysMenu.getCreateInfo())
+                    .setCreateTime(sysMenu.getCreateTime()).setUpdateInfo(sysMenu.getUpdateInfo())
+                    .setUpdateTime(sysMenu.getUpdateTime()).setParentMenuName(parmentMenuName);
         }
         return sysMenuDetailOutVO;
     }

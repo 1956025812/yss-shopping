@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author yss
@@ -41,6 +41,11 @@ public class SysMenu implements Serializable {
      * 菜单名称
      */
     private String menuName;
+
+    /**
+     * 菜单URL
+     */
+    private String menuUrl;
 
     /**
      * 父菜单ID，顶级为0
