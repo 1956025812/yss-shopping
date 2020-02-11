@@ -45,7 +45,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         log.info("查询到的菜单数量为：{}", CollectionUtils.isEmpty(sysMenuList) ? 0 : sysMenuList.size());
 
         List<SysMenuOutVO> sysMenuOutVOList = ListUtils.n(sysMenuList).list(eachSysMenu -> {
-            return new SysMenuOutVO().toSysMenuOutVO(eachSysMenu);
+            // 处理父菜单名称
+            String parentMenuName = this.selectMenuNameById(eachSysMenu.getParentId());
+            return new SysMenuOutVO().toSysMenuOutVO(eachSysMenu, parentMenuName);
         }).to();
 
         return sysMenuOutVOList;
@@ -60,14 +62,28 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         log.info("查询到的菜单为：{}", FastJsonUtil.bean2Json(sysMenu));
 
         // 处理父级菜单名称
-        String parentMenuName = null;
-        if (null != sysMenu && !SysMenuConstant.PARENT_ID_DEFAULT_TOP.equals(sysMenu.getParentId())) {
-            SysMenu parentSysMenu = this.sysMenuMapper.selectById(sysMenu.getParentId());
-            parentMenuName = null != parentSysMenu ? parentSysMenu.getMenuName() : null;
-        }
+        String parentMenuName = this.selectMenuNameById(sysMenu.getParentId());
 
         SysMenuDetailOutVO sysMenuDetailOutVO = new SysMenuDetailOutVO().toSysMenuDetailOutVO(sysMenu, parentMenuName);
 
         return sysMenuDetailOutVO;
     }
+
+
+    /**
+     * 根据菜单ID查询菜单名称
+     *
+     * @param mid 菜单ID
+     * @return 菜单名称
+     */
+    private String selectMenuNameById(Long mid) {
+        String menuName = null;
+        if (null != mid) {
+            SysMenu sysMenu = this.sysMenuMapper.selectById(mid);
+            menuName = null != sysMenu ? sysMenu.getMenuName() : null;
+        }
+        return menuName;
+    }
+
+
 }

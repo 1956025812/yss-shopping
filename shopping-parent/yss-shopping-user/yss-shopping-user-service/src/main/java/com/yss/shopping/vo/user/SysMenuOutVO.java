@@ -37,6 +37,9 @@ public class SysMenuOutVO {
     @ApiModelProperty("状态：0-删除，1-启用，2-禁用")
     private Integer state;
 
+    @ApiModelProperty("父菜单名称")
+    private String parentMenuName;
+
     public SysMenuOutVO() {
     }
 
@@ -47,13 +50,14 @@ public class SysMenuOutVO {
      * @param sysMenu
      * @return SysMenuOutVO
      */
-    public SysMenuOutVO toSysMenuOutVO(SysMenu sysMenu) {
+    public SysMenuOutVO toSysMenuOutVO(SysMenu sysMenu, String parentMenuName) {
         SysMenuOutVO sysMenuOutVO = new SysMenuOutVO();
         if (null != sysMenu) {
             sysMenuOutVO.setMid(sysMenu.getId()).setMenuType(sysMenu.getMenuType())
                     .setMenuCode(sysMenu.getMenuCode()).setMenuName(sysMenu.getMenuName())
-                    .setMenuUrl(sysMenu.getMenuUrl()).setParentId(sysMenu.getParentId()).
-                    setLevel(sysMenu.getLevel()).setState(sysMenu.getState());
+                    .setMenuUrl(sysMenu.getMenuUrl()).setParentId(sysMenu.getParentId())
+                    .setLevel(sysMenu.getLevel()).setState(sysMenu.getState())
+                    .setParentMenuName(parentMenuName);
         }
         return sysMenuOutVO;
     }
