@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.yss.shopping.entity.user.SysMenu;
 import com.yss.shopping.vo.user.SysMenuDetailOutVO;
 import com.yss.shopping.vo.user.SysMenuOutVO;
+import com.yss.shopping.vo.user.SysMenuSaveInVO;
 
 import java.util.List;
 
@@ -36,4 +37,39 @@ public interface SysMenuService extends IService<SysMenu> {
      * @return SysMenuDetailOutVO
      */
     SysMenuDetailOutVO selectSysMenuDetail(Long mid);
+
+
+    /**
+     * 新增菜单对象
+     *
+     * @param sysMenuSaveInVO 菜单InVO对象
+     * @return SysMenuOutVO
+     */
+    SysMenuOutVO saveSysMenu(SysMenuSaveInVO sysMenuSaveInVO);
+
+
+    /**
+     * 根据菜单ID查询菜单名称
+     *
+     * @param mid 菜单ID
+     * @return 菜单名称
+     */
+    String selectMenuNameById(Long mid);
+
+
+    /**
+     * 断言菜单代码不存在, 否则抛异常
+     *
+     * @param menuCode 菜单代码
+     */
+    void assertMenuCodeNotExist(String menuCode);
+
+
+    /**
+     * 断言菜单ID必须存在, 否则抛异常
+     *
+     * @param mid 菜单ID
+     */
+    void assertMenuIdExist(Long mid);
+
 }

@@ -6,17 +6,16 @@ import com.yss.shopping.service.user.SysMenuService;
 import com.yss.shopping.vo.ResultVO;
 import com.yss.shopping.vo.user.SysMenuDetailOutVO;
 import com.yss.shopping.vo.user.SysMenuOutVO;
+import com.yss.shopping.vo.user.SysMenuSaveInVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -53,6 +52,15 @@ public class SysMenuController extends BaseController {
     public ResultVO selectSysMenuDetail(@ApiParam(value = "菜单ID", required = true) @RequestParam Long mid) {
         SysMenuDetailOutVO sysMenuDetailOutVO = this.sysMenuService.selectSysMenuDetail(mid);
         return ResultVO.getSuccess("查询菜单详情成功", sysMenuDetailOutVO);
+    }
+
+
+    @ApiOperation("新增菜单对象")
+    @PostMapping("/save")
+    public ResultVO saveSysMenu(@ApiParam(value = "新增菜单InVO对象", required = true) @RequestBody
+                                @Valid SysMenuSaveInVO sysMenuSaveInVO) {
+        SysMenuOutVO sysMenuOutVO = this.sysMenuService.saveSysMenu(sysMenuSaveInVO);
+        return ResultVO.getSuccess("新增菜单对象成功", sysMenuOutVO);
     }
 
 
