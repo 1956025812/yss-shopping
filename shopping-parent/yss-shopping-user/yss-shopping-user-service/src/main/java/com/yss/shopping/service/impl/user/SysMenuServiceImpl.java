@@ -145,6 +145,12 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      */
     private Integer handleNextMenuLevel(Long mid) {
         Assert.notNull(mid, "菜单ID不能为空");
+
+        if (SysMenuConstant.PARENT_ID_DEFAULT_TOP.equals(mid)) {
+            log.info("菜单ID：{} 为一级菜单，上级菜单为0", mid);
+            return SysMenuConstant.LEVEL_DEFAULT_TOP;
+        }
+
         SysMenu sysMenu = this.sysMenuMapper.selectById(mid);
         Assert.notNull(sysMenu, "操作失败：菜单不存在");
         return sysMenu.getLevel() + 1;

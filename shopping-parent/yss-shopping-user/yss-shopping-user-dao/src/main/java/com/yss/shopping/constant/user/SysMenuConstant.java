@@ -6,9 +6,14 @@ package com.yss.shopping.constant.user;
 public interface SysMenuConstant {
 
     /**
-     * 默认的父级顶级ID-0
+     * 默认的父级顶级ID-0L
      */
-    Integer PARENT_ID_DEFAULT_TOP = 0;
+    Long PARENT_ID_DEFAULT_TOP = 0L;
+
+    /**
+     * 默认的顶级菜单的级别-1
+     */
+    Integer LEVEL_DEFAULT_TOP = 1;
 
 
     /**
