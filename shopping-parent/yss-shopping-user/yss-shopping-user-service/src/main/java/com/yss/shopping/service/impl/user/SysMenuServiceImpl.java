@@ -79,13 +79,18 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         log.info("新增菜单信息，参数为：{}", FastJsonUtil.bean2Json(sysMenuSaveInVO));
 
         SysMenu sysMenu = sysMenuSaveInVO.toSysMenu(sysMenuSaveInVO);
+        Long parentId = sysMenu.getParentId();
+        Integer menuType = sysMenu.getMenuType();
 
         // 常规校验: 菜单代码不能重复;父菜单ID必须存在;
         this.assertMenuCodeNotExist(sysMenu.getMenuCode());
-        this.assertMenuIdExist(sysMenu.getParentId());
+        this.assertMenuIdExist(parentId);
+
+        // 处理新增菜单类型与子菜单的关系
+        this.assertMenuTypeAndChildRelation(menuType, parentId);
 
         // 处理菜单级别
-        Integer nextMenuLevel = this.handleNextMenuLevel(sysMenu.getParentId());
+        Integer nextMenuLevel = this.handleNextMenuLevel(parentId);
 
         // 新增菜单
         sysMenu.setLevel(nextMenuLevel).setState(SysMenuConstant.State.OPEN.getKey())
@@ -134,6 +139,31 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         Integer count = this.sysMenuMapper.selectCount(new QueryWrapper<>(new SysMenu().setId(mid)));
         log.info("菜单ID为：{} 的记录数量为：{}", mid, count);
         Assert.isTrue(count > 0, "操作失败: 菜单不存在");
+    }
+
+
+    /**
+     * 当新增的菜单类型为页面时，则父菜单类型必须是页面并且下面不能有按钮
+     * 当新增的菜单类型为按钮时，则父菜单类型必须是页面并且下面不能有页面
+     *
+     * @param menuType 菜单类型
+     * @param mid      菜单ID
+     */
+    private void assertMenuTypeAndChildRelation(Integer menuType, Long mid) {
+        Assert.notNull(menuType, "menuType不能为空");
+        Assert.notNull(mid, "mid不能为空");
+        Assert.isTrue(null != SysMenuConstant.MenuType.containKey(menuType), "menuType的值必须为1或者2");
+
+        Integer elseMenuType = SysMenuConstant.MenuType.PAGE.getKey().equals(menuType) ? SysMenuConstant.MenuType.BUTTON.getKey()
+                : SysMenuConstant.MenuType.PAGE.getKey();
+        QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>(new SysMenu().setParentId(mid).setMenuType(elseMenuType)
+        ).eq(SysMenuConstant.Column.STATE.getKey(), SysMenuConstant.State.OPEN.getKey());
+        Integer count = this.sysMenuMapper.selectCount(sysMenuQueryWrapper);
+        log.info("查询出对应相反类型的子菜单的数量为：{}", count);
+        String errorMsg = SysMenuConstant.MenuType.PAGE.getKey().equals(menuType) ?
+                "新增菜单页面失败：当新增的菜单类型为页面时，则父菜单类型必须是页面并且下面不能有按钮"
+                : "新增菜单按钮失败：当新增的菜单类型为按钮时，则父菜单类型必须是页面并且下面不能有页面";
+        Assert.isTrue(count == 0, errorMsg);
     }
 
 

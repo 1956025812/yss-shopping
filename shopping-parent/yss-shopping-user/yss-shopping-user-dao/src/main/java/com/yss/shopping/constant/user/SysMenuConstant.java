@@ -215,15 +215,15 @@ public interface SysMenuConstant {
         }
 
         /**
-         * 判断是否包含value
+         * 判断是否包含Key
          *
-         * @param value
-         * @return 如果包含value, 则返回对应的key, 否则返回null
+         * @param key
+         * @return 如果包含key, 则返回key对应的value, 否则返回null
          */
-        public static Integer containValue(String value) {
+        public static String containKey(Integer key) {
             for (MenuType e : MenuType.values()) {
-                if (e.value.equals(value)) {
-                    return e.key;
+                if (e.key.equals(key)) {
+                    return e.value;
                 }
             }
             return null;
