@@ -7,6 +7,7 @@ import com.yss.shopping.vo.ResultVO;
 import com.yss.shopping.vo.user.SysMenuDetailOutVO;
 import com.yss.shopping.vo.user.SysMenuOutVO;
 import com.yss.shopping.vo.user.SysMenuSaveInVO;
+import com.yss.shopping.vo.user.SysMenuUpdateInVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -61,6 +62,15 @@ public class SysMenuController extends BaseController {
                                 @Valid SysMenuSaveInVO sysMenuSaveInVO) {
         SysMenuOutVO sysMenuOutVO = this.sysMenuService.saveSysMenu(sysMenuSaveInVO);
         return ResultVO.getSuccess("新增菜单对象成功", sysMenuOutVO);
+    }
+
+
+    @ApiOperation("修改菜单对象")
+    @PostMapping("/update")
+    public ResultVO updateSysMenu(@ApiParam(value = "修改菜单InVO对象", required = true) @RequestBody
+                                  @Valid SysMenuUpdateInVO sysMenuUpdateInVO) {
+        this.sysMenuService.updateSysMenu(sysMenuUpdateInVO);
+        return ResultVO.getSuccess("修改菜单对象成功");
     }
 
 

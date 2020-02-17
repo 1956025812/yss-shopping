@@ -52,7 +52,7 @@ public class SysMenuSaveInVO implements Serializable {
         if (null != sysMenuSaveInVO) {
             sysMenu.setMenuType(sysMenuSaveInVO.getMenuType()).setMenuCode(sysMenuSaveInVO.getMenuCode())
                     .setMenuName(sysMenuSaveInVO.getMenuName()).setMenuUrl(sysMenuSaveInVO.getMenuUrl())
-                    .setParentId(sysMenuSaveInVO.getParentId()).setRemark(sysMenu.getRemark());
+                    .setParentId(sysMenuSaveInVO.getParentId()).setRemark(sysMenuSaveInVO.getRemark());
         }
         return sysMenu;
     }

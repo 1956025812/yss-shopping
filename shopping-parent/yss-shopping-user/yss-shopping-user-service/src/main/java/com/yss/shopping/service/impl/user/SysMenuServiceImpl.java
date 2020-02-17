@@ -13,6 +13,7 @@ import com.yss.shopping.util.ListUtils;
 import com.yss.shopping.vo.user.SysMenuDetailOutVO;
 import com.yss.shopping.vo.user.SysMenuOutVO;
 import com.yss.shopping.vo.user.SysMenuSaveInVO;
+import com.yss.shopping.vo.user.SysMenuUpdateInVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -100,6 +101,28 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         Assert.isTrue(saveCount == 1, "新增菜单失败");
 
         return new SysMenuOutVO().toSysMenuOutVO(sysMenu, null);
+    }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void updateSysMenu(SysMenuUpdateInVO sysMenuUpdateInVO) {
+        log.info("修改菜单信息，参数为：{}", FastJsonUtil.bean2Json(sysMenuUpdateInVO));
+
+        Long mid = sysMenuUpdateInVO.getMid();
+
+        // 断言菜单ID对应的记录必须存在
+        this.assertMenuIdExist(mid);
+
+        // 当修改的菜单类型为按钮时菜单URL不能为空 TODO
+
+        // 修改菜单
+        SysMenu updateSysMenu = new SysMenu();
+        updateSysMenu.setId(mid).setMenuName(sysMenuUpdateInVO.getMenuName())
+                .setMenuCode(sysMenuUpdateInVO.getMenuCode()).setRemark(sysMenuUpdateInVO.getRemark())
+                .setUpdateInfo(CommonConstant.DEFAULT_SYSTEM_USER)
+                .setUpdateTime(LocalDateTime.now());
+        this.sysMenuMapper.updateById(updateSysMenu);
     }
 
 

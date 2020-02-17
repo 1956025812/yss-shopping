@@ -6,6 +6,7 @@ import com.yss.shopping.entity.user.SysMenu;
 import com.yss.shopping.vo.user.SysMenuDetailOutVO;
 import com.yss.shopping.vo.user.SysMenuOutVO;
 import com.yss.shopping.vo.user.SysMenuSaveInVO;
+import com.yss.shopping.vo.user.SysMenuUpdateInVO;
 
 import java.util.List;
 
@@ -72,4 +73,11 @@ public interface SysMenuService extends IService<SysMenu> {
      */
     void assertMenuIdExist(Long mid);
 
+
+    /**
+     * 修改菜单对象
+     *
+     * @param sysMenuUpdateInVO
+     */
+    void updateSysMenu(SysMenuUpdateInVO sysMenuUpdateInVO);
 }
