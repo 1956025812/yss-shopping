@@ -165,6 +165,25 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
 
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void delSysMenu(Long mid) {
+        log.info("删除菜单，参数为：【mid={}】", mid);
+
+        // 校验不能有子菜单
+        QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>(new SysMenu().setParentId(mid))
+                .eq(SysMenuConstant.Column.STATE.getKey(), SysMenuConstant.State.OPEN.getKey());
+        Integer childrenCount = this.sysMenuMapper.selectCount(sysMenuQueryWrapper);
+        log.info("查询菜单ID：{} 下的子菜单数量为：{}", childrenCount);
+        Assert.isTrue(childrenCount == 0, "删除菜单失败：该菜单下有子菜单无法删除");
+
+        // 删除菜单
+        SysMenu delSysMenu = new SysMenu().setId(mid).setState(SysMenuConstant.State.DEL.getKey());
+        int delCount = this.sysMenuMapper.updateById(delSysMenu);
+        Assert.isTrue(delCount == 1, "删除菜单失败");
+    }
+
+
     /**
      * 当新增的菜单类型为页面时，则父菜单类型必须是页面并且下面不能有按钮
      * 当新增的菜单类型为按钮时，则父菜单类型必须是页面并且下面不能有页面

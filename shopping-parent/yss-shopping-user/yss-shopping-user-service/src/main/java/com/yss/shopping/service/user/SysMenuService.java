@@ -80,4 +80,12 @@ public interface SysMenuService extends IService<SysMenu> {
      * @param sysMenuUpdateInVO
      */
     void updateSysMenu(SysMenuUpdateInVO sysMenuUpdateInVO);
+
+
+    /**
+     * 删除菜单对象
+     *
+     * @param mid 菜单ID
+     */
+    void delSysMenu(Long mid);
 }

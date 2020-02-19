@@ -13,10 +13,12 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -71,6 +73,14 @@ public class SysMenuController extends BaseController {
                                   @Valid SysMenuUpdateInVO sysMenuUpdateInVO) {
         this.sysMenuService.updateSysMenu(sysMenuUpdateInVO);
         return ResultVO.getSuccess("修改菜单对象成功");
+    }
+
+
+    @ApiOperation("删除菜单对象")
+    @GetMapping("/del")
+    public ResultVO delSysMenu(@ApiParam(value = "菜单ID", required = true) @RequestParam Long mid) {
+        this.sysMenuService.delSysMenu(mid);
+        return ResultVO.getSuccess("删除菜单详情成功");
     }
 
 
