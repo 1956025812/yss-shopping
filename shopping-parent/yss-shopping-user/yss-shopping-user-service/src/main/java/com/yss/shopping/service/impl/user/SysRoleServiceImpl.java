@@ -4,18 +4,23 @@ package com.yss.shopping.service.impl.user;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yss.shopping.constant.CommonConstant;
+import com.yss.shopping.constant.user.SysRoleConstant;
 import com.yss.shopping.entity.user.SysRole;
 import com.yss.shopping.mapper.user.SysRoleMapper;
 import com.yss.shopping.service.user.SysRoleService;
 import com.yss.shopping.util.FastJsonUtil;
+import com.yss.shopping.util.ListUtils;
+import com.yss.shopping.vo.user.SysRoleOutVO;
 import com.yss.shopping.vo.user.SysRoleSaveInVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -31,6 +36,22 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Autowired
     private SysRoleMapper sysRoleMapper;
+
+
+    @Override
+    public List<SysRoleOutVO> selectSysRoleList() {
+        log.info("查询角色列表");
+
+        QueryWrapper<SysRole> sysRoleQueryWrapper = new QueryWrapper<>();
+        sysRoleQueryWrapper.eq(SysRoleConstant.Column.STATE.getKey(), SysRoleConstant.State.OPEN.getKey());
+        List<SysRole> sysRoleList = this.sysRoleMapper.selectList(sysRoleQueryWrapper);
+        log.info("查询到的角色数量为：{}", CollectionUtils.isEmpty(sysRoleList) ? sysRoleList.size() : 0);
+
+        List<SysRoleOutVO> sysRoleOutVOList = ListUtils.n(sysRoleList).list(eachSysRole -> {
+            return new SysRoleOutVO().toSysRoleOutVO(eachSysRole);
+        }).to();
+        return sysRoleOutVOList;
+    }
 
 
     @Transactional(rollbackFor = Exception.class)

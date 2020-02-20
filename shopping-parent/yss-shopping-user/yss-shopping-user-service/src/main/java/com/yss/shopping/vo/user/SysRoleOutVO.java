@@ -1,16 +1,25 @@
 package com.yss.shopping.vo.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.yss.shopping.entity.user.SysMenu;
+import com.yss.shopping.entity.user.SysRole;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 @Data
 @ApiModel("角色OutVO对象")
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SysRoleOutVO {
+public class SysRoleOutVO implements Serializable {
+
+    private static final long serialVersionUID = -8976777615953235875L;
+
+    @ApiModelProperty("角色ID")
+    private Long rid;
 
     @ApiModelProperty("角色名称")
     private String roleName;
@@ -21,8 +30,20 @@ public class SysRoleOutVO {
     @ApiModelProperty("父角色ID，顶级为0")
     private Long parentId;
 
-    @ApiModelProperty("备注")
-    private String remark;
 
+    /**
+     * SysRole转换为SysRoleOutVO
+     *
+     * @param sysRole
+     * @return SysRoleOutVO
+     */
+    public SysRoleOutVO toSysRoleOutVO(SysRole sysRole) {
+        SysRoleOutVO sysRoleOutVO = new SysRoleOutVO();
+        if (null != sysRole) {
+            sysRoleOutVO.setRid(sysRole.getId()).setRoleName(sysRole.getRoleName())
+                    .setLevel(sysRole.getLevel()).setParentId(sysRole.getParentId());
+        }
+        return sysRoleOutVO;
+    }
 
 }
