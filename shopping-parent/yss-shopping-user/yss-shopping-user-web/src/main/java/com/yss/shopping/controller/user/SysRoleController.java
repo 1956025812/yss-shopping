@@ -4,6 +4,7 @@ package com.yss.shopping.controller.user;
 import com.yss.shopping.controller.BaseController;
 import com.yss.shopping.service.user.SysRoleService;
 import com.yss.shopping.vo.ResultVO;
+import com.yss.shopping.vo.user.SysRoleDetailOutVO;
 import com.yss.shopping.vo.user.SysRoleOutVO;
 import com.yss.shopping.vo.user.SysRoleSaveInVO;
 import io.swagger.annotations.Api;
@@ -41,6 +42,14 @@ public class SysRoleController extends BaseController {
     public ResultVO selectSysRoleList() {
         List<SysRoleOutVO> sysRoleOutVOList = this.sysRoleService.selectSysRoleList();
         return ResultVO.getSuccess("查询角色列表成功", sysRoleOutVOList);
+    }
+
+
+    @ApiOperation("查询角色详情")
+    @GetMapping("/detail")
+    public ResultVO selectSysRoleDetail(@ApiParam(value = "角色ID", required = true) @RequestParam Long rid) {
+        SysRoleDetailOutVO sysRoleDetailOutVO = this.sysRoleService.selectSysRoleDetail(rid);
+        return ResultVO.getSuccess("查询角色详情成功", sysRoleDetailOutVO);
     }
 
 

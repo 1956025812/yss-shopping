@@ -10,6 +10,7 @@ import com.yss.shopping.mapper.user.SysRoleMapper;
 import com.yss.shopping.service.user.SysRoleService;
 import com.yss.shopping.util.FastJsonUtil;
 import com.yss.shopping.util.ListUtils;
+import com.yss.shopping.vo.user.SysRoleDetailOutVO;
 import com.yss.shopping.vo.user.SysRoleOutVO;
 import com.yss.shopping.vo.user.SysRoleSaveInVO;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +44,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         log.info("查询角色列表");
 
         QueryWrapper<SysRole> sysRoleQueryWrapper = new QueryWrapper<>();
-        sysRoleQueryWrapper.eq(SysRoleConstant.Column.STATE.getKey(), SysRoleConstant.State.OPEN.getKey());
+        sysRoleQueryWrapper.gt(SysRoleConstant.Column.STATE.getKey(), SysRoleConstant.State.DEL.getKey());
         List<SysRole> sysRoleList = this.sysRoleMapper.selectList(sysRoleQueryWrapper);
         log.info("查询到的角色数量为：{}", CollectionUtils.isEmpty(sysRoleList) ? sysRoleList.size() : 0);
 
@@ -53,6 +54,31 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         return sysRoleOutVOList;
     }
 
+
+    @Override
+    public SysRoleDetailOutVO selectSysRoleDetail(Long rid) {
+        log.info("根据角色ID：{} 查询角色详情", rid);
+
+        SysRole sysRole = this.sysRoleMapper.selectById(rid);
+        log.info("查询到的角色详情为：{}", FastJsonUtil.bean2Json(sysRole));
+
+        // 处理父角色名称
+        String parentRoleName = this.selectRoleNameById(sysRole.getParentId());
+
+        SysRoleDetailOutVO sysRoleDetailOutVO = new SysRoleDetailOutVO().toSysRoleDetailOutVO(sysRole, parentRoleName);
+        return sysRoleDetailOutVO;
+    }
+
+
+    @Override
+    public String selectRoleNameById(Long rid) {
+        String roleName = null;
+        if (null != rid) {
+            SysRole sysRole = this.sysRoleMapper.selectById(rid);
+            roleName = null != sysRole ? sysRole.getRoleName() : null;
+        }
+        return roleName;
+    }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
