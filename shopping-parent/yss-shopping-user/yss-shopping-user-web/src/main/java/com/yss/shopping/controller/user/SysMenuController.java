@@ -44,8 +44,8 @@ public class SysMenuController extends BaseController {
     @GetMapping("/list")
     public ResultVO selectSysMenuList(
             @ApiParam(value = "菜单类型：1-菜单，2-按钮") @RequestParam(required = false) Integer type,
-            @ApiParam(value = "父菜单ID") @RequestParam(required = false) Long parmentId) {
-        List<SysMenuOutVO> menuCodeAndNameList = this.sysMenuService.selectSysMenuList(type, parmentId);
+            @ApiParam(value = "父菜单ID") @RequestParam(required = false) Long parentId) {
+        List<SysMenuOutVO> menuCodeAndNameList = this.sysMenuService.selectSysMenuList(type, parentId);
         return ResultVO.getSuccess("查询菜单的代码和名称列表成功", menuCodeAndNameList);
     }
 

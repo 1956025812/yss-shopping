@@ -25,10 +25,10 @@ public interface SysMenuService extends IService<SysMenu> {
      * 查询菜单列表
      *
      * @param type      菜单类型：1-菜单，2-按钮
-     * @param parmentId 父菜单ID
+     * @param parentId 父菜单ID
      * @return SysMenuOutVO集合
      */
-    List<SysMenuOutVO> selectSysMenuList(Integer type, Long parmentId);
+    List<SysMenuOutVO> selectSysMenuList(Integer type, Long parentId);
 
 
     /**

@@ -23,9 +23,10 @@ public interface SysRoleService extends IService<SysRole> {
     /**
      * 查询角色列表
      *
+     * @param parentId 父角色ID
      * @return SysRoleOutVO集合
      */
-    List<SysRoleOutVO> selectSysRoleList();
+    List<SysRoleOutVO> selectSysRoleList(Long parentId);
 
 
     /**

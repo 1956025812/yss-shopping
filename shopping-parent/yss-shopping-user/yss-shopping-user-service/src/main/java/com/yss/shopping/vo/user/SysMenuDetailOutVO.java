@@ -70,7 +70,7 @@ public class SysMenuDetailOutVO {
      * @param sysMenu
      * @return SysMenuDetailOutVO
      */
-    public SysMenuDetailOutVO toSysMenuDetailOutVO(SysMenu sysMenu, String parmentMenuName) {
+    public SysMenuDetailOutVO toSysMenuDetailOutVO(SysMenu sysMenu, String parentMenuName) {
         SysMenuDetailOutVO sysMenuDetailOutVO = new SysMenuDetailOutVO();
         if (null != sysMenu) {
             sysMenuDetailOutVO.setMid(sysMenu.getId()).setMenuType(sysMenu.getMenuType())
@@ -79,7 +79,7 @@ public class SysMenuDetailOutVO {
                     .setLevel(sysMenu.getLevel()).setState(sysMenu.getState())
                     .setRemark(sysMenu.getRemark()).setCreateInfo(sysMenu.getCreateInfo())
                     .setCreateTime(sysMenu.getCreateTime()).setUpdateInfo(sysMenu.getUpdateInfo())
-                    .setUpdateTime(sysMenu.getUpdateTime()).setParentMenuName(parmentMenuName);
+                    .setUpdateTime(sysMenu.getUpdateTime()).setParentMenuName(parentMenuName);
         }
         return sysMenuDetailOutVO;
     }

@@ -40,12 +40,12 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     private SysMenuMapper sysMenuMapper;
 
     @Override
-    public List<SysMenuOutVO> selectSysMenuList(Integer type, Long parmentId) {
+    public List<SysMenuOutVO> selectSysMenuList(Integer type, Long parentId) {
         log.info("查询菜单的代码和名称列表，参数为：[type={}]", type);
 
         QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>();
         sysMenuQueryWrapper.eq(null != type, SysMenuConstant.Column.MENU_TYPE.getKey(), type)
-                .eq(null != parmentId, SysMenuConstant.Column.PARENT_ID.getKey(), parmentId)
+                .eq(null != parentId, SysMenuConstant.Column.PARENT_ID.getKey(), parentId)
                 .eq(SysMenuConstant.Column.STATE.getKey(), SysMenuConstant.State.OPEN.getKey());
         List<SysMenu> sysMenuList = this.sysMenuMapper.selectList(sysMenuQueryWrapper);
         log.info("查询到的菜单数量为：{}", CollectionUtils.isEmpty(sysMenuList) ? 0 : sysMenuList.size());

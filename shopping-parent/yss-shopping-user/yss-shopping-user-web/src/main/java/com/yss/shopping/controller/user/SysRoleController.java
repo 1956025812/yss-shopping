@@ -39,8 +39,8 @@ public class SysRoleController extends BaseController {
 
     @ApiOperation("查询角色列表")
     @GetMapping("/list")
-    public ResultVO selectSysRoleList() {
-        List<SysRoleOutVO> sysRoleOutVOList = this.sysRoleService.selectSysRoleList();
+    public ResultVO selectSysRoleList(@ApiParam(value = "父菜单ID") @RequestParam(required = false) Long parentId) {
+        List<SysRoleOutVO> sysRoleOutVOList = this.sysRoleService.selectSysRoleList(parentId);
         return ResultVO.getSuccess("查询角色列表成功", sysRoleOutVOList);
     }
 

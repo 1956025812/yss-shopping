@@ -40,11 +40,12 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
 
     @Override
-    public List<SysRoleOutVO> selectSysRoleList() {
+    public List<SysRoleOutVO> selectSysRoleList(Long parentId) {
         log.info("查询角色列表");
 
         QueryWrapper<SysRole> sysRoleQueryWrapper = new QueryWrapper<>();
-        sysRoleQueryWrapper.gt(SysRoleConstant.Column.STATE.getKey(), SysRoleConstant.State.DEL.getKey());
+        sysRoleQueryWrapper.eq(null != parentId, SysRoleConstant.Column.PARENT_ID.getKey(), parentId)
+                .gt(SysRoleConstant.Column.STATE.getKey(), SysRoleConstant.State.DEL.getKey());
         List<SysRole> sysRoleList = this.sysRoleMapper.selectList(sysRoleQueryWrapper);
         log.info("查询到的角色数量为：{}", CollectionUtils.isEmpty(sysRoleList) ? sysRoleList.size() : 0);
 

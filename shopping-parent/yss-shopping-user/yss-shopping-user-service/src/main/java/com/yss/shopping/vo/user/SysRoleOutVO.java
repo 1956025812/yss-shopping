@@ -1,7 +1,6 @@
 package com.yss.shopping.vo.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.yss.shopping.entity.user.SysMenu;
 import com.yss.shopping.entity.user.SysRole;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -30,6 +29,12 @@ public class SysRoleOutVO implements Serializable {
     @ApiModelProperty("父角色ID，顶级为0")
     private Long parentId;
 
+    @ApiModelProperty("角色状态：0-删除,1-启用，2-禁用")
+    private Integer state;
+
+    @ApiModelProperty("描述")
+    private String remark;
+
 
     /**
      * SysRole转换为SysRoleOutVO
@@ -41,7 +46,8 @@ public class SysRoleOutVO implements Serializable {
         SysRoleOutVO sysRoleOutVO = new SysRoleOutVO();
         if (null != sysRole) {
             sysRoleOutVO.setRid(sysRole.getId()).setRoleName(sysRole.getRoleName())
-                    .setLevel(sysRole.getLevel()).setParentId(sysRole.getParentId());
+                    .setLevel(sysRole.getLevel()).setParentId(sysRole.getParentId())
+                    .setState(sysRole.getState()).setRemark(sysRole.getRemark());
         }
         return sysRoleOutVO;
     }
