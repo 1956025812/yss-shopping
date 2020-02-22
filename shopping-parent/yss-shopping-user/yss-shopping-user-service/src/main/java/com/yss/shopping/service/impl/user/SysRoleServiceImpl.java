@@ -13,6 +13,7 @@ import com.yss.shopping.util.ListUtils;
 import com.yss.shopping.vo.user.SysRoleDetailOutVO;
 import com.yss.shopping.vo.user.SysRoleOutVO;
 import com.yss.shopping.vo.user.SysRoleSaveInVO;
+import com.yss.shopping.vo.user.SysRoleUpdateInVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -90,8 +91,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         Long parentId = sysRole.getParentId();
 
         // 角色名称不能重复,父角色ID必须存在
-        this.assertRoleNameNotExist(sysRole.getRoleName());
-        this.assertParentRoleExist(parentId);
+        this.assertRoleNameNotExist(sysRole.getRoleName(), null);
+        this.assertRoleIdExist(parentId);
 
         // 处理下级角色ID
         Integer nextRoleLevel = this.handleNextRoleLevel(parentId);
@@ -106,13 +107,39 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
 
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void updateSysRole(SysRoleUpdateInVO sysRoleUpdateInVO) {
+        log.info("修改角色信息, 参数为：{}", FastJsonUtil.bean2Json(sysRoleUpdateInVO));
+
+        SysRole sysRole = sysRoleUpdateInVO.toSysRole(sysRoleUpdateInVO);
+        Long rid = sysRoleUpdateInVO.getRid();
+
+        // 检验ID必须存在,校验新的角色名称不能存在
+        this.assertRoleIdExist(rid);
+        this.assertRoleNameNotExist(sysRole.getRoleName(), rid);
+
+        // 修改角色
+        sysRole.setUpdateInfo(CommonConstant.DEFAULT_SYSTEM_USER).setUpdateTime(LocalDateTime.now());
+        log.info("修改角色，参数为：{}", FastJsonUtil.bean2Json(sysRole));
+        int updateCount = this.sysRoleMapper.updateById(sysRole);
+        Assert.isTrue(updateCount == 1, "修改角色失败");
+    }
+
+
     /**
-     * 断言角色名称不存在
+     * 断言角色名称不存在,如果传递rid,则忽略该对象的判断
+     *
+     * @param roleName 角色名称
+     * @param rid      角色ID
      */
-    private void assertRoleNameNotExist(String roleName) {
+    private void assertRoleNameNotExist(String roleName, Long rid) {
         log.info("查询角色名称为：{} 的角色数量", roleName);
         Assert.notNull(roleName, "角色名称不能为空");
-        Integer count = this.sysRoleMapper.selectCount(new QueryWrapper<>(new SysRole().setRoleName(roleName)));
+        QueryWrapper<SysRole> sysRoleQueryWrapper = new QueryWrapper<>(new SysRole().setRoleName(roleName))
+                .ne(null != rid, SysRoleConstant.Column.ID.getKey(), rid)
+                .gt(SysRoleConstant.Column.STATE.getKey(), SysRoleConstant.State.DEL.getKey());
+        Integer count = this.sysRoleMapper.selectCount(sysRoleQueryWrapper);
         log.info("角色名称为：{} 的角色数量为：{}", roleName, count);
         Assert.isTrue(count == 0, "操作失败：角色名称已存在");
     }
@@ -121,7 +148,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     /**
      * 断言角色ID必须存在
      */
-    private void assertParentRoleExist(Long roleId) {
+    private void assertRoleIdExist(Long roleId) {
         log.info("查询角色ID为：{} 的角色数量", roleId);
         Assert.notNull(roleId, "角色ID不能为空");
 

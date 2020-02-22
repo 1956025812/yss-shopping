@@ -6,6 +6,7 @@ import com.yss.shopping.entity.user.SysRole;
 import com.yss.shopping.vo.user.SysRoleDetailOutVO;
 import com.yss.shopping.vo.user.SysRoleOutVO;
 import com.yss.shopping.vo.user.SysRoleSaveInVO;
+import com.yss.shopping.vo.user.SysRoleUpdateInVO;
 
 import java.util.List;
 
@@ -55,4 +56,11 @@ public interface SysRoleService extends IService<SysRole> {
      */
     SysRoleOutVO saveSysRole(SysRoleSaveInVO sysRoleSaveInVO);
 
+
+    /**
+     * 修改角色信息
+     *
+     * @param sysRoleUpdateInVO 修改角色VO对象
+     */
+    void updateSysRole(SysRoleUpdateInVO sysRoleUpdateInVO);
 }

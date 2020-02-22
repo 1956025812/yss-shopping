@@ -7,6 +7,7 @@ import com.yss.shopping.vo.ResultVO;
 import com.yss.shopping.vo.user.SysRoleDetailOutVO;
 import com.yss.shopping.vo.user.SysRoleOutVO;
 import com.yss.shopping.vo.user.SysRoleSaveInVO;
+import com.yss.shopping.vo.user.SysRoleUpdateInVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -59,6 +60,15 @@ public class SysRoleController extends BaseController {
                                 @RequestBody @Valid SysRoleSaveInVO sysRoleSaveInVO) {
         SysRoleOutVO sysRoleOutVO = this.sysRoleService.saveSysRole(sysRoleSaveInVO);
         return ResultVO.getSuccess("新增角色成功", sysRoleOutVO);
+    }
+
+
+    @ApiOperation("修改系统角色")
+    @PostMapping("/update")
+    public ResultVO updateSysRole(@ApiParam(value = "修改角色InVO对象", required = true)
+                                  @RequestBody @Valid SysRoleUpdateInVO sysRoleUpdateInVO) {
+        this.sysRoleService.updateSysRole(sysRoleUpdateInVO);
+        return ResultVO.getSuccess("修改角色成功");
     }
 
 
