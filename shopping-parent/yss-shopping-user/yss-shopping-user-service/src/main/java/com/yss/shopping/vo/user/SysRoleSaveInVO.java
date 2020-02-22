@@ -18,10 +18,6 @@ public class SysRoleSaveInVO {
     @NotBlank(message = "角色名称字段roleName不能为空")
     private String roleName;
 
-    @ApiModelProperty("层级：从1开始")
-    @NotNull(message = "层级字段level不能为空")
-    private Integer level;
-
     @ApiModelProperty("父角色ID，顶级为0")
     @NotNull(message = "父角色ID字段parentId不能为空")
     private Long parentId;
@@ -40,7 +36,6 @@ public class SysRoleSaveInVO {
         SysRole sysRole = new SysRole();
         if (null != sysRoleSaveInVO) {
             sysRole.setRoleName(sysRoleSaveInVO.getRoleName())
-                    .setLevel(sysRoleSaveInVO.getLevel())
                     .setParentId(sysRoleSaveInVO.getParentId())
                     .setRemark(sysRoleSaveInVO.getRemark());
         }

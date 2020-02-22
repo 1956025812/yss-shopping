@@ -83,21 +83,26 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void saveSysRole(SysRoleSaveInVO sysRoleSaveInVO) {
+    public SysRoleOutVO saveSysRole(SysRoleSaveInVO sysRoleSaveInVO) {
         log.info("新增角色信息，接收过来的请求参数为：{}", FastJsonUtil.bean2Json(sysRoleSaveInVO));
 
         SysRole sysRole = sysRoleSaveInVO.toSysRole(sysRoleSaveInVO);
+        Long parentId = sysRole.getParentId();
 
-        // 角色名称不能重复
+        // 角色名称不能重复,父角色ID必须存在
         this.assertRoleNameNotExist(sysRole.getRoleName());
-        // 父角色ID必须存在
-        this.assertParentRoleExist(sysRole.getParentId());
+        this.assertParentRoleExist(parentId);
 
-        sysRole.setCreateInfo(CommonConstant.DEFAULT_SYSTEM_USER)
-                .setCreateTime(LocalDateTime.now());
+        // 处理下级角色ID
+        Integer nextRoleLevel = this.handleNextRoleLevel(parentId);
+
+        sysRole.setLevel(nextRoleLevel).setState(SysRoleConstant.State.OPEN.getKey())
+                .setCreateInfo(CommonConstant.DEFAULT_SYSTEM_USER).setCreateTime(LocalDateTime.now());
         log.info("新增角色，请求参数为：{}", FastJsonUtil.bean2Json(sysRole));
-        boolean saveFlag = this.save(sysRole);
-        Assert.isTrue(saveFlag, "新增角色失败");
+        int saveCount = this.sysRoleMapper.insert(sysRole);
+        Assert.isTrue(saveCount == 1, "新增角色失败");
+
+        return new SysRoleOutVO().toSysRoleOutVO(sysRole);
     }
 
 
@@ -119,9 +124,36 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     private void assertParentRoleExist(Long roleId) {
         log.info("查询角色ID为：{} 的角色数量", roleId);
         Assert.notNull(roleId, "角色ID不能为空");
+
+        if (SysRoleConstant.PARENT_ID_DEFAULT_TOP.equals(roleId)) {
+            log.info("角色ID为: {} 为一级角色，不需要检验", roleId);
+            return;
+        }
+
         Integer count = this.sysRoleMapper.selectCount(new QueryWrapper<>(new SysRole().setId(roleId)));
         log.info("角色ID为：{} 的角色数量为：{}", roleId, count);
         Assert.isTrue(count > 0, "角色ID对应的记录不存在");
+    }
+
+
+    /**
+     * 处理角色下级级别
+     *
+     * @param rid
+     * @return 角色的下级级别
+     */
+    private Integer handleNextRoleLevel(Long rid) {
+        Assert.notNull(rid, "rid不能为空");
+
+        if (SysRoleConstant.PARENT_ID_DEFAULT_TOP.equals(rid)) {
+            log.info("角色ID：{} 为一级角色，下级角色层级为1", rid);
+            return SysRoleConstant.LEVEL_DEFAULT_TOP;
+        }
+
+        SysRole sysRole = this.sysRoleMapper.selectById(rid);
+        Assert.notNull(sysRole, "操作失败：角色的记录不存在");
+
+        return sysRole.getLevel() + 1;
     }
 
 

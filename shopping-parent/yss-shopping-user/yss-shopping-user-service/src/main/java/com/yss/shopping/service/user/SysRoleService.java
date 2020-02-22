@@ -53,6 +53,6 @@ public interface SysRoleService extends IService<SysRole> {
      * @param sysRoleSaveInVO 新增角色VO对象
      * @return SysRoleOutVO
      */
-    void saveSysRole(SysRoleSaveInVO sysRoleSaveInVO);
+    SysRoleOutVO saveSysRole(SysRoleSaveInVO sysRoleSaveInVO);
 
 }

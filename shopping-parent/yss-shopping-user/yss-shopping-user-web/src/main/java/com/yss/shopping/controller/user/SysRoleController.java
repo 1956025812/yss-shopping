@@ -55,9 +55,10 @@ public class SysRoleController extends BaseController {
 
     @ApiOperation("新增系统角色")
     @PostMapping("/save")
-    public ResultVO saveSysRole(@ApiParam(value = "新增角色InVO对象", required = true) @RequestBody @Valid SysRoleSaveInVO sysRoleSaveInVO) {
-        this.sysRoleService.saveSysRole(sysRoleSaveInVO);
-        return ResultVO.getSuccess("新增角色成功");
+    public ResultVO saveSysRole(@ApiParam(value = "新增角色InVO对象", required = true)
+                                @RequestBody @Valid SysRoleSaveInVO sysRoleSaveInVO) {
+        SysRoleOutVO sysRoleOutVO = this.sysRoleService.saveSysRole(sysRoleSaveInVO);
+        return ResultVO.getSuccess("新增角色成功", sysRoleOutVO);
     }
 
 
