@@ -83,14 +83,14 @@ public class SysRoleController extends BaseController {
     }
 
 
-    @ApiOperation("批量修改角色状态")
-    @PostMapping("/update/state/batch")
-    public ResultVO updateSysRoleStateBatch(@ApiParam(value = "角色ID集合", required = true)
-                                            @NotNull(message = "角色ID集合字段不能为空") @RequestParam Long[] ridList,
+    @ApiOperation("修改角色状态")
+    @GetMapping("/update/state")
+    public ResultVO updateSysRoleState(@ApiParam(value = "角色ID集合", required = true)
+                                            @NotNull(message = "角色ID字段不能为空") @RequestParam Long rid,
                                             @ApiParam(value = "用户状态: 1-启用，2-禁用", required = true)
                                             @IntegerEnum(intValues = {1, 2}, message = "用户状态的值只能为1/2")
                                             @RequestParam Integer roleState) {
-        this.sysRoleService.updateSysRoleStateBatch(ridList, roleState);
+        this.sysRoleService.updateSysRoleState(rid, roleState);
         return ResultVO.getSuccess("批量修改角色状态成功");
     }
 

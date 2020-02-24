@@ -151,9 +151,13 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void updateSysRoleStateBatch(Long[] ridList, Integer roleState) {
+    public void updateSysRoleState(Long rid, Integer roleState) {
+        log.info("修改角色状态，参数为：[rid={}, roleState={}]", rid, roleState);
+        Assert.notNull(rid, "修改角色状态失败，rid不能为空");
 
+        //
     }
+
 
     /**
      * 断言角色名称不存在,如果传递rid,则忽略该对象的判断

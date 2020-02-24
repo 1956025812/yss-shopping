@@ -74,11 +74,11 @@ public interface SysRoleService extends IService<SysRole> {
 
 
     /**
-     * 批量修改角色状态
+     * 修改角色状态
      *
-     * @param ridList   角色ID集合
+     * @param rid  角色ID
      * @param roleState 角色状态
      */
-    void updateSysRoleStateBatch(Long[] ridList, Integer roleState);
+    void updateSysRoleState(Long rid, Integer roleState);
 
 }
