@@ -63,4 +63,22 @@ public interface SysRoleService extends IService<SysRole> {
      * @param sysRoleUpdateInVO 修改角色VO对象
      */
     void updateSysRole(SysRoleUpdateInVO sysRoleUpdateInVO);
+
+
+    /**
+     * 删除角色
+     *
+     * @param rid 角色ID
+     */
+    void delSysRole(Long rid);
+
+
+    /**
+     * 批量修改角色状态
+     *
+     * @param ridList   角色ID集合
+     * @param roleState 角色状态
+     */
+    void updateSysRoleStateBatch(Long[] ridList, Integer roleState);
+
 }

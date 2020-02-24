@@ -127,6 +127,34 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
 
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void delSysRole(Long rid) {
+        log.info("删除角色，参数为：{}", rid);
+        Assert.notNull(rid, "角色ID不能为空");
+
+        // 校验角色ID下面有子角色不能删除
+        QueryWrapper<SysRole> sysRoleQueryWrapper = new QueryWrapper<>(new SysRole().setParentId(rid))
+                .gt(SysRoleConstant.Column.STATE.getKey(), SysRoleConstant.State.DEL.getKey());
+        Integer childrenRoleCount = this.sysRoleMapper.selectCount(sysRoleQueryWrapper);
+        Assert.isTrue(childrenRoleCount == 0, "删除角色失败：该角色下面有子角色无法删除");
+
+        // 删除角色
+        SysRole sysRole = new SysRole();
+        sysRole.setId(rid).setState(SysRoleConstant.State.DEL.getKey())
+                .setUpdateInfo(CommonConstant.DEFAULT_SYSTEM_USER).setUpdateTime(LocalDateTime.now());
+        log.info("删除角色，参数为：{}", FastJsonUtil.bean2Json(sysRole));
+        int delCount = this.sysRoleMapper.updateById(sysRole);
+        Assert.isTrue(delCount == 1, "删除角色失败");
+    }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void updateSysRoleStateBatch(Long[] ridList, Integer roleState) {
+
+    }
+
     /**
      * 断言角色名称不存在,如果传递rid,则忽略该对象的判断
      *

@@ -8,6 +8,7 @@ import com.yss.shopping.vo.user.SysRoleDetailOutVO;
 import com.yss.shopping.vo.user.SysRoleOutVO;
 import com.yss.shopping.vo.user.SysRoleSaveInVO;
 import com.yss.shopping.vo.user.SysRoleUpdateInVO;
+import com.yss.shopping.volidation.IntegerEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -17,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -69,6 +71,27 @@ public class SysRoleController extends BaseController {
                                   @RequestBody @Valid SysRoleUpdateInVO sysRoleUpdateInVO) {
         this.sysRoleService.updateSysRole(sysRoleUpdateInVO);
         return ResultVO.getSuccess("修改角色成功");
+    }
+
+
+    @ApiOperation("删除角色")
+    @GetMapping("/del")
+    public ResultVO delSysRole(@ApiParam(value = "角色ID", required = true)
+                               @NotNull(message = "角色ID字段不能为空") @RequestParam Long rid) {
+        this.sysRoleService.delSysRole(rid);
+        return ResultVO.getSuccess("批量删除角色成功");
+    }
+
+
+    @ApiOperation("批量修改角色状态")
+    @PostMapping("/update/state/batch")
+    public ResultVO updateSysRoleStateBatch(@ApiParam(value = "角色ID集合", required = true)
+                                            @NotNull(message = "角色ID集合字段不能为空") @RequestParam Long[] ridList,
+                                            @ApiParam(value = "用户状态: 1-启用，2-禁用", required = true)
+                                            @IntegerEnum(intValues = {1, 2}, message = "用户状态的值只能为1/2")
+                                            @RequestParam Integer roleState) {
+        this.sysRoleService.updateSysRoleStateBatch(ridList, roleState);
+        return ResultVO.getSuccess("批量修改角色状态成功");
     }
 
 
