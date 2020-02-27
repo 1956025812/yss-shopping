@@ -155,7 +155,13 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         log.info("修改角色状态，参数为：[rid={}, roleState={}]", rid, roleState);
         Assert.notNull(rid, "修改角色状态失败，rid不能为空");
 
-        //
+        // 角色禁用则会把该角色下面的所有角色都禁用
+
+
+        // 角色启用，如果该角色的所有上级角色有任意一个禁用，则不允许启用
+
+        // 修改角色状态
+
     }
 
 
