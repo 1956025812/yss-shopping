@@ -76,9 +76,28 @@ public interface SysRoleService extends IService<SysRole> {
     /**
      * 修改角色状态
      *
-     * @param rid  角色ID
+     * @param rid       角色ID
      * @param roleState 角色状态
      */
     void updateSysRoleState(Long rid, Integer roleState);
 
+
+    /**
+     * 查询指定角色的所有父角色ID集合
+     *
+     * @param rid             指定的角色ID
+     * @param parentRoleState 父角色状态
+     * @return 父角色ID集合
+     */
+    List<Long> selectParentRidList(Long rid, Integer parentRoleState);
+
+
+    /**
+     * 查询指定角色的所有子角色ID集合
+     *
+     * @param rid               指定的角色ID
+     * @param childrenRoleState 子角色状态
+     * @return 子角色ID集合
+     */
+    List<Long> selectChildrenRidList(Long rid, Integer childrenRoleState);
 }

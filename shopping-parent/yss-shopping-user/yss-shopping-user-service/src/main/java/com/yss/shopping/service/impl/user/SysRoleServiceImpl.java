@@ -155,13 +155,48 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         log.info("修改角色状态，参数为：[rid={}, roleState={}]", rid, roleState);
         Assert.notNull(rid, "修改角色状态失败，rid不能为空");
 
-        // 角色禁用则会把该角色下面的所有角色都禁用
-
-
         // 角色启用，如果该角色的所有上级角色有任意一个禁用，则不允许启用
+        if (SysRoleConstant.State.OPEN.getKey().equals(roleState)) {
+            List<Long> parentRidList = this.selectParentRidList(rid, SysRoleConstant.State.CLOSE.getKey());
+            Assert.isTrue(CollectionUtils.isEmpty(parentRidList), "启用角色失败，该角色上面有禁用状态的父角色");
+            SysRole openSysRole = new SysRole();
+            openSysRole.setId(rid).setState(SysRoleConstant.State.OPEN.getKey())
+                    .setUpdateInfo(CommonConstant.DEFAULT_SYSTEM_USER).setUpdateTime(LocalDateTime.now());
+            log.info("修改角色状态，参数为：{}", FastJsonUtil.bean2Json(openSysRole));
+            this.updateById(openSysRole);
+            return;
+        }
 
-        // 修改角色状态
+        // 角色禁用则会把该角色下面的所有角色都禁用
+        if (SysRoleConstant.State.CLOSE.getKey().equals(roleState)) {
+            List<Long> childrenRidList = this.selectChildrenRidList(rid, SysRoleConstant.State.OPEN.getKey());
+            List<SysRole> closeSysRoleList = ListUtils.n(childrenRidList).list(eachChildrenRid -> {
+                SysRole closeSysRole = new SysRole();
+                closeSysRole.setId(rid).setState(SysRoleConstant.State.CLOSE.getKey())
+                        .setUpdateInfo(CommonConstant.DEFAULT_SYSTEM_USER).setUpdateTime(LocalDateTime.now());
+                return closeSysRole;
+            }).to();
+            log.info("批量修改角色状态，参数为：{}", FastJsonUtil.bean2Json(closeSysRoleList));
+            this.updateBatchById(closeSysRoleList);
+        }
+    }
 
+
+    @Override
+    public List<Long> selectParentRidList(Long rid, Integer parentRoleState) {
+        log.info("查询角色ID：{} 的所有状态为：{} 的父角色ID集合", rid, parentRoleState);
+        Assert.notNull(rid, "操作失败：rid不能为空");
+        List<Long> parentRidList = this.sysRoleMapper.selectParentRidList(rid, parentRoleState);
+        return parentRidList;
+    }
+
+
+    @Override
+    public List<Long> selectChildrenRidList(Long rid, Integer childrenRoleState) {
+        log.info("查询角色ID：{} 的所有状态为：{} 的子角色ID集合", rid, childrenRoleState);
+        Assert.notNull(rid, "操作失败：rid不能为空");
+        List<Long> childrenRidList = this.sysRoleMapper.selectChildrenRidList(rid, childrenRoleState);
+        return childrenRidList;
     }
 
 

@@ -2,4 +2,55 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yss.shopping.mapper.user.SysRoleMapper">
 
+
+    <!-- 查询指定角色的所有父角色ID集合 -->
+    <select id="selectParentRidList" resultType="java.util.List">
+
+        SELECT
+            t3.id
+        FROM (
+
+            SELECT
+                t1.id, t1.parent_id, t1.state,
+                t2.*,
+                IF(FIND_IN_SET(t1.id, @pids) > 0, @pids := CONCAT(@pids, ',', t1.parent_id), 0) AS isParent
+            FROM (
+                SELECT id, parent_id, state FROM sys_role WHERE state > 0 ORDER BY parent_id DESC, id DESC
+            ) t1,
+            ( SELECT @pids := #{rid} ) t2
+
+        ) t3
+        WHERE t3.isParent != 0
+        AND t3.id != #{rid}
+        AND t3.state = #{parentRoleState}
+
+    </select>
+
+
+
+    <!-- 查询指定角色的所有子角色的ID集合 -->
+    <select id="" resultType="java.util.List">
+
+        SELECT
+            t3.id
+        FROM (
+
+            SELECT
+                t1.id, t1.parent_id, t1.state,
+                t2.*,
+                IF(FIND_IN_SET(t1.parent_id, @pids) > 0, @pids := CONCAT(@pids, ',', t1.id), 0) AS isChild
+            FROM (
+                SELECT id, parent_id FROM sys_role WHERE state > 0 ORDER BY parent_id, id
+            ) AS t1,
+            ( SELECT @pids := #{rid} ) AS t2
+
+        ) t3
+        WHERE t3.isChild != 0
+        AND t3.state = #{childrenRoleState}
+    </select>
+
+
+
+
+
 </mapper>
