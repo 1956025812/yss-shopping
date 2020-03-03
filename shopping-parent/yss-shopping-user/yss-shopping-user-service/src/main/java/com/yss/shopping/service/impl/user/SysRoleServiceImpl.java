@@ -1,6 +1,7 @@
 package com.yss.shopping.service.impl.user;
 
 
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yss.shopping.constant.CommonConstant;
@@ -8,7 +9,6 @@ import com.yss.shopping.constant.user.SysRoleConstant;
 import com.yss.shopping.entity.user.SysRole;
 import com.yss.shopping.mapper.user.SysRoleMapper;
 import com.yss.shopping.service.user.SysRoleService;
-import com.yss.shopping.util.FastJsonUtil;
 import com.yss.shopping.util.ListUtils;
 import com.yss.shopping.vo.user.SysRoleDetailOutVO;
 import com.yss.shopping.vo.user.SysRoleOutVO;
@@ -62,7 +62,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         log.info("根据角色ID：{} 查询角色详情", rid);
 
         SysRole sysRole = this.sysRoleMapper.selectById(rid);
-        log.info("查询到的角色详情为：{}", FastJsonUtil.bean2Json(sysRole));
+        log.info("查询到的角色详情为：{}", JSONUtil.toJsonStr(sysRole));
 
         // 处理父角色名称
         String parentRoleName = this.selectRoleNameById(sysRole.getParentId());
@@ -85,7 +85,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Transactional(rollbackFor = Exception.class)
     @Override
     public SysRoleOutVO saveSysRole(SysRoleSaveInVO sysRoleSaveInVO) {
-        log.info("新增角色信息，接收过来的请求参数为：{}", FastJsonUtil.bean2Json(sysRoleSaveInVO));
+        log.info("新增角色信息，接收过来的请求参数为：{}", JSONUtil.toJsonStr(sysRoleSaveInVO));
 
         SysRole sysRole = sysRoleSaveInVO.toSysRole(sysRoleSaveInVO);
         Long parentId = sysRole.getParentId();
@@ -99,7 +99,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
         sysRole.setLevel(nextRoleLevel).setState(SysRoleConstant.State.OPEN.getKey())
                 .setCreateInfo(CommonConstant.DEFAULT_SYSTEM_USER).setCreateTime(LocalDateTime.now());
-        log.info("新增角色，请求参数为：{}", FastJsonUtil.bean2Json(sysRole));
+        log.info("新增角色，请求参数为：{}", JSONUtil.toJsonStr(sysRole));
         int saveCount = this.sysRoleMapper.insert(sysRole);
         Assert.isTrue(saveCount == 1, "新增角色失败");
 
@@ -110,7 +110,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateSysRole(SysRoleUpdateInVO sysRoleUpdateInVO) {
-        log.info("修改角色信息, 参数为：{}", FastJsonUtil.bean2Json(sysRoleUpdateInVO));
+        log.info("修改角色信息, 参数为：{}", JSONUtil.toJsonStr(sysRoleUpdateInVO));
 
         SysRole sysRole = sysRoleUpdateInVO.toSysRole(sysRoleUpdateInVO);
         Long rid = sysRoleUpdateInVO.getRid();
@@ -121,7 +121,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
         // 修改角色
         sysRole.setUpdateInfo(CommonConstant.DEFAULT_SYSTEM_USER).setUpdateTime(LocalDateTime.now());
-        log.info("修改角色，参数为：{}", FastJsonUtil.bean2Json(sysRole));
+        log.info("修改角色，参数为：{}", JSONUtil.toJsonStr(sysRole));
         int updateCount = this.sysRoleMapper.updateById(sysRole);
         Assert.isTrue(updateCount == 1, "修改角色失败");
     }
@@ -143,7 +143,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         SysRole sysRole = new SysRole();
         sysRole.setId(rid).setState(SysRoleConstant.State.DEL.getKey())
                 .setUpdateInfo(CommonConstant.DEFAULT_SYSTEM_USER).setUpdateTime(LocalDateTime.now());
-        log.info("删除角色，参数为：{}", FastJsonUtil.bean2Json(sysRole));
+        log.info("删除角色，参数为：{}", JSONUtil.toJsonStr(sysRole));
         int delCount = this.sysRoleMapper.updateById(sysRole);
         Assert.isTrue(delCount == 1, "删除角色失败");
     }
@@ -162,22 +162,24 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             SysRole openSysRole = new SysRole();
             openSysRole.setId(rid).setState(SysRoleConstant.State.OPEN.getKey())
                     .setUpdateInfo(CommonConstant.DEFAULT_SYSTEM_USER).setUpdateTime(LocalDateTime.now());
-            log.info("修改角色状态，参数为：{}", FastJsonUtil.bean2Json(openSysRole));
+            log.info("修改角色状态，参数为：{}", JSONUtil.toJsonStr(openSysRole));
             this.updateById(openSysRole);
             return;
         }
 
         // 角色禁用则会把该角色下面的所有角色都禁用
         if (SysRoleConstant.State.CLOSE.getKey().equals(roleState)) {
-            List<Long> childrenRidList = this.selectChildrenRidList(rid, SysRoleConstant.State.OPEN.getKey());
-            List<SysRole> closeSysRoleList = ListUtils.n(childrenRidList).list(eachChildrenRid -> {
+            List<Long> childrenOpenRidList = this.selectChildrenRidList(rid, SysRoleConstant.State.OPEN.getKey());
+            List<SysRole> closeSysRoleList = ListUtils.n(childrenOpenRidList).list(eachChildrenRid -> {
                 SysRole closeSysRole = new SysRole();
                 closeSysRole.setId(rid).setState(SysRoleConstant.State.CLOSE.getKey())
                         .setUpdateInfo(CommonConstant.DEFAULT_SYSTEM_USER).setUpdateTime(LocalDateTime.now());
                 return closeSysRole;
             }).to();
-            log.info("批量修改角色状态，参数为：{}", FastJsonUtil.bean2Json(closeSysRoleList));
-            this.updateBatchById(closeSysRoleList);
+            log.info("批量修改角色状态，参数为：{}", JSONUtil.toJsonStr(closeSysRoleList));
+            if (!CollectionUtils.isEmpty(closeSysRoleList)) {
+                this.updateBatchById(closeSysRoleList);
+            }
         }
     }
 

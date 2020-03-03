@@ -1,5 +1,6 @@
 package com.yss.shopping.service.impl.user;
 
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -7,7 +8,6 @@ import com.yss.shopping.constant.user.SysUserConstant;
 import com.yss.shopping.entity.user.SysUser;
 import com.yss.shopping.mapper.user.SysUserMapper;
 import com.yss.shopping.service.user.SysUserService;
-import com.yss.shopping.util.FastJsonUtil;
 import com.yss.shopping.util.ListUtils;
 import com.yss.shopping.util.Md5Util;
 import com.yss.shopping.vo.PageVO;
@@ -78,7 +78,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Transactional(rollbackFor = Exception.class)
     @Override
     public SysUserOutVO saveSysUser(SysUserSaveInVO sysUserSaveInVO) {
-        log.info("新增用户信息，接收过来的请求参数为：{}", FastJsonUtil.bean2Json(sysUserSaveInVO));
+        log.info("新增用户信息，接收过来的请求参数为：{}", JSONUtil.toJsonStr(sysUserSaveInVO));
 
         SysUser sysUser = sysUserSaveInVO.toSysUser(sysUserSaveInVO);
 
@@ -89,7 +89,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 新增用户
         sysUser.setPassword(Md5Util.toMD5(sysUser.getPassword())).setCreateTime(LocalDateTime.now())
                 .setState(SysUserConstant.State.OPEN.getKey());
-        log.info("新增用户，请求参数为：{}", FastJsonUtil.bean2Json(sysUser));
+        log.info("新增用户，请求参数为：{}", JSONUtil.toJsonStr(sysUser));
         boolean saveFlag = this.save(sysUser);
         Assert.isTrue(saveFlag, "新增用户失败");
 
@@ -100,7 +100,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateSysUser(SysUserUpdateInVO sysUserUpdateInVO) {
-        log.info("修改用户信息，接收过来的请求参数为：{}", FastJsonUtil.bean2Json(sysUserUpdateInVO));
+        log.info("修改用户信息，接收过来的请求参数为：{}", JSONUtil.toJsonStr(sysUserUpdateInVO));
 
         SysUser sysUser = sysUserUpdateInVO.toSysUser(sysUserUpdateInVO);
         Long uid = sysUser.getId();
@@ -113,7 +113,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 修改用户
         SysUser sysUserUpdate = new SysUser().setId(uid).setNickname(sysUser.getNickname()).setPassword(Md5Util.toMD5(sysUser.getPassword()))
                 .setEmail(sysUser.getEmail()).setUpdateTime(LocalDateTime.now());
-        log.info("修改用户，请求参数为：{}", FastJsonUtil.bean2Json(sysUserUpdate));
+        log.info("修改用户，请求参数为：{}", JSONUtil.toJsonStr(sysUserUpdate));
         boolean updateFlag = this.updateById(sysUserUpdate);
         Assert.isTrue(updateFlag, "修改用户失败");
     }
@@ -122,7 +122,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateSysUserStatusBatch(Long[] uidList, Integer userState) {
-        log.info("批量修改用户状态, 请求参数为：[uidList:{}, userStatus:{}]", FastJsonUtil.bean2Json(uidList), userState);
+        log.info("批量修改用户状态, 请求参数为：[uidList:{}, userStatus:{}]", JSONUtil.toJsonStr(uidList), userState);
 
         List<SysUser> sysUserList = ListUtils.n(uidList).list(eachUid -> new SysUser().setId(eachUid).setState(userState)).to();
         if (!CollectionUtils.isEmpty(sysUserList)) {

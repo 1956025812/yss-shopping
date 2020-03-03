@@ -1,12 +1,12 @@
 package com.yss.shopping.service.impl.goods;
 
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yss.shopping.api.user.SysUserApi;
 import com.yss.shopping.api.vo.SysUserOutVo;
 import com.yss.shopping.entity.goods.Goods;
 import com.yss.shopping.mapper.goods.GoodsMapper;
 import com.yss.shopping.service.goods.GoodsService;
-import com.yss.shopping.util.FastJsonUtil;
 import com.yss.shopping.vo.ResultVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +37,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     public Goods selectGoodsById(Long gid) {
         logger.info("根据商品ID查询商品信息, 请求参数为：[gid:{}]", gid);
         Goods goods = this.getById(gid);
-        logger.info("查询到的商品信息为：{}", FastJsonUtil.bean2Json(goods));
+        logger.info("查询到的商品信息为：{}", JSONUtil.toJsonStr(goods));
         return goods;
     }
 
@@ -48,7 +48,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
         SysUserOutVo sysUserOutVo;
         ResultVO<SysUserOutVo> resultVO = this.sysUserApi.selectSysUserById(uid);
-        logger.info("调用USER服务的根据ID查询用户信息接口，响应结果为：{}", FastJsonUtil.bean2Json(resultVO));
+        logger.info("调用USER服务的根据ID查询用户信息接口，响应结果为：{}", JSONUtil.toJsonStr(resultVO));
         Assert.isTrue(null != resultVO || resultVO.getCode().equals(0), "调用USER服务的根据ID查询用户信息接口失败");
         sysUserOutVo = resultVO.getData();
 

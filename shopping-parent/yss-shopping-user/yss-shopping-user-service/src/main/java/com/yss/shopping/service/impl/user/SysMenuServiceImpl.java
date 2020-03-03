@@ -1,6 +1,7 @@
 package com.yss.shopping.service.impl.user;
 
 
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yss.shopping.constant.CommonConstant;
@@ -8,7 +9,6 @@ import com.yss.shopping.constant.user.SysMenuConstant;
 import com.yss.shopping.entity.user.SysMenu;
 import com.yss.shopping.mapper.user.SysMenuMapper;
 import com.yss.shopping.service.user.SysMenuService;
-import com.yss.shopping.util.FastJsonUtil;
 import com.yss.shopping.util.ListUtils;
 import com.yss.shopping.vo.user.SysMenuDetailOutVO;
 import com.yss.shopping.vo.user.SysMenuOutVO;
@@ -63,7 +63,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         log.info("根据菜单ID： {} 查询菜单信息", mid);
 
         SysMenu sysMenu = this.sysMenuMapper.selectById(mid);
-        log.info("查询到的菜单为：{}", FastJsonUtil.bean2Json(sysMenu));
+        log.info("查询到的菜单为：{}", JSONUtil.toJsonStr(sysMenu));
 
         // 处理父级菜单名称
         String parentMenuName = this.selectMenuNameById(sysMenu.getParentId());
@@ -77,7 +77,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Transactional(rollbackFor = Exception.class)
     @Override
     public SysMenuOutVO saveSysMenu(SysMenuSaveInVO sysMenuSaveInVO) {
-        log.info("新增菜单信息，参数为：{}", FastJsonUtil.bean2Json(sysMenuSaveInVO));
+        log.info("新增菜单信息，参数为：{}", JSONUtil.toJsonStr(sysMenuSaveInVO));
 
         SysMenu sysMenu = sysMenuSaveInVO.toSysMenu(sysMenuSaveInVO);
         Long parentId = sysMenu.getParentId();
@@ -96,7 +96,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         // 新增菜单
         sysMenu.setLevel(nextMenuLevel).setState(SysMenuConstant.State.OPEN.getKey())
                 .setCreateInfo(CommonConstant.DEFAULT_SYSTEM_USER).setCreateTime(LocalDateTime.now());
-        log.info("新增菜单对象，参数为:{}", FastJsonUtil.bean2Json(sysMenu));
+        log.info("新增菜单对象，参数为:{}", JSONUtil.toJsonStr(sysMenu));
         int saveCount = this.sysMenuMapper.insert(sysMenu);
         Assert.isTrue(saveCount == 1, "新增菜单失败");
 
@@ -107,7 +107,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateSysMenu(SysMenuUpdateInVO sysMenuUpdateInVO) {
-        log.info("修改菜单信息，参数为：{}", FastJsonUtil.bean2Json(sysMenuUpdateInVO));
+        log.info("修改菜单信息，参数为：{}", JSONUtil.toJsonStr(sysMenuUpdateInVO));
 
         Long mid = sysMenuUpdateInVO.getMid();
 
