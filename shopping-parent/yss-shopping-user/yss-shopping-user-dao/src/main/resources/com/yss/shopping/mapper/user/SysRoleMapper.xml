@@ -4,7 +4,7 @@
 
 
     <!-- 查询指定角色的所有父角色ID集合 -->
-    <select id="selectParentRidList" resultType="java.util.List">
+    <select id="selectParentRidList" resultType="java.lang.Long">
 
         SELECT
             t3.id
@@ -29,7 +29,7 @@
 
 
     <!-- 查询指定角色的所有子角色的ID集合 -->
-    <select id="" resultType="java.util.List">
+    <select id="selectChildrenRidList" resultType="java.lang.Long">
 
         SELECT
             t3.id
@@ -40,7 +40,7 @@
                 t2.*,
                 IF(FIND_IN_SET(t1.parent_id, @pids) > 0, @pids := CONCAT(@pids, ',', t1.id), 0) AS isChild
             FROM (
-                SELECT id, parent_id FROM sys_role WHERE state > 0 ORDER BY parent_id, id
+                SELECT id, parent_id, state FROM sys_role WHERE state > 0 ORDER BY parent_id, id
             ) AS t1,
             ( SELECT @pids := #{rid} ) AS t2
 

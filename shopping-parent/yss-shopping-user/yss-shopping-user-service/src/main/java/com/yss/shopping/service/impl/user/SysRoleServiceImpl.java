@@ -170,9 +170,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         // 角色禁用则会把该角色下面的所有角色都禁用
         if (SysRoleConstant.State.CLOSE.getKey().equals(roleState)) {
             List<Long> childrenOpenRidList = this.selectChildrenRidList(rid, SysRoleConstant.State.OPEN.getKey());
+            childrenOpenRidList.add(rid);
             List<SysRole> closeSysRoleList = ListUtils.n(childrenOpenRidList).list(eachChildrenRid -> {
                 SysRole closeSysRole = new SysRole();
-                closeSysRole.setId(rid).setState(SysRoleConstant.State.CLOSE.getKey())
+                closeSysRole.setId(eachChildrenRid).setState(SysRoleConstant.State.CLOSE.getKey())
                         .setUpdateInfo(CommonConstant.DEFAULT_SYSTEM_USER).setUpdateTime(LocalDateTime.now());
                 return closeSysRole;
             }).to();
