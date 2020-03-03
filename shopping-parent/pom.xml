@@ -55,6 +55,7 @@
         <spring-boot-starter-data-redis-version>2.2.4.RELEASE</spring-boot-starter-data-redis-version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <xxl-job-core.version>2.1.2</xxl-job-core.version>
+        <hutool-all.version>5.1.5</hutool-all.version>
     </properties>
 
 
@@ -246,6 +247,15 @@
                 <version>${xxl-job-core.version}</version>
             </dependency>
             <!-- xxl-job-core -->
+
+
+            <!-- Hutool -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool-all.version}</version>
+            </dependency>
+            <!-- Hutool -->
 
 
         </dependencies>
