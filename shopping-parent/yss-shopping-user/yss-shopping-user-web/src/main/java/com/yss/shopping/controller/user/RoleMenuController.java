@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 /**
  * <p>
  * 前端控制器
@@ -35,8 +33,8 @@ public class RoleMenuController extends BaseController {
 
     @ApiOperation("查询角色下的菜单列表")
     @GetMapping("/list")
-    public ResultVO selectRolesMenuList(@ApiParam(value = "角色ID集合") @RequestParam List<Long> ridList) {
-        RoleMenuOutVO roleMenuOutVO = this.roleMenuService.selectRolesMenuList(ridList);
+    public ResultVO selectRolesMenuList(@ApiParam(value = "角色ID") @RequestParam Long rid) {
+        RoleMenuOutVO roleMenuOutVO = this.roleMenuService.selectRoleMenuList(rid);
         return ResultVO.getSuccess("查询角色下面的菜单列表成功", roleMenuOutVO);
     }
 

@@ -1,7 +1,6 @@
 package com.yss.shopping.service.impl.user;
 
 
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yss.shopping.constant.user.SysMenuConstant;
@@ -39,23 +38,28 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
 
 
     @Override
-    public RoleMenuOutVO selectRolesMenuList(List<Long> ridList) {
-        log.info("查询角色ID集合：{} 对应的菜单列表", JSONUtil.toJsonStr(ridList));
+    public RoleMenuOutVO selectRoleMenuList(Long rid) {
+        log.info("查询角色ID:{} 下对应的菜单列表", rid);
 
         RoleMenuOutVO roleMenuOutVO = null;
 
         // 如果角色中包含天眼角色，则查询到所有的菜单
-        if (ridList.contains(SysRoleConstant.PARENT_ID_SUPER_MANAGER_TIYAN)) {
+        if (rid.equals(SysRoleConstant.PARENT_ID_SUPER_MANAGER_TIYAN)) {
             roleMenuOutVO = this.handleTianYanRoleMenuList();
             return roleMenuOutVO;
         }
 
-        // 处理普通角色的菜单 TODO
+        // 处理普通角色的菜单
 
 
         return roleMenuOutVO;
     }
 
+
+    @Override
+    public RoleMenuOutVO selectRolesMenuList(List<Long> ridList) {
+        return null;
+    }
 
     /**
      * 处理天眼角色的所有菜单
