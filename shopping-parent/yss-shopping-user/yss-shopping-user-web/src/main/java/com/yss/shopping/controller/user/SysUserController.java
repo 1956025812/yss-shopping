@@ -29,7 +29,7 @@ import javax.validation.constraints.NotNull;
  * @author yss
  * @since 2019-12-07
  */
-@Api(tags = "系统用户CONTROLLER")
+@Api(tags = "用户CONTROLLER")
 @RestController
 @RequestMapping("/sysuser")
 @Slf4j

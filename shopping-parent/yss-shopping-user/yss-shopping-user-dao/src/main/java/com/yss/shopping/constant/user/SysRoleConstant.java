@@ -10,6 +10,13 @@ public interface SysRoleConstant {
      */
     Long PARENT_ID_DEFAULT_TOP = 0L;
 
+
+    /**
+     * 默认的系统超级管理员角色-天眼ID-1L
+     */
+    Long PARENT_ID_SUPER_MANAGER_TIYAN = 1L;
+
+
     /**
      * 默认的顶级角色的级别-1
      */

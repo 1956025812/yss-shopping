@@ -29,7 +29,7 @@ import java.util.List;
  * @author yss
  * @since 2020-01-20
  */
-@Api(tags = "系统角色CONTROLLER")
+@Api(tags = "角色CONTROLLER")
 @RestController
 @RequestMapping("/sysRole")
 @Slf4j

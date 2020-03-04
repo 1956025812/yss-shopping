@@ -29,7 +29,7 @@ import java.util.List;
  * @author yss
  * @since 2020-01-20
  */
-@Api(tags = "系统菜单CONTROLLER")
+@Api(tags = "菜单CONTROLLER")
 @RestController
 @RequestMapping("/sysMenu")
 @Slf4j
