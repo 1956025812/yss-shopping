@@ -40,6 +40,9 @@ public class SysMenuOutVO {
     @ApiModelProperty("父菜单名称")
     private String parentMenuName;
 
+    @ApiModelProperty("备注")
+    private String remark;
+
     public SysMenuOutVO() {
     }
 
@@ -57,7 +60,7 @@ public class SysMenuOutVO {
                     .setMenuCode(sysMenu.getMenuCode()).setMenuName(sysMenu.getMenuName())
                     .setMenuUrl(sysMenu.getMenuUrl()).setParentId(sysMenu.getParentId())
                     .setLevel(sysMenu.getLevel()).setState(sysMenu.getState())
-                    .setParentMenuName(parentMenuName);
+                    .setRemark(sysMenu.getRemark()).setParentMenuName(parentMenuName);
         }
         return sysMenuOutVO;
     }
