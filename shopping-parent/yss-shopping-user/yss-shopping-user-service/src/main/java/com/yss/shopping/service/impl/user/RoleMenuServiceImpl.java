@@ -3,7 +3,9 @@ package com.yss.shopping.service.impl.user;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yss.shopping.constant.CommonConstant;
 import com.yss.shopping.constant.user.SysRoleConstant;
 import com.yss.shopping.dto.user.RoleMenuDTO;
 import com.yss.shopping.entity.user.RoleMenu;
@@ -17,7 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -90,10 +94,37 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
         log.info("修改角色权限，参数为：[rid={}, midList={}]", rid, JSONUtil.toJsonStr(midList));
 
         // 断言角色必须存在
+        this.sysRoleService.assertRoleExist(rid);
 
         // 删除旧的角色菜单关系
+        this.deleteRoleMenu(rid);
 
         // 添加新的角色菜单关系
+        this.saveRoleMenuBatch(rid, midList);
+    }
 
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deleteRoleMenu(Long rid) {
+        log.info("删除角色rid: {} 的菜单关联关系", rid);
+        Assert.notNull(rid, "删除失败：rid不能为空");
+        QueryWrapper<RoleMenu> roleMenuQueryWrapper = new QueryWrapper<>(new RoleMenu().setRid(rid));
+        this.roleMenuMapper.delete(roleMenuQueryWrapper);
+    }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void saveRoleMenuBatch(Long rid, List<Long> midList) {
+        log.info("批量添加角色菜单关联关系，参数为：[rid={}, midList={}]", rid, JSONUtil.toJsonStr(midList));
+        Assert.isTrue(null != rid && !CollectionUtils.isEmpty(midList), "添加角色菜单关联关系失败：参数异常");
+
+        List<RoleMenu> roleMenuList = ListUtils.n(midList).list(eachMid -> {
+            return new RoleMenu().setRid(rid).setMid(eachMid)
+                    .setCreateInfo(CommonConstant.DEFAULT_SYSTEM_USER).setCreateTime(LocalDateTime.now());
+        }).to();
+
+        this.saveBatch(roleMenuList);
     }
 }

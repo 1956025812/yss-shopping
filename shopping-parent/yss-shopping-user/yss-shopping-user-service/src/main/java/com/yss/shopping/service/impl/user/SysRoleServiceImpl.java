@@ -213,6 +213,14 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
 
+    @Override
+    public void assertRoleExist(Long rid) {
+        log.info("断言rid: {} 对应的角色必须存在", rid);
+        SysRole sysRole = this.sysRoleMapper.selectById(rid);
+        Assert.notNull(sysRole, "操作失败：角色不存在");
+    }
+
+
     /**
      * 断言角色名称不存在,如果传递rid,则忽略该对象的判断
      *

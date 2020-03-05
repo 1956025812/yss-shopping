@@ -109,4 +109,12 @@ public interface SysRoleService extends IService<SysRole> {
      * @return 父角色ID
      */
     Long selectParentRid(Long rid);
+
+
+    /**
+     * 断言角色必须存在
+     *
+     * @param rid 角色ID
+     */
+    void assertRoleExist(Long rid);
 }
