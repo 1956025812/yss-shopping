@@ -10,10 +10,7 @@ import com.yss.shopping.entity.user.SysMenu;
 import com.yss.shopping.mapper.user.SysMenuMapper;
 import com.yss.shopping.service.user.SysMenuService;
 import com.yss.shopping.util.ListUtils;
-import com.yss.shopping.vo.user.SysMenuDetailOutVO;
-import com.yss.shopping.vo.user.SysMenuOutVO;
-import com.yss.shopping.vo.user.SysMenuSaveInVO;
-import com.yss.shopping.vo.user.SysMenuUpdateInVO;
+import com.yss.shopping.vo.user.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -183,6 +180,18 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         Assert.isTrue(delCount == 1, "删除菜单失败");
     }
 
+
+    @Override
+    public List<SysMenuSimpleOutVO> selectAllSysMenuList() {
+        QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>();
+        sysMenuQueryWrapper.gt(SysMenuConstant.Column.STATE.getKey(), SysMenuConstant.State.DEL.getKey());
+        List<SysMenu> sysMenuList = this.list(sysMenuQueryWrapper);
+        log.info("查询到的菜单数量为：{}", ListUtils.n(sysMenuList).s());
+        List<SysMenuSimpleOutVO> allSysMenuList = ListUtils.n(sysMenuList).list(eachSysMenu -> {
+            return new SysMenuSimpleOutVO().toSysMenuSimpleOutVO(eachSysMenu);
+        }).to();
+        return allSysMenuList;
+    }
 
     /**
      * 当新增的菜单类型为页面时，则父菜单类型必须是页面并且下面不能有按钮

@@ -18,13 +18,13 @@ public class RoleMenuOutVO {
     private Long rid;
 
     @ApiModelProperty("角色下的菜单列表")
-    private List<RoleMenuDetailOutVO> roleMenuDetailOutVOList;
+    private List<SysMenuSimpleOutVO> sysMenuSimpleOutVOList;
 
     public RoleMenuOutVO() {
     }
 
-    public RoleMenuOutVO(Long rid, List<RoleMenuDetailOutVO> roleMenuDetailOutVOList) {
+    public RoleMenuOutVO(Long rid, List<SysMenuSimpleOutVO> sysMenuSimpleOutVOList) {
         this.rid = rid;
-        this.roleMenuDetailOutVOList = roleMenuDetailOutVOList;
+        this.sysMenuSimpleOutVOList = sysMenuSimpleOutVOList;
     }
 }

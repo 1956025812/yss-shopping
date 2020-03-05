@@ -3,10 +3,7 @@ package com.yss.shopping.service.user;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yss.shopping.entity.user.SysMenu;
-import com.yss.shopping.vo.user.SysMenuDetailOutVO;
-import com.yss.shopping.vo.user.SysMenuOutVO;
-import com.yss.shopping.vo.user.SysMenuSaveInVO;
-import com.yss.shopping.vo.user.SysMenuUpdateInVO;
+import com.yss.shopping.vo.user.*;
 
 import java.util.List;
 
@@ -24,7 +21,7 @@ public interface SysMenuService extends IService<SysMenu> {
     /**
      * 查询菜单列表
      *
-     * @param type      菜单类型：1-菜单，2-按钮
+     * @param type     菜单类型：1-菜单，2-按钮
      * @param parentId 父菜单ID
      * @return SysMenuOutVO集合
      */
@@ -88,4 +85,12 @@ public interface SysMenuService extends IService<SysMenu> {
      * @param mid 菜单ID
      */
     void delSysMenu(Long mid);
+
+
+    /**
+     * 查询所有的菜单集合
+     *
+     * @return 所有的菜单集合
+     */
+    List<SysMenuSimpleOutVO> selectAllSysMenuList();
 }

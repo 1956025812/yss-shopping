@@ -8,10 +8,10 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 @Data
-@ApiModel("角色菜单详情OutVO对象")
+@ApiModel("菜单简要OutVO对象")
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RoleMenuDetailOutVO {
+public class SysMenuSimpleOutVO {
 
     @ApiModelProperty("菜单ID")
     private Long mid;
@@ -32,16 +32,16 @@ public class RoleMenuDetailOutVO {
      * SysMenu对象转换为RoleMenuDetailOutVO对象
      *
      * @param sysMenu
-     * @return RoleMenuDetailOutVO
+     * @return SysMenuSimpleOutVO
      */
-    public RoleMenuDetailOutVO toRoleMenuDetailOutVO(SysMenu sysMenu) {
-        RoleMenuDetailOutVO roleMenuDetailOutVO = new RoleMenuDetailOutVO();
+    public SysMenuSimpleOutVO toSysMenuSimpleOutVO(SysMenu sysMenu) {
+        SysMenuSimpleOutVO sysMenuSimpleOutVO = new SysMenuSimpleOutVO();
         if (null != sysMenu) {
-            roleMenuDetailOutVO.setMid(sysMenu.getId()).setMenuCode(sysMenu.getMenuCode())
+            sysMenuSimpleOutVO.setMid(sysMenu.getId()).setMenuCode(sysMenu.getMenuCode())
                     .setMenuName(sysMenu.getMenuName()).setMenuType(sysMenu.getMenuType())
                     .setParentId(sysMenu.getParentId());
         }
-        return roleMenuDetailOutVO;
+        return sysMenuSimpleOutVO;
     }
 
 
