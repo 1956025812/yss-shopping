@@ -24,7 +24,7 @@ public interface RoleMenuService extends IService<RoleMenu> {
      * @param rid 角色ID
      * @return RoleMenuOutVO
      */
-    RoleMenuOutVO selectRoleMenuList(Long rid);
+    RoleMenuOutVO selectMenuListOfRole(Long rid);
 
 
     /**
@@ -33,5 +33,5 @@ public interface RoleMenuService extends IService<RoleMenu> {
      * @param ridList 角色ID集合
      * @return RoleMenuOutVO
      */
-    RoleMenuOutVO selectRolesMenuList(List<Long> ridList);
+    RoleMenuOutVO selectMenuListOfRoles(List<Long> ridList);
 }

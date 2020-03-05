@@ -38,7 +38,7 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
 
 
     @Override
-    public RoleMenuOutVO selectRoleMenuList(Long rid) {
+    public RoleMenuOutVO selectMenuListOfRole(Long rid) {
         log.info("查询角色ID:{} 下对应的菜单列表", rid);
 
         RoleMenuOutVO roleMenuOutVO = null;
@@ -57,7 +57,7 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
 
 
     @Override
-    public RoleMenuOutVO selectRolesMenuList(List<Long> ridList) {
+    public RoleMenuOutVO selectMenuListOfRoles(List<Long> ridList) {
         return null;
     }
 

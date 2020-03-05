@@ -33,8 +33,8 @@ public class RoleMenuController extends BaseController {
 
     @ApiOperation("查询角色下的菜单列表")
     @GetMapping("/list")
-    public ResultVO selectRolesMenuList(@ApiParam(value = "角色ID") @RequestParam Long rid) {
-        RoleMenuOutVO roleMenuOutVO = this.roleMenuService.selectRoleMenuList(rid);
+    public ResultVO selectMenuListOfRole(@ApiParam(value = "角色ID") @RequestParam Long rid) {
+        RoleMenuOutVO roleMenuOutVO = this.roleMenuService.selectMenuListOfRole(rid);
         return ResultVO.getSuccess("查询角色下面的菜单列表成功", roleMenuOutVO);
     }
 
