@@ -29,6 +29,10 @@ public class SysMenuSimpleOutVO {
     @ApiModelProperty("父菜单ID，顶级为0")
     private Long parentId;
 
+    @ApiModelProperty("父子角色有相同的菜单时追加标志： 相同true, 不相同false")
+    private boolean parentChildSameFlag;
+
+
     /**
      * SysMenu对象转换为RoleMenuDetailOutVO对象
      *

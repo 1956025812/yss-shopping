@@ -41,4 +41,12 @@ public class RoleMenuController extends BaseController {
     }
 
 
+    @ApiOperation("查询父子角色下的菜单列表")
+    @GetMapping("/parentAndChildren")
+    public ResultVO selectParentAndChildRoleMenuList(@ApiParam(value = "角色ID") @RequestParam Long rid) {
+        List<SysMenuSimpleOutVO> roleMenuList = this.roleMenuService.selectParentAndChildRoleMenuList(rid);
+        return ResultVO.getSuccess("查询父子角色下的菜单列表成功", roleMenuList);
+    }
+
+
 }

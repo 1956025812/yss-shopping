@@ -22,8 +22,16 @@ public interface RoleMenuService extends IService<RoleMenu> {
      * 查询角色下的菜单列表
      *
      * @param rid 角色ID
-     * @return 角色下的菜单列表
+     * @return SysMenuSimpleOutVO集合
      */
     List<SysMenuSimpleOutVO> selectMenuListOfRole(Long rid);
 
+
+    /**
+     * 查询父子角色下的菜单列表
+     *
+     * @param rid 角色ID
+     * @return SysMenuSimpleOutVO集合
+     */
+    List<SysMenuSimpleOutVO> selectParentAndChildRoleMenuList(Long rid);
 }

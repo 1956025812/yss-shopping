@@ -100,4 +100,13 @@ public interface SysRoleService extends IService<SysRole> {
      * @return 子角色ID集合
      */
     List<Long> selectChildrenRidList(Long rid, Integer childrenRoleState);
+
+
+    /**
+     * 查询角色对应的父角色ID
+     *
+     * @param rid 角色ID
+     * @return 父角色ID
+     */
+    Long selectParentRid(Long rid);
 }

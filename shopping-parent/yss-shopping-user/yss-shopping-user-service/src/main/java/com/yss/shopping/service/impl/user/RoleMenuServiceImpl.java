@@ -1,6 +1,7 @@
 package com.yss.shopping.service.impl.user;
 
 
+import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yss.shopping.constant.user.SysRoleConstant;
 import com.yss.shopping.dto.user.RoleMenuDTO;
@@ -8,6 +9,7 @@ import com.yss.shopping.entity.user.RoleMenu;
 import com.yss.shopping.mapper.user.RoleMenuMapper;
 import com.yss.shopping.service.user.RoleMenuService;
 import com.yss.shopping.service.user.SysMenuService;
+import com.yss.shopping.service.user.SysRoleService;
 import com.yss.shopping.util.ListUtils;
 import com.yss.shopping.vo.user.SysMenuSimpleOutVO;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +34,8 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
     private RoleMenuMapper roleMenuMapper;
     @Autowired
     private SysMenuService sysMenuService;
+    @Autowired
+    private SysRoleService sysRoleService;
 
 
     @Override
@@ -46,15 +50,34 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
             return roleMenuList;
         }
 
-        // 处理普通角色的菜单列表 一个角色下的菜单ID是不会重复的 不需要去重
+        // 处理普通角色的菜单列表
         List<RoleMenuDTO> roleMenuDTOList = this.roleMenuMapper.selectMenuListOfRole(rid, null);
         roleMenuList = ListUtils.n(roleMenuDTOList).list(eachRoleMenuDTO -> {
             return new SysMenuSimpleOutVO().toSysMenuSimpleOutVO(eachRoleMenuDTO);
         }).to();
 
         return roleMenuList;
-
     }
 
 
+    @Override
+    public List<SysMenuSimpleOutVO> selectParentAndChildRoleMenuList(Long rid) {
+
+        // 查询角色对应的父角色ID
+        Long parentRid = this.sysRoleService.selectParentRid(rid);
+        Assert.notNull(parentRid, "操作失败：父角色不存在");
+
+        // 分别查询父角色和子角色的菜单列表
+        List<SysMenuSimpleOutVO> parentRoleMenuList = this.selectMenuListOfRole(parentRid);
+        List<SysMenuSimpleOutVO> childRoleMenuList = this.selectMenuListOfRole(rid);
+
+        // 遍历父角色的菜单列表，如果子角色有相同的菜单，则追加相同标志
+        ListUtils.n(parentRoleMenuList).each(eachParentRoleMenu -> {
+            if (ListUtils.n(childRoleMenuList).cv(eachParentRoleMenu)) {
+                eachParentRoleMenu.setParentChildSameFlag(true);
+            }
+        });
+
+        return parentRoleMenuList;
+    }
 }

@@ -203,6 +203,16 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
 
+    @Override
+    public Long selectParentRid(Long rid) {
+        log.info("查询角色ID：{} 对应的父角色ID", rid);
+        SysRole sysRole = this.sysRoleMapper.selectById(rid);
+        long parnetId = null == sysRole ? null : sysRole.getParentId();
+        log.info("查询到的父角色ID为：{}", parnetId);
+        return parnetId;
+    }
+
+
     /**
      * 断言角色名称不存在,如果传递rid,则忽略该对象的判断
      *
