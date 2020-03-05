@@ -1,6 +1,7 @@
 package com.yss.shopping.vo.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.yss.shopping.dto.user.RoleMenuDTO;
 import com.yss.shopping.entity.user.SysMenu;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -40,6 +41,23 @@ public class SysMenuSimpleOutVO {
             sysMenuSimpleOutVO.setMid(sysMenu.getId()).setMenuCode(sysMenu.getMenuCode())
                     .setMenuName(sysMenu.getMenuName()).setMenuType(sysMenu.getMenuType())
                     .setParentId(sysMenu.getParentId());
+        }
+        return sysMenuSimpleOutVO;
+    }
+
+
+    /**
+     * RoleMenuDTO对象转换为RoleMenuDetailOutVO对象
+     *
+     * @param roleMenuDTO
+     * @return SysMenuSimpleOutVO
+     */
+    public SysMenuSimpleOutVO toSysMenuSimpleOutVO(RoleMenuDTO roleMenuDTO) {
+        SysMenuSimpleOutVO sysMenuSimpleOutVO = new SysMenuSimpleOutVO();
+        if (null != roleMenuDTO) {
+            sysMenuSimpleOutVO.setMid(roleMenuDTO.getMid()).setMenuCode(roleMenuDTO.getMenuCode())
+                    .setMenuName(roleMenuDTO.getMenuName()).setMenuType(roleMenuDTO.getMenuType())
+                    .setParentId(roleMenuDTO.getParentId());
         }
         return sysMenuSimpleOutVO;
     }

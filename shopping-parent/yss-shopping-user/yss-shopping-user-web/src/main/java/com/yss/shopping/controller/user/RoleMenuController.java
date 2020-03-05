@@ -4,7 +4,7 @@ package com.yss.shopping.controller.user;
 import com.yss.shopping.controller.BaseController;
 import com.yss.shopping.service.user.RoleMenuService;
 import com.yss.shopping.vo.ResultVO;
-import com.yss.shopping.vo.user.RoleMenuOutVO;
+import com.yss.shopping.vo.user.SysMenuSimpleOutVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <p>
@@ -34,8 +36,8 @@ public class RoleMenuController extends BaseController {
     @ApiOperation("查询角色下的菜单列表")
     @GetMapping("/list")
     public ResultVO selectMenuListOfRole(@ApiParam(value = "角色ID") @RequestParam Long rid) {
-        RoleMenuOutVO roleMenuOutVO = this.roleMenuService.selectMenuListOfRole(rid);
-        return ResultVO.getSuccess("查询角色下面的菜单列表成功", roleMenuOutVO);
+        List<SysMenuSimpleOutVO> roleMenuList = this.roleMenuService.selectMenuListOfRole(rid);
+        return ResultVO.getSuccess("查询角色下面的菜单列表成功", roleMenuList);
     }
 
 

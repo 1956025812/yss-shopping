@@ -2,4 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yss.shopping.mapper.user.RoleMenuMapper">
 
+    <!-- 查询角色下菜单列表返回MAP -->
+    <resultMap id="selectMenuListOfRoleMap" type="com.yss.shopping.dto.user.RoleMenuDTO">
+        <id column="rm_id" property="rmId" jdbcType="BIGINT" />
+        <result column="rid" property="rid" jdbcType="BIGINT" />
+        <result column="mid" property="mid" jdbcType="BIGINT" />
+        <result column="menu_code" property="menuCode" jdbcType="VARCHAR" />
+        <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+        <result column="menu_type" property="menuType" jdbcType="INTEGER" />
+        <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    </resultMap>
+
+
+    <!-- 查询角色下菜单列表 -->
+    <select id="selectMenuListOfRole" resultMap="selectMenuListOfRoleMap">
+        SELECT
+            RM.id AS rm_id, RM.rid,
+            SM.id AS `mid`, SM.`menu_code`, SM.`menu_name`, SM.`menu_type`, SM.`parent_id`
+        FROM
+            role_menu AS RM
+        LEFT JOIN sys_menu AS SM ON SM.id = RM.mid
+        WHERE
+            SM.state > 0
+            <if test="rid != null">
+                AND RM.rid = #{rid}
+            </if>
+            <if test="ridList != null and ridList.size() > 0">
+                AND RM.rid IN
+                <foreach collection="ridList" item="eachRid" open="(" separator="," close=")">
+                    #{eachRid}
+                </foreach>
+            </if>
+    </select>
+
+
+
 </mapper>
