@@ -49,4 +49,13 @@ public class RoleMenuController extends BaseController {
     }
 
 
+    @ApiOperation("修改角色权限")
+    @GetMapping("/update")
+    public ResultVO updateRoleMenuRelation(@ApiParam(value = "角色ID") @RequestParam Long rid,
+                                           @ApiParam(value = "菜单ID集合") @RequestParam List<Long> midList) {
+        this.roleMenuService.updateRoleMenuRelation(rid, midList);
+        return ResultVO.getSuccess("修改角色权限成功");
+    }
+
+
 }

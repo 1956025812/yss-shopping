@@ -34,4 +34,13 @@ public interface RoleMenuService extends IService<RoleMenu> {
      * @return SysMenuSimpleOutVO集合
      */
     List<SysMenuSimpleOutVO> selectParentAndChildRoleMenuList(Long rid);
+
+
+    /**
+     * 修改角色权限
+     *
+     * @param rid     角色ID
+     * @param midList 菜单ID
+     */
+    void updateRoleMenuRelation(Long rid, List<Long> midList);
 }

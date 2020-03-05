@@ -2,6 +2,7 @@ package com.yss.shopping.service.impl.user;
 
 
 import cn.hutool.core.lang.Assert;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yss.shopping.constant.user.SysRoleConstant;
 import com.yss.shopping.dto.user.RoleMenuDTO;
@@ -15,6 +16,7 @@ import com.yss.shopping.vo.user.SysMenuSimpleOutVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -79,5 +81,19 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
         });
 
         return parentRoleMenuList;
+    }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void updateRoleMenuRelation(Long rid, List<Long> midList) {
+        log.info("修改角色权限，参数为：[rid={}, midList={}]", rid, JSONUtil.toJsonStr(midList));
+
+        // 断言角色必须存在
+
+        // 删除旧的角色菜单关系
+
+        // 添加新的角色菜单关系
+
     }
 }
