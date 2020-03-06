@@ -39,6 +39,8 @@ public class SysUser implements Serializable {
 
     private Integer state;
 
+    private Integer registerSource;
+
     private String createInfo;
 
     private LocalDateTime createTime;

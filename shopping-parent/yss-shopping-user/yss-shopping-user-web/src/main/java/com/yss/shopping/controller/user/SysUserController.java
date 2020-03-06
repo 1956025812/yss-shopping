@@ -42,12 +42,13 @@ public class SysUserController extends BaseController {
     @ApiOperation("查询用户分页列表")
     @GetMapping("/page")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", dataType = "Long", name = "currentPage", value = "当前页码", example = "1", required = true),
-            @ApiImplicitParam(paramType = "query", dataType = "Long", name = "pageSize", value = "每页记录数", example = "10", required = true),
+            @ApiImplicitParam(paramType = "query", dataType = "Long", name = "currentPage", value = "当前页码", required = true),
+            @ApiImplicitParam(paramType = "query", dataType = "Long", name = "pageSize", value = "每页记录数", required = true),
             @ApiImplicitParam(paramType = "query", dataType = "String", name = "username", value = "用户账号"),
             @ApiImplicitParam(paramType = "query", dataType = "String", name = "nickname", value = "昵称"),
             @ApiImplicitParam(paramType = "query", dataType = "String", name = "email", value = "邮箱"),
-            @ApiImplicitParam(paramType = "query", dataType = "Long", name = "state", value = "状态：0-删除，1-启用，2-禁用", example = "1")
+            @ApiImplicitParam(paramType = "query", dataType = "Long", name = "state", value = "状态：0-删除，1-启用，2-禁用"),
+            @ApiImplicitParam(paramType = "query", dataType = "Long", name = "registerSource", value = "注册来源：1-后台注册，2-用户注册，3-QQ，4-WX"),
     })
     public ResultVO selectSysUserPage(@ApiIgnore SysUserPageVO sysUserPageVO) {
         PageVO<SysUserOutVO> sysUserOutVOPage = this.sysUserService.selectSysUserPage(sysUserPageVO);
@@ -57,7 +58,7 @@ public class SysUserController extends BaseController {
 
     @ApiOperation("根据用户ID查询用户信息")
     @GetMapping("/select/by/id")
-    public ResultVO selectSysUserOutVOById(@ApiParam(value = "用户ID", required = true, example = "1")
+    public ResultVO selectSysUserOutVOById(@ApiParam(value = "用户ID", required = true)
                                            @NotNull(message = "用户ID字段uid不能为空") @RequestParam Long uid) {
         SysUserOutVO sysUserOutVO = this.sysUserService.selectSysUserOutVOById(uid);
         return ResultVO.getSuccess("查询用户信息成功", sysUserOutVO);
@@ -85,7 +86,7 @@ public class SysUserController extends BaseController {
     public ResultVO updateSysUserStatusBatch(
             @ApiParam(value = "用户ID集合", required = true)
             @NotNull(message = "用户ID集合字段uidList不能为空") @RequestParam Long[] uidList,
-            @ApiParam(value = "用户状态: 0-删除，1-启用，2-禁用", required = true, example = "1")
+            @ApiParam(value = "用户状态: 0-删除，1-启用，2-禁用", required = true)
             @IntegerEnum(intValues = {0, 1, 2}, message = "用户状态的值只能为0/1/2") @RequestParam Integer userState) {
         this.sysUserService.updateSysUserStatusBatch(uidList, userState);
         return ResultVO.getSuccess("批量修改用户状态成功");

@@ -23,4 +23,7 @@ public class SysUserPageVO extends BaseVO {
     @ApiModelProperty("状态：0-删除，1-启用，2-禁用")
     private Integer state;
 
+    @ApiModelProperty("注册来源：1-后台注册，2-用户注册，3-QQ，4-WX")
+    private Integer registerSource;
+
 }

@@ -34,6 +34,9 @@ public class SysUserOutVO {
     @ApiModelProperty("用户状态：0-删除，1-启用，2-禁用")
     private Integer state;
 
+    @ApiModelProperty("注册来源：1-后台注册，2-用户注册，3-QQ，4-WX")
+    private Integer registerSource;
+
     @ApiModelProperty("创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
@@ -57,6 +60,7 @@ public class SysUserOutVO {
                     .setEmail(sysUser.getEmail())
                     .setHeadImgUrl(sysUser.getHeadImgUrl())
                     .setState(sysUser.getState())
+                    .setRegisterSource(sysUser.getRegisterSource())
                     .setCreateTime(sysUser.getCreateTime());
         }
         return sysUserOutVO;

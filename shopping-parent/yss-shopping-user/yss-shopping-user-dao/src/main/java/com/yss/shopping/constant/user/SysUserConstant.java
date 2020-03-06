@@ -36,6 +36,11 @@ public interface SysUserConstant {
         STATE("state", "状态"),
 
         /**
+         * 注册来源：1-后台注册，2-用户注册，3-QQ，4-WX
+         */
+        REGISTER_SOURCE("register_source", "注册来源"),
+
+        /**
          * CREATE_TIME-创建时间
          */
         CREATE_TIME("create_time", "创建时间"),
@@ -175,4 +180,84 @@ public interface SysUserConstant {
     }
 
 
+    /**
+     * 注册来源：1-系统注册，2-用户注册，3-QQ，4-WX
+     */
+    enum RegisterSource implements SysUserConstant {
+
+        /**
+         * 1-系统注册
+         */
+        SYSTEM(1, "系统注册"),
+
+        /**
+         * 2-用户注册
+         */
+        USER(2, "用户注册"),
+
+        /**
+         * 3-QQ
+         */
+        QQ(3, "QQ"),
+
+        /**
+         * 4-WX
+         */
+        WX(4, "WX"),
+        ;
+
+        private Integer key;
+        private String value;
+
+        RegisterSource(Integer key, String value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        /**
+         * 根据整型索引得到对应的名称
+         *
+         * @param key
+         * @return value
+         */
+        public static String getValue(Integer key) {
+            for (RegisterSource e : RegisterSource.values()) {
+                if (e.key.equals(key)) {
+                    return e.value;
+                }
+            }
+            return null;
+        }
+
+        /**
+         * 判断是否包含value
+         *
+         * @param value
+         * @return 如果包含value, 则返回对应的key, 否则返回null
+         */
+        public static Integer containValue(String value) {
+            for (RegisterSource e : RegisterSource.values()) {
+                if (e.value.equals(value)) {
+                    return e.key;
+                }
+            }
+            return null;
+        }
+
+        public Integer getKey() {
+            return key;
+        }
+
+        public void setKey(Integer key) {
+            this.key = key;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+    }
 }
