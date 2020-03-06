@@ -6,6 +6,12 @@ package com.yss.shopping.constant.user;
 public interface SysUserConstant {
 
     /**
+     * 用户默认的密码-123456
+     */
+    String DEFAULT_PASSWORD = "123456";
+
+
+    /**
      * 系统用户表字段
      */
     enum Column implements SysUserConstant {

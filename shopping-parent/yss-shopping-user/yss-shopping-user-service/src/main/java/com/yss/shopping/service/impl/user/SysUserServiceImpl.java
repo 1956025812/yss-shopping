@@ -16,12 +16,12 @@ import com.yss.shopping.vo.user.SysUserPageVO;
 import com.yss.shopping.vo.user.SysUserSaveInVO;
 import com.yss.shopping.vo.user.SysUserUpdateInVO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -46,9 +46,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public PageVO<SysUserOutVO> selectSysUserPage(SysUserPageVO sysUserPageVO) {
 
         QueryWrapper<SysUser> sysUserQueryWrapper = new QueryWrapper<>();
-        sysUserQueryWrapper.like(!StringUtils.isEmpty(sysUserPageVO.getUsername()), SysUserConstant.Column.USERNAME.getKey(), sysUserPageVO.getUsername())
-                .like(!StringUtils.isEmpty(sysUserPageVO.getNickname()), SysUserConstant.Column.NICKNAME.getKey(), sysUserPageVO.getNickname())
-                .like(!StringUtils.isEmpty(sysUserPageVO.getEmail()), SysUserConstant.Column.EMAIL.getKey(), sysUserPageVO.getEmail())
+        sysUserQueryWrapper.like(StringUtils.isNotEmpty(sysUserPageVO.getUsername()), SysUserConstant.Column.USERNAME.getKey(), sysUserPageVO.getUsername())
+                .like(StringUtils.isNotEmpty(sysUserPageVO.getNickname()), SysUserConstant.Column.NICKNAME.getKey(), sysUserPageVO.getNickname())
+                .like(StringUtils.isNotEmpty(sysUserPageVO.getEmail()), SysUserConstant.Column.EMAIL.getKey(), sysUserPageVO.getEmail())
                 .eq(null != sysUserPageVO.getState(), SysUserConstant.Column.STATE.getKey(), sysUserPageVO.getState())
                 .eq(null != sysUserPageVO.getRegisterSource(), SysUserConstant.Column.REGISTER_SOURCE.getKey(), sysUserPageVO.getRegisterSource())
                 .gt(null != sysUserPageVO.getStartTime(), SysUserConstant.Column.CREATE_TIME.getKey(), sysUserPageVO.getStartTime())
@@ -85,13 +85,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         log.info("新增用户信息，接收过来的请求参数为：{}", JSONUtil.toJsonStr(sysUserSaveInVO));
 
         SysUser sysUser = sysUserSaveInVO.toSysUser(sysUserSaveInVO);
+        String password = StringUtils.isEmpty(sysUser.getPassword()) ? SysUserConstant.DEFAULT_PASSWORD : sysUser.getPassword();
 
         // 账号和邮箱不能重复
         this.assertUsernameNotExist(sysUser.getUsername());
         this.assertEmailNotExistExceptUser(sysUser.getEmail(), null);
 
         // 新增用户
-        sysUser.setPassword(Md5Util.toMD5(sysUser.getPassword())).setCreateTime(LocalDateTime.now())
+        sysUser.setPassword(Md5Util.toMD5(password)).setCreateTime(LocalDateTime.now())
                 .setState(SysUserConstant.State.OPEN.getKey());
         log.info("新增用户，请求参数为：{}", JSONUtil.toJsonStr(sysUser));
         boolean saveFlag = this.save(sysUser);
