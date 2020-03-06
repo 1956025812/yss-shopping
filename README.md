@@ -6,39 +6,82 @@
 # 后端技术架构
 - springcloud + springcloud-alibaba + nacos 
 - mybatis + mybaits-plus + sharding-jdbc
-- mysql + redis + mongodb
-- security
-- rabbitmq
+- mysql + redis + mongodb + druid
+- security + jwt
+- rocketmq
 - xxl-job
+- elasticsearch
+- OSS
+- EFK
 
 
 # 前端
 - vue.js
 - iview-admin的UI框架
+- 网站 + 小程序 
 
 
-# 规划时间
-- 项目架构搭建
-    - springcloud-alibaba引入[OK]	
-    - nacos相关引入[OK]
-    - 用户服务的CRUD[OK]
-    - 商品服务使用FEIGN调用用户服务[OK]
-    - 网关[TODO网关的配置文件写在项目中没问题，但是放到nacos上就无法做到路由转发TODO]
-    - springboot-admin监控台[OK]
-    - common模块做统一异常处理和AOP日志[OK]
-    - 封装redis工具类[OK]
-    - 整合调度工程yss-shopping-schedule成功，注意：要下载服务端，我的git上的xxl-job项目，这个抽出来共用[OK]
-    - jenkins打包部署
-    - docker打包部署
-     
-- USER用户工程
-    - 用户、角色、菜单、用户角色、角色菜单表设计[OK]
-    - 用户表的CRUD[OK]
-    - 整合springvolidate，并自定义常用参数校验注解[OK]
-    - 整合redis[OK]
+# 部署
+- jenkins打包部署
+- docker打包部署
+- k8s
 
-- 整合第三方插件
-    - sharding-jdbc
 
+# 服务拆分     
+- 基础服务/模块
+
+    - CDP基础数据服务
+    
+    - REDIS公共子模块
+    
+    - MQ公共子模块
+    
+    - PAY支付服务
+    
+    - WX微信服务
+    
+    - SMS短信服务
+    
+    - CALL呼叫服务
+    
+    - JOB调度服务
+
+- 业务服务
+
+    - USER用户服务
+        - 用户、角色、菜单、用户角色、角色菜单表设计[OK]
+        - 整合springvolidate，并自定义常用参数校验注解[OK]
+        - 用户、角色、权限的CRUD[OK]
+        - 整合jwt+security
+    
+    - GOODS商品服务
+    
+    - ORDER订单服务
+    
+    - STORAGE库存服务
+    
+    - LOGISTICS物流服务
+
+    - CMS内容管理服务
+    
+
+ # 规划
  
+ - V1.0【脚手架】
+     - 项目架构搭建
+     - springcloud整合springcloud-alibaba[OK]	
+     - 整合nacos[OK]
+     - 用户服务的CRUD[OK]
+     - 整合springboot-admin监控台[OK]
+     - 整合网关[TODO网关的配置文件写在项目中没问题，但是放到nacos上就无法做到路由转发TODO]
+     - 商品服务使用FEIGN调用用户服务[OK]
+     - common子模块做统一异常处理和AOP日志[OK]
+     - 用户模块用户角色菜单CRUD[OK]
+     - 整合JWT+SECURITY
+     - linux部署，并打一个TAG
+ 
+     - 整合redis子模块，并封装redis工具类
+     - 整合xxl-job
+ 
+     
 
