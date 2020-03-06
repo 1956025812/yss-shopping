@@ -1,9 +1,9 @@
 package com.yss.shopping.controller.user;
 
 
-import com.yss.shopping.vo.PageVO;
 import com.yss.shopping.controller.BaseController;
 import com.yss.shopping.service.user.SysUserService;
+import com.yss.shopping.vo.PageVO;
 import com.yss.shopping.vo.ResultVO;
 import com.yss.shopping.vo.user.SysUserOutVO;
 import com.yss.shopping.vo.user.SysUserPageVO;
@@ -81,7 +81,7 @@ public class SysUserController extends BaseController {
 
 
     @ApiOperation("批量修改用户状态")
-    @PostMapping("/update/status/batch")
+    @GetMapping("/update/status/batch")
     public ResultVO updateSysUserStatusBatch(
             @ApiParam(value = "用户ID集合", required = true)
             @NotNull(message = "用户ID集合字段uidList不能为空") @RequestParam Long[] uidList,

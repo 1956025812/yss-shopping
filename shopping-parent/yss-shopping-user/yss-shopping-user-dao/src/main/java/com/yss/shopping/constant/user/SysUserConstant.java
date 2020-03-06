@@ -33,7 +33,12 @@ public interface SysUserConstant {
         /**
          * STATE-状态
          */
-        STATE("STATE", "状态"),
+        STATE("state", "状态"),
+
+        /**
+         * CREATE_TIME-创建时间
+         */
+        CREATE_TIME("create_time", "创建时间"),
         ;
 
         private String key;

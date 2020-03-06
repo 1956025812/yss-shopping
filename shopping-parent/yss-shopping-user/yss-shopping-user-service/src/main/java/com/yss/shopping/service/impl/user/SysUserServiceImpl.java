@@ -50,7 +50,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 .like(!StringUtils.isEmpty(sysUserPageVO.getNickname()), SysUserConstant.Column.NICKNAME.getKey(), sysUserPageVO.getNickname())
                 .like(!StringUtils.isEmpty(sysUserPageVO.getEmail()), SysUserConstant.Column.EMAIL.getKey(), sysUserPageVO.getEmail())
                 .eq(null != sysUserPageVO.getState(), SysUserConstant.Column.STATE.getKey(), sysUserPageVO.getState())
-                .gt(SysUserConstant.Column.STATE.getKey(), SysUserConstant.State.DEL.getKey());
+                .gt(SysUserConstant.Column.STATE.getKey(), SysUserConstant.State.DEL.getKey())
+                .orderByDesc(SysUserConstant.Column.CREATE_TIME.getKey());
 
         Page<SysUser> page = new Page<>(sysUserPageVO.getCurrentPage(), sysUserPageVO.getPageSize());
         Page<SysUser> sysUserPage = this.sysUserMapper.selectPage(page, sysUserQueryWrapper);
