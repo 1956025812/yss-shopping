@@ -85,11 +85,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         log.info("新增用户信息，接收过来的请求参数为：{}", JSONUtil.toJsonStr(sysUserSaveInVO));
 
         SysUser sysUser = sysUserSaveInVO.toSysUser(sysUserSaveInVO);
-        String password = StringUtils.isEmpty(sysUser.getPassword()) ? SysUserConstant.DEFAULT_PASSWORD : sysUser.getPassword();
 
         // 账号和邮箱不能重复
         this.assertUsernameNotExist(sysUser.getUsername());
         this.assertEmailNotExistExceptUser(sysUser.getEmail(), null);
+
+
+        // 如果注册来源是后台注册，则默认密码
+        String password = null;
+        if (SysUserConstant.RegisterSource.SYSTEM.getKey().equals(sysUserSaveInVO.getRegisterSource())) {
+            password = SysUserConstant.DEFAULT_PASSWORD;
+        }
 
         // 新增用户
         sysUser.setPassword(Md5Util.toMD5(password)).setCreateTime(LocalDateTime.now())
