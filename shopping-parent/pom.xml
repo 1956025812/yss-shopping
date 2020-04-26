@@ -17,7 +17,6 @@
         <module>yss-shopping-user</module>
         <module>yss-shopping-goods</module>
         <module>yss-shopping-boot-admin</module>
-        <module>yss-shopping-schedule</module>
     </modules>
 
 
