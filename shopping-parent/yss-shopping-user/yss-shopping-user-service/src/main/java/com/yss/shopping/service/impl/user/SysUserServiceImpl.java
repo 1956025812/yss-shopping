@@ -149,7 +149,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         List<SysUser> sysUserList = new ArrayList<>(uidList.length);
         for (Long eachUid : uidList) {
-            sysUserList.add(new SysUser().setId(eachUid).setUpdateTime(LocalDateTime.now()));
+            sysUserList.add(new SysUser().setId(eachUid).setState(SysUserConstant.State.DEL.getKey()).setUpdateTime(LocalDateTime.now()));
         }
         log.info("批量删除用户，参数为：{}", JSONObject.toJSONString(uidList));
         boolean flag = this.updateBatchById(sysUserList);

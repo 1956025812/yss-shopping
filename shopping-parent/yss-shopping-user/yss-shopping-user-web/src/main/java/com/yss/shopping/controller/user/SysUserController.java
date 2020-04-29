@@ -102,7 +102,7 @@ public class SysUserController extends BaseController {
 
     @ApiOperation("重置密码")
     @GetMapping("/reset/password")
-    public ResultVO resetPasswork(@ApiParam(value = "用户ID", required = true) @NotNull(message = "用户ID字段uid不能为空") @RequestParam Long uid) {
+    public ResultVO resetPassword(@ApiParam(value = "用户ID", required = true) @NotNull(message = "用户ID字段uid不能为空") @RequestParam Long uid) {
         this.sysUserService.resetPassword(uid);
         return ResultVO.getSuccess("重置密码成功");
     }
