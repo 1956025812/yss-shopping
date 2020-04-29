@@ -18,11 +18,11 @@ import com.yss.shopping.vo.user.SysUserSaveInVO;
 import com.yss.shopping.vo.user.SysUserUpdateInVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,7 @@ import java.util.List;
 @Slf4j
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
-    @Autowired
+    @Resource
     private SysUserMapper sysUserMapper;
 
 
@@ -62,12 +62,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         List<SysUser> sysUserList = sysUserPage.getRecords();
         List<SysUserOutVO> sysUserOutVOList = ListUtils.n(sysUserList).list(eachSysUser -> new SysUserOutVO().toSysUserOutVO(eachSysUser)).to();
 
-        PageVO<SysUserOutVO> pageVO = new PageVO<>(
+
+        return new PageVO<>(
                 sysUserPage.getCurrent(), sysUserPage.getSize(), sysUserPage.getTotal(),
                 sysUserPage.getPages(), sysUserOutVOList
         );
-
-        return pageVO;
     }
 
 
@@ -136,7 +135,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public void updateSysUserStatus(Long uid, Integer userState) {
         log.info("修改用户状态, 请求参数为：[uid:{}, userStatus:{}]", uid, userState);
         Assert.notNull(uid, "修改用户状态，uid不能为空");
-        SysUser sysUser = new SysUser().setId(uid).setUpdateTime(LocalDateTime.now());
+        SysUser sysUser = new SysUser().setId(uid).setState(userState).setUpdateTime(LocalDateTime.now());
         log.info("修改用户状态，参数为：{}", JSONObject.toJSONString(sysUser));
         int updateCount = this.sysUserMapper.updateById(sysUser);
         Assert.isTrue(updateCount == 1, String.format("修改用户uid: %s 的状态为：%s 失败", uid, userState));
@@ -170,7 +169,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 
     @Override
-    public SysUserOutVO login(String username, String password) throws Exception {
+    public SysUserOutVO login(String username, String password) {
         QueryWrapper<SysUser> sysUserQueryWrapper = new QueryWrapper<>(new SysUser().setUsername(username).setPassword(Md5Util.toMD5(password)));
         SysUser sysUser = this.sysUserMapper.selectOne(sysUserQueryWrapper);
         Assert.notNull(sysUser, "登录失败，用户名或密码错误,请重新输入");

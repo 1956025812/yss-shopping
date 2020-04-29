@@ -23,7 +23,7 @@ public interface SysUserService extends IService<SysUser> {
     /**
      * 查询用户分页列表
      *
-     * @param sysUserPageVO
+     * @param sysUserPageVO 用户分页VO对象
      * @return 用户分页列表
      */
     PageVO<SysUserOutVO> selectSysUserPage(SysUserPageVO sysUserPageVO);
@@ -51,7 +51,6 @@ public interface SysUserService extends IService<SysUser> {
      * 修改用户信息
      *
      * @param sysUserUpdateInVO 修改用户VO对象
-     * @return 用户对象
      */
     void updateSysUser(SysUserUpdateInVO sysUserUpdateInVO);
 
@@ -88,7 +87,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param password 密码
      * @return SysUserOutVO
      */
-    SysUserOutVO login(String username, String password) throws Exception;
+    SysUserOutVO login(String username, String password);
 
 
 }
