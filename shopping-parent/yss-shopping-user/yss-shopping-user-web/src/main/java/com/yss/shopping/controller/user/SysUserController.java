@@ -12,11 +12,11 @@ import com.yss.shopping.vo.user.SysUserUpdateInVO;
 import com.yss.shopping.volidation.IntegerEnum;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -36,7 +36,7 @@ import javax.validation.constraints.NotNull;
 @Validated
 public class SysUserController extends BaseController {
 
-    @Autowired
+    @Resource
     private SysUserService sysUserService;
 
     @ApiOperation("查询用户分页列表")
