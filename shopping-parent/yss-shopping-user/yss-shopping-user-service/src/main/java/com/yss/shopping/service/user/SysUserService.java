@@ -74,6 +74,14 @@ public interface SysUserService extends IService<SysUser> {
 
 
     /**
+     * 重置密码
+     *
+     * @param uid 用户ID
+     */
+    void resetPassword(Long uid);
+
+
+    /**
      * 用户登录
      *
      * @param username 账号

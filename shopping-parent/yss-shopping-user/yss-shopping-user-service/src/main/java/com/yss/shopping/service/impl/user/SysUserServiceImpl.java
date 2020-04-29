@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -144,7 +145,27 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public void delSysUserBatch(Long[] uidList) {
+        log.info("进入delSysUserBtach方法，参数为：[uidList= {}]", JSONObject.toJSONString(uidList));
+        Assert.isTrue(null != uidList && uidList.length > 0, "批量删除好友失败，uidList不能为空");
 
+        List<SysUser> sysUserList = new ArrayList<>(uidList.length);
+        for (Long eachUid : uidList) {
+            sysUserList.add(new SysUser().setId(eachUid).setUpdateTime(LocalDateTime.now()));
+        }
+        log.info("批量删除用户，参数为：{}", JSONObject.toJSONString(uidList));
+        boolean flag = this.updateBatchById(sysUserList);
+        Assert.isTrue(flag, "批量删除用户成功");
+    }
+
+
+    @Override
+    public void resetPassword(Long uid) {
+        log.info("进入resetPassword方法，参数为：[uid= {}]", uid);
+        Assert.notNull(uid, "重置密码失败，uid不能为空");
+        SysUser sysUser = new SysUser().setId(uid).setPassword(SysUserConstant.DEFAULT_PASSWORD).setUpdateTime(LocalDateTime.now());
+        log.info("重置用户密码，参数为：{}", JSONObject.toJSONString(sysUser));
+        int updateCount = this.sysUserMapper.updateById(sysUser);
+        Assert.isTrue(updateCount == 1, String.format("重置用户uid: %s 的密码失败", uid));
     }
 
 
