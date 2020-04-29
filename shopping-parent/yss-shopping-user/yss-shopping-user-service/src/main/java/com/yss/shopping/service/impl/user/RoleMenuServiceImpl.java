@@ -16,11 +16,11 @@ import com.yss.shopping.service.user.SysRoleService;
 import com.yss.shopping.util.ListUtils;
 import com.yss.shopping.vo.user.SysMenuSimpleOutVO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -36,11 +36,11 @@ import java.util.List;
 @Slf4j
 public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> implements RoleMenuService {
 
-    @Autowired
+    @Resource
     private RoleMenuMapper roleMenuMapper;
-    @Autowired
+    @Resource
     private SysMenuService sysMenuService;
-    @Autowired
+    @Resource
     private SysRoleService sysRoleService;
 
 
@@ -58,9 +58,7 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
 
         // 处理普通角色的菜单列表
         List<RoleMenuDTO> roleMenuDTOList = this.roleMenuMapper.selectMenuListOfRole(rid, null);
-        roleMenuList = ListUtils.n(roleMenuDTOList).list(eachRoleMenuDTO -> {
-            return new SysMenuSimpleOutVO().toSysMenuSimpleOutVO(eachRoleMenuDTO);
-        }).to();
+        roleMenuList = ListUtils.n(roleMenuDTOList).list(eachRoleMenuDTO -> new SysMenuSimpleOutVO().toSysMenuSimpleOutVO(eachRoleMenuDTO)).to();
 
         return roleMenuList;
     }
@@ -120,10 +118,8 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
         log.info("批量添加角色菜单关联关系，参数为：[rid={}, midList={}]", rid, JSONUtil.toJsonStr(midList));
         Assert.isTrue(null != rid && !CollectionUtils.isEmpty(midList), "添加角色菜单关联关系失败：参数异常");
 
-        List<RoleMenu> roleMenuList = ListUtils.n(midList).list(eachMid -> {
-            return new RoleMenu().setRid(rid).setMid(eachMid)
-                    .setCreateInfo(CommonConstant.DEFAULT_SYSTEM_USER).setCreateTime(LocalDateTime.now());
-        }).to();
+        List<RoleMenu> roleMenuList = ListUtils.n(midList).list(eachMid -> new RoleMenu().setRid(rid).setMid(eachMid)
+                .setCreateInfo(CommonConstant.DEFAULT_SYSTEM_USER).setCreateTime(LocalDateTime.now())).to();
 
         this.saveBatch(roleMenuList);
     }
