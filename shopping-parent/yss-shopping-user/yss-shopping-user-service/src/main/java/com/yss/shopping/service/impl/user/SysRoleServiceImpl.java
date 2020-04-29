@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yss.shopping.constant.CommonConstant;
 import com.yss.shopping.constant.user.SysRoleConstant;
 import com.yss.shopping.entity.user.SysRole;
+import com.yss.shopping.entity.user.SysUser;
 import com.yss.shopping.mapper.user.SysRoleMapper;
 import com.yss.shopping.service.user.SysRoleService;
 import com.yss.shopping.util.ListUtils;
@@ -220,6 +221,12 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         Assert.notNull(sysRole, "操作失败：角色不存在");
     }
 
+
+    @Override
+    public List<SysRole> selectAllRoleList() {
+        QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>(new SysRole()).gt(SysRoleConstant.Column.STATE.getKey(), SysRoleConstant.State.DEL.getKey());
+        return this.sysRoleMapper.selectList(queryWrapper);
+    }
 
     /**
      * 断言角色名称不存在,如果传递rid,则忽略该对象的判断

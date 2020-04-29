@@ -6,9 +6,9 @@ package com.yss.shopping.constant.user;
 public interface SysRoleConstant {
 
     /**
-     * 默认的父级角色顶级ID-0L
+     * 默认的父级角色顶级ID-1L
      */
-    Long PARENT_ID_DEFAULT_TOP = 0L;
+    Long PARENT_ID_DEFAULT_TOP = 1L;
 
 
     /**

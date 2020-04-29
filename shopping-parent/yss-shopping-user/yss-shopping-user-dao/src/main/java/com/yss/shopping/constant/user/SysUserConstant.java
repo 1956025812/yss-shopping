@@ -6,6 +6,11 @@ package com.yss.shopping.constant.user;
 public interface SysUserConstant {
 
     /**
+     * 超级管理员UID-0
+     */
+    Long ADMIN_UID = 0L;
+
+    /**
      * 用户默认的密码-123456
      */
     String DEFAULT_PASSWORD = "123456";
@@ -62,9 +67,6 @@ public interface SysUserConstant {
 
         /**
          * 根据整型索引得到对应的名称
-         *
-         * @param key
-         * @return value
          */
         public static String getValue(String key) {
             for (Column e : Column.values()) {
@@ -77,9 +79,6 @@ public interface SysUserConstant {
 
         /**
          * 判断是否包含value
-         *
-         * @param value
-         * @return 如果包含value, 则返回对应的key, 否则返回null
          */
         public static String containValue(String value) {
             for (Column e : Column.values()) {
@@ -140,9 +139,6 @@ public interface SysUserConstant {
 
         /**
          * 根据整型索引得到对应的名称
-         *
-         * @param key
-         * @return value
          */
         public static String getValue(Integer key) {
             for (State e : State.values()) {
@@ -155,9 +151,6 @@ public interface SysUserConstant {
 
         /**
          * 判断是否包含value
-         *
-         * @param value
-         * @return 如果包含value, 则返回对应的key, 否则返回null
          */
         public static Integer containValue(String value) {
             for (State e : State.values()) {

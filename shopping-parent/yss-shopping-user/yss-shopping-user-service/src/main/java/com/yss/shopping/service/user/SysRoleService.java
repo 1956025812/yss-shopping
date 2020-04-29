@@ -117,4 +117,12 @@ public interface SysRoleService extends IService<SysRole> {
      * @param rid 角色ID
      */
     void assertRoleExist(Long rid);
+
+
+    /**
+     * 查询所有的角色列表
+     *
+     * @return 所有的未删除的角色列表
+     */
+    List<SysRole> selectAllRoleList();
 }
