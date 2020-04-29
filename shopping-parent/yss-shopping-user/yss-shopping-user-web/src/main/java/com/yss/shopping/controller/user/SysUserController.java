@@ -81,15 +81,22 @@ public class SysUserController extends BaseController {
     }
 
 
-    @ApiOperation("批量修改用户状态")
-    @GetMapping("/update/status/batch")
-    public ResultVO updateSysUserStatusBatch(
-            @ApiParam(value = "用户ID集合", required = true)
-            @NotNull(message = "用户ID集合字段uidList不能为空") @RequestParam Long[] uidList,
-            @ApiParam(value = "用户状态: 0-删除，1-启用，2-禁用", required = true)
-            @IntegerEnum(intValues = {0, 1, 2}, message = "用户状态的值只能为0/1/2") @RequestParam Integer userState) {
-        this.sysUserService.updateSysUserStatusBatch(uidList, userState);
+    @ApiOperation("修改用户状态")
+    @GetMapping("/update/status")
+    public ResultVO updateSysUserStatus(
+            @ApiParam(value = "用户ID", required = true) @NotNull(message = "用户ID字段uid不能为空") @RequestParam Long uid,
+            @ApiParam(value = "用户状态: 1-启用，2-禁用", required = true)
+            @IntegerEnum(intValues = {1, 2}, message = "用户状态的值只能为1/2") @RequestParam Integer userState) {
+        this.sysUserService.updateSysUserStatus(uid, userState);
         return ResultVO.getSuccess("批量修改用户状态成功");
+    }
+
+
+    @ApiOperation("批量删除用户")
+    @GetMapping("/del/batch")
+    public ResultVO delSysUserBatch(@ApiParam(value = "用户ID集合", required = true) @NotNull(message = "用户ID集合不能为空") @RequestParam Long[] uidList) {
+        this.sysUserService.delSysUserBatch(uidList);
+        return ResultVO.getSuccess("批量删除用户成功");
     }
 
 

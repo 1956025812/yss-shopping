@@ -2,8 +2,8 @@ package com.yss.shopping.service.user;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.yss.shopping.vo.PageVO;
 import com.yss.shopping.entity.user.SysUser;
+import com.yss.shopping.vo.PageVO;
 import com.yss.shopping.vo.user.SysUserOutVO;
 import com.yss.shopping.vo.user.SysUserPageVO;
 import com.yss.shopping.vo.user.SysUserSaveInVO;
@@ -57,12 +57,20 @@ public interface SysUserService extends IService<SysUser> {
 
 
     /**
-     * 批量修改用户状态
+     * 修改用户状态
      *
-     * @param uidList   用户ID集合
-     * @param userState 用户状态: 0-删除，1-启用，2-禁用
+     * @param uid       用户ID集合
+     * @param userState 用户状态: 1-启用，2-禁用
      */
-    void updateSysUserStatusBatch(Long[] uidList, Integer userState);
+    void updateSysUserStatus(Long uid, Integer userState);
+
+
+    /**
+     * 批量删除用户
+     *
+     * @param uidList 用户ID集合
+     */
+    void delSysUserBatch(Long[] uidList);
 
 
     /**
@@ -73,4 +81,6 @@ public interface SysUserService extends IService<SysUser> {
      * @return SysUserOutVO
      */
     SysUserOutVO login(String username, String password) throws Exception;
+
+
 }

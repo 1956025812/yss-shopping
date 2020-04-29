@@ -1,6 +1,7 @@
 package com.yss.shopping.service.impl.user;
 
 import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -21,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -132,14 +132,19 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void updateSysUserStatusBatch(Long[] uidList, Integer userState) {
-        log.info("批量修改用户状态, 请求参数为：[uidList:{}, userStatus:{}]", JSONUtil.toJsonStr(uidList), userState);
+    public void updateSysUserStatus(Long uid, Integer userState) {
+        log.info("修改用户状态, 请求参数为：[uid:{}, userStatus:{}]", uid, userState);
+        Assert.notNull(uid, "修改用户状态，uid不能为空");
+        SysUser sysUser = new SysUser().setId(uid).setUpdateTime(LocalDateTime.now());
+        log.info("修改用户状态，参数为：{}", JSONObject.toJSONString(sysUser));
+        int updateCount = this.sysUserMapper.updateById(sysUser);
+        Assert.isTrue(updateCount == 1, String.format("修改用户uid: %s 的状态为：%s 失败", uid, userState));
+    }
 
-        List<SysUser> sysUserList = ListUtils.n(uidList).list(eachUid -> new SysUser().setId(eachUid).setState(userState)).to();
-        if (!CollectionUtils.isEmpty(sysUserList)) {
-            boolean updateFlag = this.updateBatchById(sysUserList);
-            Assert.isTrue(updateFlag, "批量修改用户状态失败");
-        }
+
+    @Override
+    public void delSysUserBatch(Long[] uidList) {
+
     }
 
 
