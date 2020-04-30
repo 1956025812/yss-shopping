@@ -38,7 +38,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
 
     @Override
     public List<Long> selectRidList(Long uid) {
-        QueryWrapper<UserRole> queryWrapper = new QueryWrapper<>(new UserRole());
+        QueryWrapper<UserRole> queryWrapper = new QueryWrapper<>(new UserRole().setUid(uid));
         List<UserRole> userRoleList = this.userRoleMapper.selectList(queryWrapper);
         return ListUtils.n(userRoleList).list(UserRole::getRid).to();
     }
