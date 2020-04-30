@@ -72,7 +72,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
     @Override
     public void updateUserRoleRelation(Long uid, List<Long> ridList) {
         log.info("进入到updateUserRoleRelation方法，参数为：[uid= {}, ridList= {}]", uid, ridList);
-        Assert.isTrue(null != uid && !CollectionUtils.isEmpty(ridList), "修改用户角色失败：参数异常");
+        Assert.isTrue(null != uid || !CollectionUtils.isEmpty(ridList), "修改用户角色失败：参数异常");
 
         // 把用户旧的角色删除
         QueryWrapper<UserRole> delQueryWrapper = new QueryWrapper<>(new UserRole().setUid(uid));
