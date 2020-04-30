@@ -3,6 +3,7 @@ package com.yss.shopping.service.impl.user;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yss.shopping.constant.CommonConstant;
 import com.yss.shopping.constant.user.SysUserConstant;
 import com.yss.shopping.dto.user.UserRoleDTO;
 import com.yss.shopping.entity.user.SysRole;
@@ -14,8 +15,12 @@ import com.yss.shopping.util.ListUtils;
 import com.yss.shopping.vo.user.SysRoleSimpleOutVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -60,6 +65,24 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
         });
 
         return parentSysRoleList;
+    }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void updateUserRoleRelation(Long uid, List<Long> ridList) {
+        log.info("进入到updateUserRoleRelation方法，参数为：[uid= {}, ridList= {}]", uid, ridList);
+        Assert.isTrue(null != uid && !CollectionUtils.isEmpty(ridList), "修改用户角色失败：参数异常");
+
+        // 把用户旧的角色删除
+        QueryWrapper<UserRole> delQueryWrapper = new QueryWrapper<>(new UserRole().setUid(uid));
+        this.userRoleMapper.delete(delQueryWrapper);
+
+        // 新增新的用户角色
+        List<UserRole> newUserRoleList = ListUtils.n(ridList).list(eachRid ->
+                new UserRole().setUid(uid).setRid(eachRid).setCreateInfo(CommonConstant.DEFAULT_SYSTEM_USER).setCreateTime(LocalDateTime.now())
+        ).to();
+        this.saveBatch(newUserRoleList);
     }
 
 

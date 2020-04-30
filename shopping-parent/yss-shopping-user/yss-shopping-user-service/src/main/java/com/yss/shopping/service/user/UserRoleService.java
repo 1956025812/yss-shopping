@@ -2,7 +2,6 @@ package com.yss.shopping.service.user;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.yss.shopping.entity.user.SysRole;
 import com.yss.shopping.entity.user.UserRole;
 import com.yss.shopping.vo.user.SysRoleSimpleOutVO;
 
@@ -36,4 +35,12 @@ public interface UserRoleService extends IService<UserRole> {
      */
     List<SysRoleSimpleOutVO> selectParentAndChildUserRoleList(Long loginUid, Long uid);
 
+
+    /**
+     * 修改用户角色
+     *
+     * @param uid     用户ID
+     * @param ridList 角色ID集合
+     */
+    void updateUserRoleRelation(Long uid, List<Long> ridList);
 }

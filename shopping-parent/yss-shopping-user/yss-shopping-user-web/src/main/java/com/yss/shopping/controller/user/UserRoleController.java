@@ -43,4 +43,13 @@ public class UserRoleController extends BaseController {
     }
 
 
+    @ApiOperation("修改用户角色")
+    @GetMapping("/update")
+    public ResultVO updateUserRoleRelation(@ApiParam(value = "用户ID") @RequestParam Long uid,
+                                           @ApiParam(value = "角色ID集合") @RequestParam List<Long> ridList) {
+        this.userRoleService.updateUserRoleRelation(uid, ridList);
+        return ResultVO.getSuccess("修改用户角色成功");
+    }
+
+
 }
