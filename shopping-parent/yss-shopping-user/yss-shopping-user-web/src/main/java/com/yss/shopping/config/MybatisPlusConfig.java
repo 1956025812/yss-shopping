@@ -1,6 +1,7 @@
 package com.yss.shopping.config;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
  * mybatis-plus分页拦截插件
  */
 @Configuration
+@MapperScan("com.yss.shopping.mapper.*")
 public class MybatisPlusConfig {
 
     /**
