@@ -9,9 +9,9 @@ import org.springframework.context.annotation.ComponentScan;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-@MapperScan("com.yss.shopping.mapper.*")
-@ComponentScan(basePackages = {"com.yss.shopping", "com.yss.shopping.service"})
-@EnableFeignClients(basePackages = "com.yss.shopping.api.user")
+@MapperScan("com.yss.shopping.user.mapper.*")
+@ComponentScan(basePackages = {"com.yss.shopping", "com.yss.shopping.user.service"})
+@EnableFeignClients(basePackages = "com.yss.shopping.user.api.user")
 public class YssShoppingGoodsWebApplication {
 
     public static void main(String[] args) {
