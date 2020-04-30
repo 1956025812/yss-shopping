@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * <p>
  * druid监控控制台配置
- * http://localhost:port/contextpath/druid
+ * http://localhost:port/druid
  * </p>
  *
  * @author yss
@@ -23,10 +23,9 @@ public class DruidConfig {
      * 主要实现web监控的配置处理
      */
     @Bean
-    public ServletRegistrationBean druidServlet() {
-        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(
-                // 表示进行druid监控的配置处理操作
-                new StatViewServlet(), "/druid/*");
+    public ServletRegistrationBean<StatViewServlet> druidServlet() {
+        // 表示进行druid监控的配置处理操作
+        ServletRegistrationBean<StatViewServlet> servletRegistrationBean = new ServletRegistrationBean<>(new StatViewServlet(), "/druid/*");
         // 白名单
         servletRegistrationBean.addInitParameter("allow", "127.0.0.1,192.168.202.233");
         // 黑名单
@@ -38,9 +37,10 @@ public class DruidConfig {
         return servletRegistrationBean;
     }
 
+
     @Bean
-    public FilterRegistrationBean filterRegistrationBean() {
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+    public FilterRegistrationBean<WebStatFilter> filterRegistrationBean() {
+        FilterRegistrationBean<WebStatFilter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setFilter(new WebStatFilter());
         // 所有请求进行监控处理
         filterRegistrationBean.addUrlPatterns("/*");
