@@ -8,7 +8,7 @@ public interface SysUserConstant {
     /**
      * 超级管理员UID-0
      */
-    Long ADMIN_UID = 0L;
+    Long ADMIN_UID = 1L;
 
     /**
      * 用户默认的密码-123456
