@@ -1,6 +1,7 @@
 package com.yss.shopping.common.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.yss.shopping.common.constant.ResultCodeEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -16,7 +17,7 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResultVO<T> {
 
-    @ApiModelProperty("状态码 0失败 1成功 2未登录 3没有权限")
+    @ApiModelProperty("状态码")
     private Integer code;
 
     @ApiModelProperty("返回信息")
@@ -25,13 +26,16 @@ public class ResultVO<T> {
     @ApiModelProperty("返回数据")
     private T data;
 
+
     public ResultVO() {
     }
+
 
     public ResultVO(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }
+
 
     public ResultVO(Integer code, String msg, T data) {
         this.code = code;
@@ -39,72 +43,74 @@ public class ResultVO<T> {
         this.data = data;
     }
 
-    /**
-     * 请求成功  状态码 1
-     *
-     * @param msg 返回信息
-     * @param <T> 类型
-     * @return ResultVO
-     */
-    public static <T> ResultVO getSuccess(String msg) {
-        return new ResultVO(1, msg);
-    }
 
     /**
-     * 请求成功  状态码 1
+     * 请求成功
+     *
+     * @param msg 返回信息
+     * @return ResultVO
+     */
+    public static ResultVO getSuccess(String msg) {
+        return new ResultVO(ResultCodeEnum.SUCCESS.getCode(), msg);
+    }
+
+
+    /**
+     * 请求成功
      *
      * @param msg  返回信息
      * @param data 返回对象
      * @param <T>  类型
      * @return ResultVO
      */
+    @SuppressWarnings("unchecked")
     public static <T> ResultVO getSuccess(String msg, T data) {
-        return new ResultVO(1, msg, data);
+        return new ResultVO(ResultCodeEnum.SUCCESS.getCode(), msg, data);
     }
 
+
     /**
-     * 请求失败   状态码 0
+     * 请求失败
      *
      * @param msg 返回信息
-     * @param <T> 类型
      * @return ResultVO
      */
-    public static <T> ResultVO getFailed(String msg) {
-        return new ResultVO(0, msg);
+    public static ResultVO getFailed(String msg) {
+        return new ResultVO(ResultCodeEnum.FAILED.getCode(), msg);
     }
 
+
     /**
-     * 请求失败  状态 0
+     * 请求失败
      *
      * @param msg  返回信息
      * @param data 返回数据
      * @param <T>  类型
      * @return ResultVO
      */
+    @SuppressWarnings("unchecked")
     public static <T> ResultVO getFailed(String msg, T data) {
-        return new ResultVO(0, msg, data);
+        return new ResultVO(ResultCodeEnum.FAILED.getCode(), msg, data);
     }
 
 
     /**
      * 用户未登录
      *
-     * @param <T> 类型
      * @return ResultVO
      */
-    public static <T> ResultVO getNoLogin() {
-        return new ResultVO(2, "用户未登录，请重新登录");
+    public static ResultVO getNoLogin() {
+        return new ResultVO(ResultCodeEnum.UNAUTHORIZED.getCode(), ResultCodeEnum.UNAUTHORIZED.getMsg());
     }
 
 
     /**
      * 用户没有操作权限
      *
-     * @param <T> 类型
      * @return ResultVO
      */
-    public static <T> ResultVO getNoAuthorization() {
-        return new ResultVO(3, "用户没有操作权限，请重新登录");
+    public static ResultVO getNoAuthorization() {
+        return new ResultVO(ResultCodeEnum.FORBIDDEN.getCode(), ResultCodeEnum.FORBIDDEN.getMsg());
     }
 
 }
