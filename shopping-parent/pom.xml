@@ -55,6 +55,8 @@
         <commons-lang3.version>3.9</commons-lang3.version>
         <xxl-job-core.version>2.1.2</xxl-job-core.version>
         <hutool-all.version>5.1.5</hutool-all.version>
+        <spring-boot-starter-security.version>2.2.7.RELEASE</spring-boot-starter-security.version>
+        <jjwt.version>0.9.0</jjwt.version>
     </properties>
 
 
@@ -256,6 +258,22 @@
             </dependency>
             <!-- Hutool -->
 
+
+            <!--SpringSecurity-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-security</artifactId>
+                <version>${spring-boot-starter-security.version}</version>
+            </dependency>
+            <!--SpringSecurity-->
+
+            <!--JWT(Json Web Token)登录支持-->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <!--JWT(Json Web Token)登录支持-->
 
         </dependencies>
     </dependencyManagement>
