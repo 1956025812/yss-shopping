@@ -13,6 +13,70 @@ public interface CommonConstant {
 
     String DEFAULT_SYSTEM_USER = "system";
 
+
+    /**
+     * 字符编码：GBK-GBK, UTF8-UTF-8
+     */
+    enum Encoding implements CommonConstant {
+
+        /**
+         * GBK-GBK
+         */
+        GBK("GBK", "GBK"),
+
+        /**
+         * UTF8-UTF-8
+         */
+        UTF8("UTF-8", "UTF-8"),
+        ;
+
+        private String key;
+        private String value;
+
+        Encoding(String key, String value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
+
+
+    /**
+     * 请求数据类型：application/json - application/json
+     */
+    enum ContentType implements CommonConstant {
+
+        /**
+         * application/json - application/json
+         */
+        APPLICATION_JSON("application/json", "application/json"),
+        ;
+
+        private String key;
+        private String value;
+
+        ContentType(String key, String value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
+
+
     /**
      * 数字：0-3
      */
@@ -44,21 +108,6 @@ public interface CommonConstant {
         Num(Integer key, String value) {
             this.key = key;
             this.value = value;
-        }
-
-        /**
-         * 根据整型索引得到对应的名称
-         *
-         * @param key
-         * @return value
-         */
-        public static String getValue(Integer key) {
-            for (Num e : Num.values()) {
-                if (e.key.equals(key)) {
-                    return e.value;
-                }
-            }
-            return null;
         }
 
         public Integer getKey() {
