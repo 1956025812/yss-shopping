@@ -4,10 +4,7 @@ package com.yss.shopping.user.service.user;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yss.shopping.common.vo.PageVO;
 import com.yss.shopping.user.entity.user.SysUser;
-import com.yss.shopping.user.vo.user.SysUserOutVO;
-import com.yss.shopping.user.vo.user.SysUserPageVO;
-import com.yss.shopping.user.vo.user.SysUserSaveInVO;
-import com.yss.shopping.user.vo.user.SysUserUpdateInVO;
+import com.yss.shopping.user.vo.user.*;
 
 /**
  * <p>
@@ -88,6 +85,15 @@ public interface SysUserService extends IService<SysUser> {
      * @return SysUserOutVO
      */
     SysUserOutVO login(String username, String password);
+
+
+    /**
+     * 根据用户账号查询用户权限VO对象
+     *
+     * @param username 账号
+     * @return PrivilegeUserVO
+     */
+    PrivilegeUserVO selectPrivilegeUserVO(String username);
 
 
 }

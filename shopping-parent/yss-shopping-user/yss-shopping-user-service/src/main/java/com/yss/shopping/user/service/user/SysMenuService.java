@@ -93,4 +93,13 @@ public interface SysMenuService extends IService<SysMenu> {
      * @return 所有的菜单集合
      */
     List<SysMenuSimpleOutVO> selectAllSysMenuList();
+
+
+    /**
+     * 查询用户所有的权限列表
+     *
+     * @param uid 用户ID
+     * @return 用户去重的权限列表
+     */
+    List<PrivilegeMenuVO> selectMenuList(Long uid);
 }

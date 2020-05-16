@@ -186,6 +186,17 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
 
+    @Override
+    public List<PrivilegeMenuVO> selectMenuList(Long uid) {
+
+        // 如果用户是超管则返回所有的权限列表
+
+        //
+
+        return null;
+    }
+
+
     /**
      * 当新增的菜单类型为页面时，则父菜单类型必须是页面并且下面不能有按钮
      * 当新增的菜单类型为按钮时，则父菜单类型必须是页面并且下面不能有页面

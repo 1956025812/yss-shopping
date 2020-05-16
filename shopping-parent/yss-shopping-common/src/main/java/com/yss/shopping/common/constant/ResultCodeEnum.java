@@ -28,7 +28,7 @@ public enum ResultCodeEnum {
     /**
      * 403-没有相关权限
      */
-    FORBIDDEN(10002, "没有相关权限"),
+    NO_PRIVILEGE(10002, "没有相关权限"),
 
     ;
 

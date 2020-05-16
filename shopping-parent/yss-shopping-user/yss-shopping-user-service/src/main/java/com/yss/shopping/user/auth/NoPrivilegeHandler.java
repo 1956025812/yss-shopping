@@ -20,13 +20,13 @@ import java.io.IOException;
  * @since 2020-05-15 16:49
  */
 @Component
-public class RestfulAccessDeniedHandler implements AccessDeniedHandler {
+public class NoPrivilegeHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException {
         response.setCharacterEncoding(CommonConstant.Encoding.UTF8.getKey());
         response.setContentType(CommonConstant.ContentType.APPLICATION_JSON.getKey());
-        response.getWriter().println(JSONObject.toJSONString(ResultVO.getNoAuthorization()));
+        response.getWriter().println(JSONObject.toJSONString(ResultVO.getNoPrivilege()));
         response.getWriter().flush();
     }
 }

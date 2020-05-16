@@ -109,8 +109,8 @@ public class ResultVO<T> {
      *
      * @return ResultVO
      */
-    public static ResultVO getNoAuthorization() {
-        return new ResultVO(ResultCodeEnum.FORBIDDEN.getCode(), ResultCodeEnum.FORBIDDEN.getMsg());
+    public static ResultVO getNoPrivilege() {
+        return new ResultVO(ResultCodeEnum.NO_PRIVILEGE.getCode(), ResultCodeEnum.NO_PRIVILEGE.getMsg());
     }
 
 }

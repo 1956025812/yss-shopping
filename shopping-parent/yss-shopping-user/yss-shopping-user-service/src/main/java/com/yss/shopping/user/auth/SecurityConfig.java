@@ -1,8 +1,5 @@
 package com.yss.shopping.user.auth;
 
-import com.yss.shopping.user.auth.JwtAuthenticationTokenFilter;
-import com.yss.shopping.user.auth.RestAuthenticationEntryPoint;
-import com.yss.shopping.user.auth.RestfulAccessDeniedHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -36,9 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
     @Resource
-    private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
+    private NoPrivilegeHandler noPrivilegeHandler;
     @Resource
-    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    private NoLoginHandler noLoginHandler;
 
 
     /**
@@ -71,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.addFilterBefore(this.jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         // 添加自定义未授权和未登录结果返回
-        httpSecurity.exceptionHandling().accessDeniedHandler(this.restfulAccessDeniedHandler).authenticationEntryPoint(this.restAuthenticationEntryPoint);
+        httpSecurity.exceptionHandling().accessDeniedHandler(this.noPrivilegeHandler).authenticationEntryPoint(this.noLoginHandler);
 
     }
 

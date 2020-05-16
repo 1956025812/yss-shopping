@@ -11,11 +11,9 @@ import com.yss.shopping.common.vo.PageVO;
 import com.yss.shopping.user.constant.SysUserConstant;
 import com.yss.shopping.user.entity.user.SysUser;
 import com.yss.shopping.user.mapper.user.SysUserMapper;
+import com.yss.shopping.user.service.user.SysMenuService;
 import com.yss.shopping.user.service.user.SysUserService;
-import com.yss.shopping.user.vo.user.SysUserOutVO;
-import com.yss.shopping.user.vo.user.SysUserPageVO;
-import com.yss.shopping.user.vo.user.SysUserSaveInVO;
-import com.yss.shopping.user.vo.user.SysUserUpdateInVO;
+import com.yss.shopping.user.vo.user.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -41,6 +39,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Resource
     private SysUserMapper sysUserMapper;
+    @Resource
+    private SysMenuService sysMenuService;
 
 
     @Override
@@ -174,6 +174,19 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         SysUser sysUser = this.sysUserMapper.selectOne(sysUserQueryWrapper);
         Assert.notNull(sysUser, "登录失败，用户名或密码错误,请重新输入");
         return new SysUserOutVO().toSysUserOutVO(sysUser);
+    }
+
+
+    @Override
+    public PrivilegeUserVO selectPrivilegeUserVO(String username) {
+        SysUser sysUser = this.sysUserMapper.selectOne(new QueryWrapper<>(new SysUser().setUsername(username)));
+        if(null == sysUser) {
+            return null;
+        }
+
+        // 查询用户下面的所有去重的权限列表
+        List<PrivilegeMenuVO> privilegeMenuVOList = this.sysMenuService.selectMenuList(sysUser.getId());
+        return null;
     }
 
 
