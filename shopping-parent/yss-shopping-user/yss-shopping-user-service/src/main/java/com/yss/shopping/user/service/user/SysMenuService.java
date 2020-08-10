@@ -102,4 +102,5 @@ public interface SysMenuService extends IService<SysMenu> {
      * @return 用户去重的权限列表
      */
     List<PrivilegeMenuVO> selectMenuList(Long uid);
+
 }

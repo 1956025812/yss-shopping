@@ -3,6 +3,7 @@ package com.yss.shopping.user.service.user;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yss.shopping.user.entity.user.RoleMenu;
+import com.yss.shopping.user.vo.user.PrivilegeMenuVO;
 import com.yss.shopping.user.vo.user.SysMenuSimpleOutVO;
 
 import java.util.List;
@@ -60,4 +61,13 @@ public interface RoleMenuService extends IService<RoleMenu> {
      * @param midList 菜单ID集合
      */
     void saveRoleMenuBatch(Long rid, List<Long> midList);
+
+
+    /**
+     * 根据角色ID集合查询去重的菜单列表
+     *
+     * @param ridList 角色ID集合
+     * @return PrivilegeMenuVO集合
+     */
+    List<PrivilegeMenuVO> selectMenuList(List<Long> ridList);
 }

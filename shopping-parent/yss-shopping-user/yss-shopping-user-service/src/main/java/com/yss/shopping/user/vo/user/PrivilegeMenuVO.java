@@ -14,7 +14,17 @@ import lombok.Data;
 public class PrivilegeMenuVO {
 
     private Long mid;
-    private String menuType;
+    private Integer menuType;
     private String menuCode;
+    private Long parentMid;
 
+    public PrivilegeMenuVO() {
+    }
+
+    public PrivilegeMenuVO(Long mid, Integer menuType, String menuCode, Long parentMid) {
+        this.mid = mid;
+        this.menuType = menuType;
+        this.menuCode = menuCode;
+        this.parentMid = parentMid;
+    }
 }

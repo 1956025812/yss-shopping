@@ -20,10 +20,11 @@ public interface UserRoleService extends IService<UserRole> {
     /**
      * 查询用户下的角色ID集合
      *
-     * @param uid 用户ID
+     * @param uid       用户ID
+     * @param roleState 角色状态：1-启用，2-禁用
      * @return 角色ID集合
      */
-    List<Long> selectRidList(Long uid);
+    List<Long> selectRidList(Long uid, Integer roleState);
 
 
     /**

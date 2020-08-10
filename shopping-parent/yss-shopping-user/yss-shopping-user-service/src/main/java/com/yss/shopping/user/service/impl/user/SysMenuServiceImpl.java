@@ -7,9 +7,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yss.shopping.common.constant.CommonConstant;
 import com.yss.shopping.common.util.ListUtils;
 import com.yss.shopping.user.constant.SysMenuConstant;
+import com.yss.shopping.user.constant.SysRoleConstant;
+import com.yss.shopping.user.constant.SysUserConstant;
 import com.yss.shopping.user.entity.user.SysMenu;
 import com.yss.shopping.user.mapper.user.SysMenuMapper;
+import com.yss.shopping.user.service.user.RoleMenuService;
 import com.yss.shopping.user.service.user.SysMenuService;
+import com.yss.shopping.user.service.user.UserRoleService;
 import com.yss.shopping.user.vo.user.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,6 +23,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,6 +40,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Resource
     private SysMenuMapper sysMenuMapper;
+    @Resource
+    private UserRoleService userRoleService;
+    @Resource
+    private RoleMenuService roleMenuService;
 
     @Override
     public List<SysMenuOutVO> selectSysMenuList(Integer type, Long parentId) {
@@ -190,10 +199,20 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public List<PrivilegeMenuVO> selectMenuList(Long uid) {
 
         // 如果用户是超管则返回所有的权限列表
+        if(SysUserConstant.ADMIN_UID.equals(uid)) {
+            log.info("当前用户是超级管理员，拥有所有权限");
+            List<SysMenuSimpleOutVO> sysMenuSimpleOutVOS = this.selectAllSysMenuList();
+            return ListUtils.n(sysMenuSimpleOutVOS).list(e -> new PrivilegeMenuVO(e.getMid(), e.getMenuType(), e.getMenuCode(), e.getParentId())).to();
+        }
 
-        //
+        // 如果是普通用户则需要根据角色来获取权限列表
+        List<Long> ridList = this.userRoleService.selectRidList(uid, SysRoleConstant.State.OPEN.getKey());
+        if(CollectionUtils.isEmpty(ridList)) {
+            log.info("用户uid: {} 没有绑定角色", uid);
+            return null;
+        }
 
-        return null;
+        return this.roleMenuService.selectMenuList(ridList);
     }
 
 

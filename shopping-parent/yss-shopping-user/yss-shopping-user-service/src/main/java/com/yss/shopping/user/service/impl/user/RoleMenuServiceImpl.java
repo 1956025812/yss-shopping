@@ -14,6 +14,7 @@ import com.yss.shopping.user.service.user.RoleMenuService;
 import com.yss.shopping.user.service.user.SysMenuService;
 import com.yss.shopping.user.service.user.SysRoleService;
 import com.yss.shopping.common.util.ListUtils;
+import com.yss.shopping.user.vo.user.PrivilegeMenuVO;
 import com.yss.shopping.user.vo.user.SysMenuSimpleOutVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -122,5 +123,12 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
                 .setCreateInfo(CommonConstant.DEFAULT_SYSTEM_USER).setCreateTime(LocalDateTime.now())).to();
 
         this.saveBatch(roleMenuList);
+    }
+
+
+    @Override
+    public List<PrivilegeMenuVO> selectMenuList(List<Long> ridList) {
+        List<RoleMenuDTO> roleMenuDTOList = this.roleMenuMapper.selectMenuListOfRole(null, ridList);
+        return ListUtils.n(roleMenuDTOList).list(e -> new PrivilegeMenuVO(e.getMid(), e.getMenuType(), e.getMenuCode(), e.getParentId())).to();
     }
 }

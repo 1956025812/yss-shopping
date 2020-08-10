@@ -42,10 +42,8 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
 
 
     @Override
-    public List<Long> selectRidList(Long uid) {
-        QueryWrapper<UserRole> queryWrapper = new QueryWrapper<>(new UserRole().setUid(uid));
-        List<UserRole> userRoleList = this.userRoleMapper.selectList(queryWrapper);
-        return ListUtils.n(userRoleList).list(UserRole::getRid).to();
+    public List<Long> selectRidList(Long uid, Integer roleState) {
+        return this.userRoleMapper.selectRidList(uid, roleState);
     }
 
 
@@ -55,7 +53,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
         // 查询登录用户对应的角色列表
         List<SysRoleSimpleOutVO> parentSysRoleList = this.selectLoginUserRoleList(loginUid);
         // 查询指定用户的角色ID列表
-        List<Long> uidList = this.selectRidList(uid);
+        List<Long> uidList = this.selectRidList(uid, null);
 
         // 遍历登录用户的角色列表，如果指定用户有相同的角色，则追加相同标志
         ListUtils.n(parentSysRoleList).each(e -> {

@@ -26,4 +26,13 @@ public interface UserRoleMapper extends BaseMapper<UserRole> {
      */
     List<UserRoleDTO> selectUserRoleList(@Param("uid") Long uid);
 
+
+    /**
+     * 查询用户的角色ID集合
+     *
+     * @param uid       用户ID
+     * @param roleState 角色状态：1-启用，2-禁用
+     * @return 用户角色ID集合
+     */
+    List<Long> selectRidList(@Param("uid") Long uid, @Param("roleState") Integer roleState);
 }

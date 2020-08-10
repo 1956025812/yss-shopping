@@ -4,6 +4,7 @@ package com.yss.shopping.user.mapper.user;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.yss.shopping.user.dto.user.RoleMenuDTO;
 import com.yss.shopping.user.entity.user.RoleMenu;
+import com.yss.shopping.user.entity.user.SysMenu;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -27,4 +28,5 @@ public interface RoleMenuMapper extends BaseMapper<RoleMenu> {
      * @return 角色下菜单列表
      */
     List<RoleMenuDTO> selectMenuListOfRole(@Param("rid") Long rid, @Param("ridList") List<Long> ridList);
+
 }

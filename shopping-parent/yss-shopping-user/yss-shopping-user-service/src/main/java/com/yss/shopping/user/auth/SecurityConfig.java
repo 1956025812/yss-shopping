@@ -1,5 +1,6 @@
 package com.yss.shopping.user.auth;
 
+import com.yss.shopping.user.vo.user.PrivilegeUserVO;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -85,11 +86,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * 用于根据用户名获取用户信息和权限
      */
-    @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        return null;
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+
+//        return new PrivilegeUserDetails();
+//    }
 
 
     /**

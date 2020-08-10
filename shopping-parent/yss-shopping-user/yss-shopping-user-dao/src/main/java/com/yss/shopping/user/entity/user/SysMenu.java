@@ -58,7 +58,7 @@ public class SysMenu implements Serializable {
     private Integer level;
 
     /**
-     * 状态：0-删除，1-启用，2-禁用
+     * 状态：0-删除, 1-正常
      */
     private Integer state;
 

@@ -3,14 +3,6 @@
 <mapper namespace="com.yss.shopping.user.mapper.user.UserRoleMapper">
 
 
-<!--    <resultMap id="SelectUserRoleListMap" type="com.yss.shopping.user.dto.user.UserRoleDTO">-->
-<!--        <id column="ur_id" jdbcType="LONG" property="urId"/>-->
-<!--        <result column="" jdbcType="" property="" />-->
-<!--        <result column="" jdbcType="" property="" />-->
-<!--        <result column="" jdbcType="" property="" />-->
-<!--    </resultMap>-->
-
-
     <!-- 查询用户的角色列表 -->
     <select id="selectUserRoleList" resultType="com.yss.shopping.user.dto.user.UserRoleDTO">
         SELECT
@@ -22,5 +14,21 @@
         WHERE
             UR.uid = #{uid}
     </select>
+
+
+    <!-- 查询用户的角色ID集合 -->
+    <select id="selectRidList" resultType="java.lang.Long">
+        SELECT
+            UR.rid
+        FROM
+            user_role AS UR
+            LEFT JOIN sys_role AS R ON R.id = UR.rid
+        WHERE
+            UR.uid = #{uid}
+            <if test="roleState != null">
+                AND R.state = #{roleState}
+            </if>
+    </select>
+
 
 </mapper>

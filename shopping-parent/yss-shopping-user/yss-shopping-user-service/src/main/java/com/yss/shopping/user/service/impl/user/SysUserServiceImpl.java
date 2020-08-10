@@ -186,7 +186,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         // 查询用户下面的所有去重的权限列表
         List<PrivilegeMenuVO> privilegeMenuVOList = this.sysMenuService.selectMenuList(sysUser.getId());
-        return null;
+
+        return new PrivilegeUserVO(sysUser.getId(), sysUser.getUsername(), sysUser.getPassword(), privilegeMenuVOList);
     }
 
 
