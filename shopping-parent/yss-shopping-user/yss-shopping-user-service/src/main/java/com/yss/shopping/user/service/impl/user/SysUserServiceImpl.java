@@ -13,9 +13,18 @@ import com.yss.shopping.user.entity.user.SysUser;
 import com.yss.shopping.user.mapper.user.SysUserMapper;
 import com.yss.shopping.user.service.user.SysMenuService;
 import com.yss.shopping.user.service.user.SysUserService;
+import com.yss.shopping.user.util.JwtTokenUtil;
 import com.yss.shopping.user.vo.user.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -41,6 +50,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private SysUserMapper sysUserMapper;
     @Resource
     private SysMenuService sysMenuService;
+    @Resource
+    @Lazy
+    private UserDetailsService userDetailsService;
+    @Resource
+    private PasswordEncoder passwordEncoder;
+    @Resource
+    private JwtTokenUtil jwtTokenUtil;
 
 
     @Override
@@ -169,11 +185,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 
     @Override
-    public SysUserOutVO login(String username, String password) {
-        QueryWrapper<SysUser> sysUserQueryWrapper = new QueryWrapper<>(new SysUser().setUsername(username).setPassword(SecureUtil.md5(password)));
-        SysUser sysUser = this.sysUserMapper.selectOne(sysUserQueryWrapper);
-        Assert.notNull(sysUser, "登录失败，用户名或密码错误,请重新输入");
-        return new SysUserOutVO().toSysUserOutVO(sysUser);
+    public String login(String username, String password) {
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+        if (!this.passwordEncoder.matches(password, userDetails.getPassword())) {
+            throw new BadCredentialsException("密码不正确");
+        }
+
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return jwtTokenUtil.generateToken(userDetails);
     }
 
 

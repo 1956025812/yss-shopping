@@ -12,6 +12,7 @@ import com.yss.shopping.user.vo.user.SysUserSaveInVO;
 import com.yss.shopping.user.vo.user.SysUserUpdateInVO;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -20,6 +21,8 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -36,8 +39,14 @@ import javax.validation.constraints.NotNull;
 @Validated
 public class SysUserController extends BaseController {
 
+    @Value("${jwt.tokenHeader}")
+    private String tokenHeader;
+    @Value("${jwt.tokenHead}")
+    private String tokenHead;
+
     @Resource
     private SysUserService sysUserService;
+
 
     @ApiOperation("查询用户分页列表")
     @GetMapping("/page")
@@ -113,8 +122,15 @@ public class SysUserController extends BaseController {
     public ResultVO denglu(
             @ApiParam(value = "账号", required = true) @NotEmpty(message = "用户账号username字段不能为空") @RequestParam String username,
             @ApiParam(value = "密码", required = true) @NotEmpty(message = "密码password字段不能为空") @RequestParam String password) {
-        SysUserOutVO sysUserOutVO = this.sysUserService.login(username, password);
-        return ResultVO.getSuccess("登录成功", sysUserOutVO);
+        String token = this.sysUserService.login(username, password);
+        if (null == token) {
+            return ResultVO.getFailed("用户名或密码错误");
+        }
+
+        Map<String, String> tokenMap = new HashMap<>(2);
+        tokenMap.put("token", token);
+        tokenMap.put("tokenHead", tokenHead);
+        return ResultVO.getSuccess("登录成功", tokenMap);
     }
 
 
