@@ -65,7 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-resources/**",
                         "/v2/api-docs/**").permitAll()
                 // 对登录注册要允许匿名访问
-                .antMatchers("/sysuser/denglu", "/admin/register").permitAll()
+                .antMatchers("/sysuser/denglu", "/sysuser/save").permitAll()
                 // 跨域请求会先进行一次options请求
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 // 测试时全部运行访问
