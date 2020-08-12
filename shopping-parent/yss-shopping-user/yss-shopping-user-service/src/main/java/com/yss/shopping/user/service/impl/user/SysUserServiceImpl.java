@@ -17,7 +17,6 @@ import com.yss.shopping.user.util.JwtTokenUtil;
 import com.yss.shopping.user.vo.user.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -51,7 +50,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Resource
     private SysMenuService sysMenuService;
     @Resource
-    @Lazy
     private UserDetailsService userDetailsService;
     @Resource
     private PasswordEncoder passwordEncoder;
