@@ -31,6 +31,7 @@ public class PrivilegeUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.privilegeUserVO.getPrivilegeMenuVOList().stream()
+                .filter(eachPrivilegeMenuVO -> eachPrivilegeMenuVO.getMenuCode() != null)
                 .map(eachPrivilegeMenuVO -> new SimpleGrantedAuthority(eachPrivilegeMenuVO.getMenuCode()))
                 .collect(Collectors.toList());
     }
@@ -62,6 +63,7 @@ public class PrivilegeUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
+        // TODO 在此处判断用户状态是否可用
         return true;
     }
 }

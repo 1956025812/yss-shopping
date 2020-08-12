@@ -32,11 +32,12 @@ public class SwaggerConfig {
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .pathMapping("/")
+                .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.yss.shopping.user"))
                 .paths(PathSelectors.any())
-                .build().apiInfo(apiInfo())
+                .build()
+                // 添加JWT登录认证
                 .securitySchemes(securitySchemes())
                 .securityContexts(securityContexts());
     }
