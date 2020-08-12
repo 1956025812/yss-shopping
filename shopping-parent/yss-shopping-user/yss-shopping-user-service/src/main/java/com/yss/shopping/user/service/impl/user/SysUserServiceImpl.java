@@ -114,7 +114,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
 
         // 新增用户
-        sysUser.setPassword(SecureUtil.md5(password)).setCreateTime(LocalDateTime.now())
+        sysUser.setPassword(this.passwordEncoder.encode(password)).setCreateTime(LocalDateTime.now())
                 .setState(SysUserConstant.State.OPEN.getKey());
         log.info("新增用户，请求参数为：{}", JSONUtil.toJsonStr(sysUser));
         boolean saveFlag = this.save(sysUser);
@@ -177,7 +177,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public void resetPassword(Long uid) {
         log.info("进入resetPassword方法，参数为：[uid= {}]", uid);
         Assert.notNull(uid, "重置密码失败，uid不能为空");
-        SysUser sysUser = new SysUser().setId(uid).setPassword(SysUserConstant.DEFAULT_PASSWORD).setUpdateTime(LocalDateTime.now());
+        SysUser sysUser = new SysUser().setId(uid).setPassword(this.passwordEncoder.encode(SysUserConstant.DEFAULT_PASSWORD))
+                .setUpdateTime(LocalDateTime.now());
         log.info("重置用户密码，参数为：{}", JSONObject.toJSONString(sysUser));
         int updateCount = this.sysUserMapper.updateById(sysUser);
         Assert.isTrue(updateCount == 1, String.format("重置用户uid: %s 的密码失败", uid));
