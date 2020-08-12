@@ -1,5 +1,6 @@
 package com.yss.shopping.user.auth;
 
+import com.yss.shopping.user.service.user.SysUserService;
 import com.yss.shopping.user.vo.user.PrivilegeUserVO;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -37,6 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private NoPrivilegeHandler noPrivilegeHandler;
     @Resource
     private NoLoginHandler noLoginHandler;
+    @Resource
+    private SysUserService sysUserService;
 
 
     /**
@@ -52,9 +56,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
                 // 允许对于网站静态资源的无授权访问
-                .antMatchers(HttpMethod.GET, "").permitAll()
+                .antMatchers(HttpMethod.GET, "/",
+                        "/*.html",
+                        "/favicon.ico",
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.js",
+                        "/swagger-resources/**",
+                        "/v2/api-docs/**").permitAll()
                 // 对登录注册要允许匿名访问
-                .antMatchers("").permitAll()
+                .antMatchers("/admin/login", "/admin/register").permitAll()
                 // 跨域请求会先进行一次options请求
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 // 测试时全部运行访问
@@ -86,11 +97,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * 用于根据用户名获取用户信息和权限
      */
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-
-//        return new PrivilegeUserDetails();
-//    }
+    @Bean
+    @Override
+    public UserDetailsService userDetailsService() {
+        return username -> {
+            PrivilegeUserVO privilegeUserVO = this.sysUserService.selectPrivilegeUserVO(username);
+            if (null != privilegeUserVO) {
+                return new PrivilegeUserDetails(privilegeUserVO);
+            }
+            throw new UsernameNotFoundException("用户名或密码错误");
+        };
+    }
 
 
     /**

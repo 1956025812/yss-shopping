@@ -1,6 +1,7 @@
 package com.yss.shopping.user.vo.user;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * @since 2020-05-16 15:04
  */
 @Data
+@Accessors(chain = true)
 public class PrivilegeUserVO {
 
     private Long uid;
@@ -23,11 +25,6 @@ public class PrivilegeUserVO {
     public PrivilegeUserVO() {
     }
 
-    public PrivilegeUserVO(Long uid, String username, String password, List<PrivilegeMenuVO> privilegeMenuVOList) {
-        this.uid = uid;
-        this.username = username;
-        this.password = password;
-        this.privilegeMenuVOList = privilegeMenuVOList;
-    }
+
 }
 

@@ -180,14 +180,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public PrivilegeUserVO selectPrivilegeUserVO(String username) {
         SysUser sysUser = this.sysUserMapper.selectOne(new QueryWrapper<>(new SysUser().setUsername(username)));
-        if(null == sysUser) {
+        if (null == sysUser) {
             return null;
         }
 
         // 查询用户下面的所有去重的权限列表
         List<PrivilegeMenuVO> privilegeMenuVOList = this.sysMenuService.selectMenuList(sysUser.getId());
-
-        return new PrivilegeUserVO(sysUser.getId(), sysUser.getUsername(), sysUser.getPassword(), privilegeMenuVOList);
+        return new PrivilegeUserVO().setUid(sysUser.getId()).setUsername(sysUser.getUsername()).setPassword(sysUser.getPassword())
+                .setPrivilegeMenuVOList(privilegeMenuVOList);
     }
 
 
