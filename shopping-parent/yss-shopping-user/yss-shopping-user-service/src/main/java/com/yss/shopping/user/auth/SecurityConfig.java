@@ -34,8 +34,6 @@ import javax.annotation.Resource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource
-    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
-    @Resource
     private NoPrivilegeHandler noPrivilegeHandler;
     @Resource
     private NoLoginHandler noLoginHandler;
@@ -77,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.headers().cacheControl();
 
         // 添加JwtFilter 在用户名和密码校验前添加的过滤器，如果有jwt的token，会自行根据token信息进行登录。
-        httpSecurity.addFilterBefore(this.jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         // 添加自定义未授权和未登录结果返回
         httpSecurity.exceptionHandling().accessDeniedHandler(this.noPrivilegeHandler).authenticationEntryPoint(this.noLoginHandler);
@@ -120,8 +118,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Bean
+    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
+        return new JwtAuthenticationTokenFilter();
+    }
+
+
+    @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+
 }

@@ -8,7 +8,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.annotation.Resource;
@@ -26,7 +25,6 @@ import java.io.IOException;
  * @author yss
  * @since 2020-05-15 17:19
  */
-@Component
 @Slf4j
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
