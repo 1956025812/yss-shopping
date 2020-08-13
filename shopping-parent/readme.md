@@ -83,7 +83,7 @@
      - 商品服务使用FEIGN调用用户服务[OK]
      - common子模块做统一异常处理和AOP日志[OK]
      - 用户模块用户角色菜单CRUD[OK]
-     - 整合JWT+SECURITY
+     - 整合JWT+SECURITY  并整好到网关工程[80%]
      - linux部署，并打一个TAG
  
      - 整合redis子模块，并封装redis工具类
