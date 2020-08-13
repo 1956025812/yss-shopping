@@ -2,9 +2,11 @@ package com.yss.shopping.common.controller;
 
 import com.yss.shopping.common.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
+
 
 /**
  * <p>
@@ -21,6 +23,12 @@ public class BaseController {
 
     @ExceptionHandler(value = Exception.class)
     public ResultVO globalExceptionHandle(Exception e) {
+
+        // 处理没有权限
+        if (e instanceof AccessDeniedException) {
+            return ResultVO.getNoPrivilege();
+        }
+
         log.error("发生异常, 异常信息如下:", e);
         return ResultVO.getFailed(e.getMessage());
     }

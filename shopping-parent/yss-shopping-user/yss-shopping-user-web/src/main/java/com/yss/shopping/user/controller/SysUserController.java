@@ -13,6 +13,7 @@ import com.yss.shopping.user.vo.user.SysUserUpdateInVO;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -50,6 +51,7 @@ public class SysUserController extends BaseController {
 
     @ApiOperation("查询用户分页列表")
     @GetMapping("/page")
+    @PreAuthorize("hasAuthority('userPage')")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", dataType = "Long", name = "currentPage", value = "当前页码", required = true),
             @ApiImplicitParam(paramType = "query", dataType = "Long", name = "pageSize", value = "每页记录数", required = true),

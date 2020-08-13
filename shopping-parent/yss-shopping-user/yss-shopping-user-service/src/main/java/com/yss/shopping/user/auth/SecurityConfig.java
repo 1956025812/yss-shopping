@@ -34,8 +34,6 @@ import javax.annotation.Resource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource
-    private NoPrivilegeHandler noPrivilegeHandler;
-    @Resource
     private NoLoginHandler noLoginHandler;
     @Resource
     private SysUserService sysUserService;
@@ -78,7 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         // 添加自定义未授权和未登录结果返回
-        httpSecurity.exceptionHandling().accessDeniedHandler(this.noPrivilegeHandler).authenticationEntryPoint(this.noLoginHandler);
+        httpSecurity.exceptionHandling().authenticationEntryPoint(this.noLoginHandler);
 
     }
 
