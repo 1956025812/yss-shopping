@@ -50,7 +50,7 @@
         <spring-cloud-starter-netflix-ribbon.version>2.2.0.RELEASE</spring-cloud-starter-netflix-ribbon.version>
         <spring-cloud-starter-netflix-archaius.version>2.2.0.RELEASE</spring-cloud-starter-netflix-archaius.version>
         <spring-cloud-starter-gateway.version>2.2.0.RELEASE</spring-cloud-starter-gateway.version>
-        <spring-boot-starter-webflux.version>2.2.0.RELEASE</spring-boot-starter-webflux.version>
+        <spring-boot-starter-webflux.version>2.5.12</spring-boot-starter-webflux.version>
         <spring-boot-starter-actuator.version>2.2.0.RELEASE</spring-boot-starter-actuator.version>
         <spring-boot-admin-dependencies.version>2.1.5</spring-boot-admin-dependencies.version>
         <spring-boot-starter-aop.version>2.2.2.RELEASE</spring-boot-starter-aop.version>
