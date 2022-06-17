@@ -45,7 +45,7 @@
         <mybatis-plus-boot-starter.version>3.3.0</mybatis-plus-boot-starter.version>
         <druid-spring-boot-starter.version>1.1.21</druid-spring-boot-starter.version>
         <lombok.version>1.18.10</lombok.version>
-        <fastjson.version>1.2.62</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <spring-cloud-starter-openfeign.version>2.2.0.RELEASE</spring-cloud-starter-openfeign.version>
         <spring-cloud-starter-netflix-ribbon.version>2.2.0.RELEASE</spring-cloud-starter-netflix-ribbon.version>
         <spring-cloud-starter-netflix-archaius.version>2.2.0.RELEASE</spring-cloud-starter-netflix-archaius.version>
